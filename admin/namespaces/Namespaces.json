@@ -404,15 +404,6 @@
     "generatedNamespace" : false,
     "patternCollection" : false
   },
-  "ttp://opentosca.org/artifacttemplates" : {
-    "namespace" : "ttp://opentosca.org/artifacttemplates",
-    "prefix" : "ateIgeneral1",
-    "readableName" : "",
-    "upstreamRepository" : "",
-    "secureCollection" : false,
-    "generatedNamespace" : false,
-    "patternCollection" : false
-  },
   "https://examples.opentosca.org/compliance/nodetypes/propertiesdefinition/winery" : {
     "namespace" : "https://examples.opentosca.org/compliance/nodetypes/propertiesdefinition/winery",
     "prefix" : "ntypdInodetypes1",
