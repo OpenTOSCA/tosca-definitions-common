@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions targetNamespace="http://opentosca.org/nodetypes" id="winery-defs-for_otntyIgeneral-RealWorld-Application_Angular-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:yml="http://docs.oasis-open.org/tosca/ns/simple/yaml/1.3" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org">
+    <NodeType name="RealWorld-Application_Angular-w1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" winery:bordercolor="#9c469c">
+        <DerivedFrom typeRef="otntyIgeneral:NGINX-Application_w1" xmlns:otntyIgeneral="http://opentosca.org/nodetypes"/>
+        <winery:PropertiesDefinition elementname="properties" namespace="http://opentosca.org/nodetypes/propertiesdefinition/winery">
+            <winery:properties>
+                <winery:key>AppName</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+        </winery:PropertiesDefinition>
+        <Interfaces>
+            <Interface name="http://opentosca.org/interfaces/lifecycle">
+                <Operation name="install">
+                    <InputParameters>
+                        <InputParameter name="AppName" type="string" required="false"/>
+                    </InputParameters>
+                </Operation>
+                <Operation name="configure">
+                    <InputParameters>
+                        <InputParameter name="AppName" type="string" required="false"/>
+                    </InputParameters>
+                </Operation>
+            </Interface>
+            <Interface name="http://opentosca.org/interfaces/connections">
+                <Operation name="connectTo">
+                    <InputParameters>
+                        <InputParameter name="Port" type="xsd:string" required="false"/>
+                        <InputParameter name="VMIP" type="xsd:string" required="false"/>
+                        <InputParameter name="SOURCE_AppName" type="xsd:string" required="false"/>
+                    </InputParameters>
+                </Operation>
+            </Interface>
+        </Interfaces>
+    </NodeType>
+</Definitions>
