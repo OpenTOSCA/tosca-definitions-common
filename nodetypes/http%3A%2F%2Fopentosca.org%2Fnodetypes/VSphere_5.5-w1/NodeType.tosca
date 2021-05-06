@@ -23,33 +23,33 @@
             <Interface name="CloudProviderInterface">
                 <Operation name="createVM">
                     <InputParameters>
-                        <InputParameter name="HypervisorEndpoint" type="xsd:string" required="false"/>
-                        <InputParameter name="HypervisorTenantID" type="xsd:String" required="false"/>
-                        <InputParameter name="HypervisorUserName" type="xsd:string" required="false"/>
-                        <InputParameter name="HypervisorUserPassword" type="xsd:string" required="false"/>
-                        <InputParameter name="VMType" type="xsd:string" required="false"/>
-                        <InputParameter name="VMImageID" type="xsd:string" required="false"/>
-                        <InputParameter name="VMUserName" type="xsd:string" required="false"/>
-                        <InputParameter name="VMUserPassword" type="xsd:string" required="false"/>
-                        <InputParameter name="VMPrivateKey" type="xsd:string" required="false"/>
-                        <InputParameter name="VMPublicKey" type="xsd:string" required="false"/>
-                        <InputParameter name="VMKeyPairName" type="xsd:string" required="false"/>
+                        <InputParameter name="HypervisorEndpoint" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorTenantID" type="xsd:String" required="no"/>
+                        <InputParameter name="HypervisorUserName" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorUserPassword" type="xsd:string" required="no"/>
+                        <InputParameter name="VMType" type="xsd:string" required="no"/>
+                        <InputParameter name="VMImageID" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserName" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserPassword" type="xsd:string" required="no"/>
+                        <InputParameter name="VMPrivateKey" type="xsd:string" required="no"/>
+                        <InputParameter name="VMPublicKey" type="xsd:string" required="no"/>
+                        <InputParameter name="VMKeyPairName" type="xsd:string" required="no"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="VMInstanceID" type="xsd:string" required="false"/>
-                        <OutputParameter name="VMIP" type="xsd:string" required="false"/>
+                        <OutputParameter name="VMInstanceID" type="xsd:string" required="no"/>
+                        <OutputParameter name="VMIP" type="xsd:string" required="no"/>
                     </OutputParameters>
                 </Operation>
                 <Operation name="terminateVM">
                     <InputParameters>
-                        <InputParameter name="HypervisorEndpoint" type="xsd:string" required="false"/>
-                        <InputParameter name="VMInstanceID" type="xsd:string" required="false"/>
-                        <InputParameter name="HypervisorUserName" type="xsd:string" required="false"/>
-                        <InputParameter name="HypervisorUserPassword" type="xsd:string" required="false"/>
-                        <InputParameter name="HypervisorTenantID" type="xsd:String" required="false"/>
+                        <InputParameter name="HypervisorEndpoint" type="xsd:string" required="no"/>
+                        <InputParameter name="VMInstanceID" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorUserName" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorUserPassword" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorTenantID" type="xsd:String" required="no"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="Result" type="xs:string" required="false"/>
+                        <OutputParameter name="Result" type="xs:string" required="no"/>
                     </OutputParameters>
                 </Operation>
             </Interface>

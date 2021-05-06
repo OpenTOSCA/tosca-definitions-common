@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Definitions targetNamespace="http://opentosca.org/nodetypes" id="winery-defs-for_nodetypes-MySQL-DBMS_5.7-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
     <NodeType name="MySQL-DBMS_5.7-w1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes">
-        <DerivedFrom typeRef="nodetypes:MySQL-DBMS" xmlns:nodetypes="http://opentosca.org/nodetypes"/>
         <winery:PropertiesDefinition elementname="MySQLDBMSProperties" namespace="http://opentosca.org/nodetypes">
             <winery:properties>
                 <winery:key>DBMSUser</winery:key>
@@ -16,14 +15,15 @@
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
         </winery:PropertiesDefinition>
+        <DerivedFrom typeRef="nodetypes:MySQL-DBMS" xmlns:nodetypes="http://opentosca.org/nodetypes"/>
         <Interfaces>
             <Interface name="http://www.example.com/interfaces/lifecycle">
                 <Operation name="install"/>
                 <Operation name="configure">
                     <InputParameters>
-                        <InputParameter name="DBMSUser" type="xsd:string" required="false"/>
-                        <InputParameter name="DBMSPassword" type="xsd:string" required="false"/>
-                        <InputParameter name="DBMSPort" type="xsd:string" required="false"/>
+                        <InputParameter name="DBMSUser" type="xsd:string" required="yes"/>
+                        <InputParameter name="DBMSPassword" type="xsd:string" required="yes"/>
+                        <InputParameter name="DBMSPort" type="xsd:string" required="yes"/>
                     </InputParameters>
                 </Operation>
                 <Operation name="start"/>

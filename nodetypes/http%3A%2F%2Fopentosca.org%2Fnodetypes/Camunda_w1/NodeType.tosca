@@ -13,7 +13,7 @@
                 <Operation name="install"/>
                 <Operation name="configure">
                     <InputParameters>
-                        <InputParameter name="Port" type="xsd:string" required="false"/>
+                        <InputParameter name="Port" type="xsd:string" required="no"/>
                     </InputParameters>
                 </Operation>
                 <Operation name="start"/>

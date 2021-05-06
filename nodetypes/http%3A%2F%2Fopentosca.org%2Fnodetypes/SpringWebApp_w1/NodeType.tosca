@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Definitions targetNamespace="http://opentosca.org/nodetypes" id="winery-defs-for_otntyIgeneral-SpringWebApp_w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
     <NodeType name="SpringWebApp_w1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes">
-        <DerivedFrom typeRef="ToscaNormativeNodeTypes:WebApplication" xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes"/>
         <winery:PropertiesDefinition elementname="properties" namespace="http://opentosca.org/nodetypes/propertiesdefinition/winery">
             <winery:properties>
                 <winery:key>AppName</winery:key>
@@ -12,23 +11,24 @@
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
         </winery:PropertiesDefinition>
+        <DerivedFrom typeRef="ToscaNormativeNodeTypes:WebApplication" xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes"/>
         <Interfaces>
             <Interface name="http://opentosca.org/interfaces/lifecycle">
                 <Operation name="install">
                     <InputParameters>
-                        <InputParameter name="AppName" type="xsd:string" required="false"/>
+                        <InputParameter name="AppName" type="xsd:string" required="yes"/>
                     </InputParameters>
                 </Operation>
                 <Operation name="configure">
                     <InputParameters>
-                        <InputParameter name="AppName" type="xsd:string" required="false"/>
-                        <InputParameter name="Port" type="xsd:string" required="false"/>
+                        <InputParameter name="AppName" type="xsd:string" required="yes"/>
+                        <InputParameter name="Port" type="xsd:string" required="yes"/>
                     </InputParameters>
                 </Operation>
                 <Operation name="start">
                     <InputParameters>
-                        <InputParameter name="AppName" type="xsd:string" required="false"/>
-                        <InputParameter name="Port" type="xsd:string" required="false"/>
+                        <InputParameter name="AppName" type="xsd:string" required="yes"/>
+                        <InputParameter name="Port" type="xsd:string" required="yes"/>
                     </InputParameters>
                 </Operation>
             </Interface>

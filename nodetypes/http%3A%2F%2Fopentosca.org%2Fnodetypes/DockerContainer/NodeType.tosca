@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Definitions targetNamespace="http://opentosca.org/nodetypes" id="winery-defs-for_otntyIgeneral-DockerContainer" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
-    <NodeType name="DockerContainer" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" winery:bordercolor="#409a21">
-        <DerivedFrom typeRef="ToscaNormativeNodeTypes:ContainerApplication" xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes"/>
+    <NodeType name="DockerContainer" abstract="yes" final="yes" targetNamespace="http://opentosca.org/nodetypes" winery:bordercolor="#409a21">
         <winery:PropertiesDefinition elementname="properties" namespace="http://opentosca.org/nodetypes/properties">
             <winery:properties>
                 <winery:key>Port</winery:key>
@@ -32,29 +31,30 @@
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
         </winery:PropertiesDefinition>
+        <DerivedFrom typeRef="ToscaNormativeNodeTypes:ContainerApplication" xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes"/>
         <Interfaces>
             <Interface name="ContainerManagementInterface">
                 <Operation name="runScript">
                     <InputParameters>
-                        <InputParameter name="DockerEngineURL" type="xs:string" required="false"/>
-                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="false"/>
-                        <InputParameter name="ContainerID" type="xs:string" required="false"/>
-                        <InputParameter name="Script" type="xs:string" required="false"/>
+                        <InputParameter name="DockerEngineURL" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="yes"/>
+                        <InputParameter name="ContainerID" type="xs:string" required="yes"/>
+                        <InputParameter name="Script" type="xs:string" required="yes"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="ScriptResult" type="xs:string" required="false"/>
+                        <OutputParameter name="ScriptResult" type="xs:string" required="yes"/>
                     </OutputParameters>
                 </Operation>
                 <Operation name="transferFile">
                     <InputParameters>
-                        <InputParameter name="DockerEngineURL" type="xs:string" required="false"/>
-                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="false"/>
-                        <InputParameter name="ContainerID" type="xs:string" required="false"/>
-                        <InputParameter name="TargetAbsolutePath" type="xs:string" required="false"/>
-                        <InputParameter name="SourceURLorLocalPath" type="xs:string" required="false"/>
+                        <InputParameter name="DockerEngineURL" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="yes"/>
+                        <InputParameter name="ContainerID" type="xs:string" required="yes"/>
+                        <InputParameter name="TargetAbsolutePath" type="xs:string" required="yes"/>
+                        <InputParameter name="SourceURLorLocalPath" type="xs:string" required="yes"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="TransferResult" type="xs:string" required="false"/>
+                        <OutputParameter name="TransferResult" type="xs:string" required="yes"/>
                     </OutputParameters>
                 </Operation>
             </Interface>

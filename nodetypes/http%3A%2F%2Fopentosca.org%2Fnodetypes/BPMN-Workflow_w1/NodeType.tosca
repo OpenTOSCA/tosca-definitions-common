@@ -6,17 +6,17 @@
                 <Operation name="install"/>
                 <Operation name="configure">
                     <InputParameters>
-                        <InputParameter name="VMIP" type="xsd:string" required="false"/>
-                        <InputParameter name="Port" type="xsd:string" required="false"/>
+                        <InputParameter name="VMIP" type="xsd:string" required="no"/>
+                        <InputParameter name="Port" type="xsd:string" required="no"/>
                     </InputParameters>
                 </Operation>
             </Interface>
             <Interface name="http://www.example.com/interfaces/connections">
                 <Operation name="connectTo">
                     <InputParameters>
-                        <InputParameter name="VMIP" type="xsd:string" required="false"/>
-                        <InputParameter name="Port" type="xsd:string" required="false"/>
-                        <InputParameter name="Name" type="xsd:string" required="false"/>
+                        <InputParameter name="VMIP" type="xsd:string" required="no"/>
+                        <InputParameter name="Port" type="xsd:string" required="no"/>
+                        <InputParameter name="Name" type="xsd:string" required="no"/>
                     </InputParameters>
                 </Operation>
             </Interface>
