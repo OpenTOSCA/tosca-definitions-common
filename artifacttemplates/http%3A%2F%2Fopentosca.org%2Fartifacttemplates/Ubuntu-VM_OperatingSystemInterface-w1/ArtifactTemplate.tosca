@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="winery-defs-for_artifacttemplates-Ubuntu-VM_OperatingSystemInterface-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+    <ArtifactTemplate name="Ubuntu-VM_OperatingSystemInterface-w1" type="artifacttypes:WAR" id="Ubuntu-VM_OperatingSystemInterface-w1" xmlns:artifacttypes="http://opentosca.org/artifacttypes">
+        <Properties>
+            <opentosca:WSProperties xmlns:opentosca="http://www.uni-stuttgart.de/opentosca">
+                <opentosca:ServiceEndpoint>/services/org_opentosca_NodeTypes_UbuntuPort</opentosca:ServiceEndpoint>
+                <opentosca:PortType>{http://opentosca.org/implementationartifacts}org_opentosca_NodeTypes_Ubuntu</opentosca:PortType>
+                <opentosca:InvocationType>SOAP/HTTP</opentosca:InvocationType>
+            </opentosca:WSProperties>
+        </Properties>
+        <ArtifactReferences>
+            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/Ubuntu-VM_OperatingSystemInterface-w1/files/org_opentosca_NodeTypes_Ubuntu-VM_OperatingSystemInterface.war"/>
+        </ArtifactReferences>
+    </ArtifactTemplate>
+</Definitions>

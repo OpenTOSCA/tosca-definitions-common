@@ -1,0 +1,3 @@
+run this first:
+
+mvn install:install-file -Dfile=./libs/vijava55b20130927.jar -DgroupId=own -DartifactId=vijava -Dversion=5.5 -Dpackaging=jar

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="winery-defs-for_nodetypeimplementations-Tomcat_8-Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="Tomcat_8-Impl-w1" abstract="no" final="no" nodeType="nodetypes:Tomcat_8-w1" xmlns:nodetypes="http://opentosca.org/nodetypes">
+        <ImplementationArtifacts>
+            <ImplementationArtifact name="Install" interfaceName="http://www.example.com/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifacttemplates:Tomcat_8-Install-w1" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
+            <ImplementationArtifact name="Start" interfaceName="http://www.example.com/interfaces/lifecycle" operationName="start" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifacttemplates:Tomcat_8-Start-w1" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
+        </ImplementationArtifacts>
+    </NodeTypeImplementation>
+</Definitions>
