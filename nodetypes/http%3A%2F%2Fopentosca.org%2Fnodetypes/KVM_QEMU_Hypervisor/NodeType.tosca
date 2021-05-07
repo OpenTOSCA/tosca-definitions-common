@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="winery-defs-for_nodetypes-KVM_QEMU_Hypervisor">
+    <NodeType name="KVM_QEMU_Hypervisor" targetNamespace="http://opentosca.org/nodetypes">
+        <winery:PropertiesDefinition elementname="properties" namespace="http://opentosca.org/nodetypes/propertiesdefinition/winery">
+            <winery:properties>
+                <winery:key>HypervisorEndpoint</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>HypervisorUser</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>HypervisorPassword</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>HypervisorBridgeInterface</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+        </winery:PropertiesDefinition>
+        <Interfaces>
+            <Interface name="CloudProviderInterface">
+                <Operation name="createVM">
+                    <InputParameters>
+                        <InputParameter name="HypervisorEndpoint" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorUser" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorPassword" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorBridgeInterface" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserName" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserPassword" type="xsd:string" required="no"/>
+                        <InputParameter name="VMDiskSize" type="xsd:string" required="no"/>
+                        <InputParameter name="VMVCPUS" type="xsd:string" required="no"/>
+                        <InputParameter name="VMRAM" type="xsd:string" required="no"/>
+                        <InputParameter name="VMOSType" type="xsd:string" required="no"/>
+                        <InputParameter name="VMOSVariant" type="xsd:string" required="no"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="VMIP" type="xsd:string" required="yes"/>
+                        <OutputParameter name="VMInstanceID" type="xsd:string" required="yes"/>
+                        <OutputParameter name="VMMAC" type="xsd:string" required="yes"/>
+                        <OutputParameter name="CreateResult" type="xsd:string" required="yes"/>
+                    </OutputParameters>
+                </Operation>
+                <Operation name="terminateVM">
+                    <InputParameters>
+                        <InputParameter name="HypervisorEndpoint" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorUser" type="xsd:string" required="no"/>
+                        <InputParameter name="HypervisorPassword" type="xsd:string" required="no"/>
+                        <InputParameter name="VMInstanceID" type="xsd:string" required="no"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="TerminateResult" type="xsd:string" required="yes"/>
+                    </OutputParameters>
+                </Operation>
+            </Interface>
+        </Interfaces>
+    </NodeType>
+</Definitions>

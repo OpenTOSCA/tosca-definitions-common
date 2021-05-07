@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/artifacttemplates" id="winery-defs-for_artifacttemplates-KVM-QEMU-VM_OperatingSystemInterface-w1">
+    <ArtifactTemplate xmlns:artifacttypes="http://opentosca.org/artifacttypes" name="KVM-QEMU-VM_OperatingSystemInterface-w1" type="artifacttypes:WAR" id="KVM-QEMU-VM_OperatingSystemInterface-w1">
+        <Properties>
+            <WSProperties xmlns="http://www.opentosca.org/artifacttypes">
+                <ServiceEndpoint>/services/org_opentosca_nodetypes_KVM_QEMU_VM__OperatingSystemInterfacePort</ServiceEndpoint>
+                <PortType>{http://opentosca.org/nodetypes}org_opentosca_nodetypes_KVM_QEMU_VM__OperatingSystemInterface</PortType>
+                <InvocationType>SOAP/HTTP</InvocationType>
+            </WSProperties>
+        </Properties>
+        <ArtifactReferences>
+            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/KVM-QEMU-VM_OperatingSystemInterface-w1/files/org_opentosca_nodetypes_KVM_QEMU_VM__OperatingSystemInterface.war"/>
+        </ArtifactReferences>
+    </ArtifactTemplate>
+</Definitions>

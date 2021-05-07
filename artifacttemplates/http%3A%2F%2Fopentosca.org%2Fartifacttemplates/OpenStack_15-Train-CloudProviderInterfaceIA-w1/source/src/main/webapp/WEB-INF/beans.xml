@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	<jaxws:endpoint xmlns:tns="http://implementationartifacts.opentosca.org/"
+		id="org_opentosca_NodeTypes_OpenStack_Train_CloudProviderInterface" implementor="org.opentosca.NodeTypes.OpenStackTrainIA"
+		wsdlLocation="wsdl/openStack_Train-CloudProviderInterfaceIA_w1.wsdl" endpointName="tns:OpenStackTrainIAPort"
+		serviceName="tns:OpenStackTrainIAService" address="/OpenStackTrainIAPort">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+	</jaxws:endpoint>
+</beans>

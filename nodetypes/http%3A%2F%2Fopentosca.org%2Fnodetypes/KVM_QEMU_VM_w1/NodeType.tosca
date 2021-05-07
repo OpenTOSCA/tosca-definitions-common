@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="winery-defs-for_nodetypes-KVM_QEMU_VM_w1">
+    <NodeType name="KVM_QEMU_VM_w1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes">
+        <winery:PropertiesDefinition elementname="properties" namespace="http://opentosca.org/nodetypes/propertiesdefinition/winery">
+            <winery:properties>
+                <winery:key>VMIP</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMInstanceID</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMMAC</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMUserName</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMUserPassword</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMDiskSize</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMVCPUS</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMRAM</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMOSType</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:key>VMOSVariant</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+        </winery:PropertiesDefinition>
+        <DerivedFrom xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes" typeRef="ToscaNormativeNodeTypes:Compute"/>
+        <Interfaces>
+            <Interface name="OperatingSystemInterface">
+                <Operation name="transferFile">
+                    <InputParameters>
+                        <InputParameter name="VMIP" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserName" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserPassword" type="xsd:string" required="no"/>
+                        <InputParameter name="SourceURLorLocalPath" type="xsd:string" required="no"/>
+                        <InputParameter name="TargetAbsolutePath" type="xsd:string" required="no"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="TransferFileResult" type="xsd:string" required="yes"/>
+                    </OutputParameters>
+                </Operation>
+                <Operation name="runScript">
+                    <InputParameters>
+                        <InputParameter name="VMIP" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserName" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserPassword" type="xsd:string" required="no"/>
+                        <InputParameter name="Script" type="xsd:string" required="no"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="ScriptResult" type="xsd:string" required="yes"/>
+                    </OutputParameters>
+                </Operation>
+                <Operation name="waitForAvailability">
+                    <InputParameters>
+                        <InputParameter name="VMIP" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserName" type="xsd:string" required="no"/>
+                        <InputParameter name="VMUserPassword" type="xsd:string" required="no"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="WaitResult" type="xsd:string" required="yes"/>
+                    </OutputParameters>
+                </Operation>
+            </Interface>
+        </Interfaces>
+    </NodeType>
+</Definitions>
