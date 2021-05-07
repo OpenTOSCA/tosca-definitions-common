@@ -3,5 +3,10 @@
     "name": "TOSCA Normative Types",
     "url": "https://github.com/OpenTOSCA/tosca-normative-types",
     "branch": "master"
+  },
+  {
+    "name": "OpenTOSCA Artifact Types",
+    "url": "https://github.com/OpenTOSCA/tosca-common-artifact-types",
+    "branch": "main"
   }
 ]
