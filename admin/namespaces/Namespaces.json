@@ -26,15 +26,6 @@
     "generatedNamespace" : false,
     "patternCollection" : false
   },
-  "http://opentosca.org/artifacttypes" : {
-    "namespace" : "http://opentosca.org/artifacttypes",
-    "prefix" : "artifacttypes",
-    "readableName" : "",
-    "upstreamRepository" : "",
-    "secureCollection" : false,
-    "generatedNamespace" : false,
-    "patternCollection" : false
-  },
   "http://www.uni-stuttgart.de/opentosca" : {
     "namespace" : "http://www.uni-stuttgart.de/opentosca",
     "prefix" : "opentosca",
