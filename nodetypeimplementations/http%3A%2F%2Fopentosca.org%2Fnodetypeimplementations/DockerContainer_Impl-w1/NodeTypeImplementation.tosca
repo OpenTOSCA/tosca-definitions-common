@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="winery-defs-for_otntyiIgeneral-DockerContainer_Impl" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="DockerContainer_Impl" abstract="no" final="no" nodeType="otntyIgeneral:DockerContainer" xmlns:otntyIgeneral="http://opentosca.org/nodetypes">
+<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="winery-defs-for_otntyiIgeneral-DockerContainer_Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="DockerContainer_Impl-w1" abstract="no" final="no" nodeType="otntyIgeneral:DockerContainer_w1" xmlns:otntyIgeneral="http://opentosca.org/nodetypes">
         <ImplementationArtifacts>
             <ImplementationArtifact name="DockerContainer_ContainerManagementInterface_IA" interfaceName="ContainerManagementInterface" artifactType="otatyIgeneral:WAR" artifactRef="otateIgeneral:DockerContainer_ContainerManagementInterface-w1" xmlns:otateIgeneral="http://opentosca.org/artifacttemplates" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes"/>
         </ImplementationArtifacts>

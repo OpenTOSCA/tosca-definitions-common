@@ -15,7 +15,7 @@
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
         </winery:PropertiesDefinition>
-        <DerivedFrom typeRef="nodetypes:MySQL-DBMS" xmlns:nodetypes="http://opentosca.org/nodetypes"/>
+        <DerivedFrom typeRef="nodetypes:MySQL-DBMS_w1" xmlns:nodetypes="http://opentosca.org/nodetypes"/>
         <Interfaces>
             <Interface name="http://www.example.com/interfaces/lifecycle">
                 <Operation name="install"/>

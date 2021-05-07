@@ -35,7 +35,7 @@
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
         </winery:PropertiesDefinition>
-        <DerivedFrom xmlns:nodetypes="http://opentosca.org/nodetypes" typeRef="nodetypes:OperatingSystem"/>
+        <DerivedFrom xmlns:nodetypes="http://opentosca.org/nodetypes" typeRef="nodetypes:OperatingSystem_w1"/>
         <RequirementDefinitions>
             <RequirementDefinition xmlns:requirementtypes="http://opentosca.org/requirementtypes" name="ReqCanHostUbuntuVM" requirementType="requirementtypes:ReqCanHostUbuntuVM" lowerBound="1" upperBound="unbounded"/>
         </RequirementDefinitions>

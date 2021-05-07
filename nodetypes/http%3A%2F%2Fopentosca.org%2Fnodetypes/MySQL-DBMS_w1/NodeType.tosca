@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypes" id="winery-defs-for_nodetypes-MySQL-DBMS" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
-    <NodeType name="MySQL-DBMS" abstract="yes" final="no" targetNamespace="http://opentosca.org/nodetypes">
+<Definitions targetNamespace="http://opentosca.org/nodetypes" id="winery-defs-for_nodetypes-MySQL-DBMS_w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
+    <NodeType name="MySQL-DBMS_w1" abstract="yes" final="no" targetNamespace="http://opentosca.org/nodetypes">
         <winery:PropertiesDefinition elementname="MySQLDBMSProperties" namespace="http://opentosca.org/nodetypes">
             <winery:properties>
                 <winery:key>DBMSUser</winery:key>

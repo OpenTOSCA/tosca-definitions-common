@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" targetNamespace="http://opentosca.org/nodetypeimplementations" id="winery-defs-for_nodetypeimplementations-KVM-QEMU-Hypervisor_Implementation-w1">
+    <NodeTypeImplementation xmlns:nodetypes="http://opentosca.org/nodetypes" targetNamespace="http://opentosca.org/nodetypeimplementations" name="KVM-QEMU-Hypervisor_Implementation-w1" nodeType="nodetypes:KVM_QEMU_Hypervisor_w1">
+        <ImplementationArtifacts>
+            <ImplementationArtifact xmlns:artifacttypes="http://opentosca.org/artifacttypes" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" name="KVM-QEMU-Hypervisor_CloudProviderInterface-w1" interfaceName="CloudProviderInterface" artifactType="artifacttypes:WAR" artifactRef="artifacttemplates:KVM-QEMU-Hypervisor_CloudProviderInterface-w1"/>
+        </ImplementationArtifacts>
+    </NodeTypeImplementation>
+</Definitions>
