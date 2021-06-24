@@ -1,5 +1,8 @@
 # TomcatApplication_WAR-connectTo IA [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+> This Artifact Template simply restarts the underlying tomcat to ensure that the application is reloaded after
+> the connection target is up and running.
+
 ## Haftungsausschluss
 
 Dies ist ein Forschungsprototyp und enthält insbesondere Beiträge von Studenten.
