@@ -2,7 +2,7 @@
 <Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodetypeimplementations-Ubuntu-VM-16.04-Impl_w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
     <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="Ubuntu-VM-16.04-Impl_w1" abstract="no" final="no" nodeType="nodetypes:Ubuntu-VM_16.04-w1" xmlns:nodetypes="http://opentosca.org/nodetypes">
         <ImplementationArtifacts>
-            <ImplementationArtifact name="OperatingSystemInterface_IA" interfaceName="OperatingSystemInterface" artifactType="artifacttypes:WAR" artifactRef="artifacttemplates:Ubuntu-VM_OperatingSystemInterface-w1" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" xmlns:artifacttypes="http://opentosca.org/artifacttypes"/>
+            <ImplementationArtifact name="OperatingSystemInterface_IA" interfaceName="OperatingSystemInterface" artifactType="artifactTypes:WAR" artifactRef="artifacttemplates:Ubuntu-VM_OperatingSystemInterface-w1" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" xmlns:artifactTypes="http://opentosca.org/artifacttypes"/>
         </ImplementationArtifacts>
     </NodeTypeImplementation>
 </Definitions>
