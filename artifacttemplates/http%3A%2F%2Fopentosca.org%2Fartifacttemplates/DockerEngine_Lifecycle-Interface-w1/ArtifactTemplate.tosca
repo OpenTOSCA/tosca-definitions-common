@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="otateIgeneral-DockerEngine_Lifecycle-Interface-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-DockerEngine_Lifecycle-Interface-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
     <ArtifactTemplate type="otatyIgeneral:WAR" id="DockerEngine_Lifecycle-Interface-w1" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes">
         <Properties>
             <opentosca:WSProperties xmlns:opentosca="http://www.uni-stuttgart.de/opentosca">
