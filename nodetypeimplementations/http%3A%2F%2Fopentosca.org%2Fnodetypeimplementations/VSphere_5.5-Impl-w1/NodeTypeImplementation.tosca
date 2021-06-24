@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="winery-defs-for_nodetypeimplementations-VSphere_5.5-Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodetypeimplementations-VSphere_5.5-Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
     <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="VSphere_5.5-Impl-w1" abstract="no" final="no" nodeType="nodetypes:VSphere_5.5-w1" xmlns:nodetypes="http://opentosca.org/nodetypes">
         <ImplementationArtifacts>
             <ImplementationArtifact name="VSphere_5.5-CloudProviderInterface-w1" interfaceName="CloudProviderInterface" artifactType="artifacttypes:WAR" artifactRef="artifacttemplates:VSphere_5.5-CloudProviderInterface-w1" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" xmlns:artifacttypes="http://opentosca.org/artifacttypes"/>
