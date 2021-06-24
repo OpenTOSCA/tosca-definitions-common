@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="winery-defs-for_artifacttemplates-Tomcat_7-Install-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-Tomcat_7-Install-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
     <ArtifactTemplate type="ToscaBaseTypes:ScriptArtifact" id="Tomcat_7-Install-w1" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes">
         <ArtifactReferences>
             <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/Tomcat_7-Install-w1/files/install.sh"/>

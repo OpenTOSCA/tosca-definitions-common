@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="winery-defs-for_artifacttemplates-VSphere_5.5-CloudProviderInterface-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <ArtifactTemplate type="artifacttypes:WAR" id="VSphere_5.5-CloudProviderInterface-w1" xmlns:artifacttypes="http://opentosca.org/artifacttypes">
+<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-VSphere_5.5-CloudProviderInterface-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+    <ArtifactTemplate type="artifactTypes:WAR" id="VSphere_5.5-CloudProviderInterface-w1" xmlns:artifactTypes="http://opentosca.org/artifacttypes">
         <Properties>
             <opentosca:WSProperties xmlns:opentosca="http://www.uni-stuttgart.de/opentosca">
                 <opentosca:ServiceEndpoint>/services/org_opentosca_nodetypes_VMWare5_5__CloudProviderInterfacePort</opentosca:ServiceEndpoint>

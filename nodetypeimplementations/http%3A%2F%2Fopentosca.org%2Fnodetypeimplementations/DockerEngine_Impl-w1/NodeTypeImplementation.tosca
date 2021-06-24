@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="winery-defs-for_otntyiIgeneral-DockerEngine_Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-DockerEngine_Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
     <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="DockerEngine_Impl-w1" abstract="no" final="no" nodeType="otntyIgeneral:DockerEngine_w1" xmlns:otntyIgeneral="http://opentosca.org/nodetypes">
         <ImplementationArtifacts>
             <ImplementationArtifact name="DockerEngine_DockerEngine-Interface-w1" interfaceName="InterfaceDockerEngine" artifactType="otatyIgeneral:WAR" artifactRef="otateIgeneral:DockerEngine_DockerEngine-Interface-w1" xmlns:otateIgeneral="http://opentosca.org/artifacttemplates" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes"/>

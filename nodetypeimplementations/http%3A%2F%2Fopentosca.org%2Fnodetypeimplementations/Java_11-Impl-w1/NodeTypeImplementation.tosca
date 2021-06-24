@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="winery-defs-for_nodetypeimplementations-Java_11-Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="Java_11-Impl-w1" abstract="no" final="no" nodeType="nodetypes:Java_11-w1" xmlns:nodetypes="http://opentosca.org/nodetypes">
+<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-Java_11-Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="Java_11-Impl-w1" abstract="no" final="no" nodeType="nodeTypes:Java_11-w1" xmlns:nodeTypes="http://opentosca.org/nodetypes">
         <ImplementationArtifacts>
-            <ImplementationArtifact name="install" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifacttemplates:Java_11-Install-w1" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
+            <ImplementationArtifact name="install" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifactTemplates:Java_11-Install-w1" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
         </ImplementationArtifacts>
     </NodeTypeImplementation>
 </Definitions>
