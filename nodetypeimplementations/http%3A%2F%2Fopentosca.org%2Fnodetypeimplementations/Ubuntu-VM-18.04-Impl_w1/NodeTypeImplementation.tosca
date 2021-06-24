@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodetypeimplementations-Ubuntu-VM-18.04-Impl_w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="Ubuntu-VM-18.04-Impl_w1" abstract="no" final="no" nodeType="nodetypes:Ubuntu-VM_18.04-w1" xmlns:nodetypes="http://opentosca.org/nodetypes">
+<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-Ubuntu-VM-18.04-Impl_w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="Ubuntu-VM-18.04-Impl_w1" abstract="no" final="no" nodeType="nodeTypes:Ubuntu-VM_18.04-w1" xmlns:nodeTypes="http://opentosca.org/nodetypes">
         <ImplementationArtifacts>
-            <ImplementationArtifact name="OperatingSystemInterface_IA" interfaceName="OperatingSystemInterface" artifactType="artifactTypes:WAR" artifactRef="artifacttemplates:Ubuntu-VM_OperatingSystemInterface-w1" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" xmlns:artifactTypes="http://opentosca.org/artifacttypes"/>
+            <ImplementationArtifact name="OperatingSystemInterface_IA" interfaceName="OperatingSystemInterface" artifactType="artifactTypes:WAR" artifactRef="artifactTemplates:Ubuntu-VM_OperatingSystemInterface-w1" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" xmlns:artifactTypes="http://opentosca.org/artifacttypes"/>
         </ImplementationArtifacts>
     </NodeTypeImplementation>
 </Definitions>

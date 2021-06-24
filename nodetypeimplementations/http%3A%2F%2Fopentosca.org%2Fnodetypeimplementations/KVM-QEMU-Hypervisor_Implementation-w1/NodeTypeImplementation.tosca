@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodetypeimplementations-KVM-QEMU-Hypervisor_Implementation-w1">
-    <NodeTypeImplementation xmlns:nodetypes="http://opentosca.org/nodetypes" targetNamespace="http://opentosca.org/nodetypeimplementations" name="KVM-QEMU-Hypervisor_Implementation-w1" nodeType="nodetypes:KVM_QEMU_Hypervisor_w1">
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-KVM-QEMU-Hypervisor_Implementation-w1">
+    <NodeTypeImplementation xmlns:nodeTypes="http://opentosca.org/nodetypes" targetNamespace="http://opentosca.org/nodetypeimplementations" name="KVM-QEMU-Hypervisor_Implementation-w1" nodeType="nodeTypes:KVM_QEMU_Hypervisor_w1">
         <ImplementationArtifacts>
-            <ImplementationArtifact xmlns:artifactTypes="http://opentosca.org/artifacttypes" xmlns:artifacttemplates="http://opentosca.org/artifacttemplates" name="KVM-QEMU-Hypervisor_CloudProviderInterface-w1" interfaceName="CloudProviderInterface" artifactType="artifactTypes:WAR" artifactRef="artifacttemplates:KVM-QEMU-Hypervisor_CloudProviderInterface-w1"/>
+            <ImplementationArtifact xmlns:artifactTypes="http://opentosca.org/artifacttypes" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" name="KVM-QEMU-Hypervisor_CloudProviderInterface-w1" interfaceName="CloudProviderInterface" artifactType="artifactTypes:WAR" artifactRef="artifactTemplates:KVM-QEMU-Hypervisor_CloudProviderInterface-w1"/>
         </ImplementationArtifacts>
     </NodeTypeImplementation>
 </Definitions>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodetypes-Ubuntu-VM_16.04-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
+<Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-Ubuntu-VM_16.04-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
     <NodeType name="Ubuntu-VM_16.04-w1" abstract="yes" final="yes" targetNamespace="http://opentosca.org/nodetypes">
         <winery:PropertiesDefinition elementname="VirtualMachineProperties" namespace="http://opentosca.org/nodetypes">
             <winery:properties>
@@ -35,9 +35,9 @@
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
         </winery:PropertiesDefinition>
-        <DerivedFrom typeRef="nodetypes:OperatingSystem_w1" xmlns:nodetypes="http://opentosca.org/nodetypes"/>
+        <DerivedFrom typeRef="nodeTypes:OperatingSystem_w1" xmlns:nodeTypes="http://opentosca.org/nodetypes"/>
         <RequirementDefinitions>
-            <RequirementDefinition name="ReqCanHostUbuntuVM" requirementType="requirementtypes:ReqCanHostUbuntuVM" lowerBound="1" upperBound="unbounded" xmlns:requirementtypes="http://opentosca.org/requirementtypes"/>
+            <RequirementDefinition name="ReqCanHostUbuntuVM" requirementType="requirementTypes:ReqCanHostUbuntuVM" lowerBound="1" upperBound="unbounded" xmlns:requirementTypes="http://opentosca.org/requirementtypes"/>
         </RequirementDefinitions>
         <Interfaces>
             <Interface name="OperatingSystemInterface">

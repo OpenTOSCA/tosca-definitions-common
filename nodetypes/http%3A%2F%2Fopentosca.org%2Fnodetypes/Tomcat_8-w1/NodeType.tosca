@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodetypes-Tomcat_8-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
+<Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-Tomcat_8-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
     <NodeType name="Tomcat_8-w1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" winery:bordercolor="#23db54">
-        <DerivedFrom typeRef="nodetypes:Tomcat_w1" xmlns:nodetypes="http://opentosca.org/nodetypes"/>
+        <DerivedFrom typeRef="nodeTypes:Tomcat_w1" xmlns:nodeTypes="http://opentosca.org/nodetypes"/>
         <Interfaces>
             <Interface name="http://www.example.com/interfaces/lifecycle">
                 <Operation name="install"/>

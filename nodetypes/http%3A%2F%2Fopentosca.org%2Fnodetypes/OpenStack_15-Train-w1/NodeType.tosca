@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="nodetypes-OpenStack_15-Train-w1">
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-OpenStack_15-Train-w1">
     <NodeType name="OpenStack_15-Train-w1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" winery:bordercolor="#f186c6">
         <winery:PropertiesDefinition elementname="CloudProviderProperties" namespace="http://opentosca.org/nodetypes">
             <winery:properties>

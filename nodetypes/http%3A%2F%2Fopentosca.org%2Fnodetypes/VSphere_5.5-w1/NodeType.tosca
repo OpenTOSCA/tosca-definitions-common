@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodetypes-VSphere_5.5-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
+<Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-VSphere_5.5-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
     <NodeType name="VSphere_5.5-w1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" winery:bordercolor="#279e40">
         <winery:PropertiesDefinition elementname="CloudProviderProperties" namespace="http://opentosca.org/nodetypes">
             <winery:properties>
