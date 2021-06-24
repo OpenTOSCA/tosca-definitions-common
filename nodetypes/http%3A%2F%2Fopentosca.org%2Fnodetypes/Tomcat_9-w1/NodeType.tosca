@@ -6,6 +6,11 @@
             <Interface name="http://www.example.com/interfaces/lifecycle">
                 <Operation name="install"/>
                 <Operation name="start"/>
+                <Operation name="configure">
+                    <InputParameters>
+                        <InputParameter name="Port" type="string" required="no"/>
+                    </InputParameters>
+                </Operation>
             </Interface>
         </Interfaces>
     </NodeType>

@@ -5,6 +5,7 @@
             <winery:properties>
                 <winery:key>Port</winery:key>
                 <winery:type>xsd:string</winery:type>
+                <winery:defaultValue>8080</winery:defaultValue>
             </winery:properties>
         </winery:PropertiesDefinition>
         <DerivedFrom typeRef="ToscaNormativeNodeTypes:WebServer" xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes"/>

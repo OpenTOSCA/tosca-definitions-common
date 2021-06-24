@@ -1,4 +1,10 @@
-# Tomcat_9-Start IA [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# TomcatApplication_WAR [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+> This Node Type can be used to deploy an application that is packaged as a WAR file onto a Tomcat webserver.
+
+**Note:** if you need to establish a connection to another component, you should create a special Node Type for
+          the application and inherit from this one. Then you can reuse the IAs in the Implementation to install
+          it onto the tomcat werserver.
 
 ## Haftungsausschluss
 
