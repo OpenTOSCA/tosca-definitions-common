@@ -3,7 +3,7 @@
 * Interface Name: org_opentosca_nodetypes_DockerContainer__ContainerManagementInterface
 * Namespace: http://nodetypes.opentosca.org/
 * Java Package: org.opentosca.nodetypes
-* URL: http://localhost:8080/winery/artifacttemplates/http%253A%252F%252Fopentosca.org%252Fnodetypes/DockerContainer_ContainerManagementInterface_IA_AT/files/../
+* URL: http://localhost:8080/winery/artifacttemplates/http%253A%252F%252Fopentosca.org%252Fnodetypes/DockerContainer_ContainerManagementInterface-AT/files/../
 
 ## Preconditions
 To develop and build this Implementation Artifact you need Maven and Eclipse.

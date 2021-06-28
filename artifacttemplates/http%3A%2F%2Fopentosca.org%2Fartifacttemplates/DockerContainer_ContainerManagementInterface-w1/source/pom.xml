@@ -11,7 +11,7 @@
     <properties>
         <run.HttpPort>9090</run.HttpPort>
         <winery.upload.url>
-            http://localhost:8080/winery/artifacttemplates/http%253A%252F%252Fopentosca.org%252Fnodetypes/DockerContainer_ContainerManagementInterface_IA_AT/files/
+            http://localhost:8080/winery/artifacttemplates/http%253A%252F%252Fopentosca.org%252Fnodetypes/DockerContainer_ContainerManagementInterface-AT/files/
         </winery.upload.url>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <cxf.version>2.7.6</cxf.version>

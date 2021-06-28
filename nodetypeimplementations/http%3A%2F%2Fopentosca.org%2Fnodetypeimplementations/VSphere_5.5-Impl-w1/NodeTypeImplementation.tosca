@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-VSphere_5.5-Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="VSphere_5.5-Impl-w1" abstract="no" final="no" nodeType="nodeTypes:VSphere_5.5-w1" xmlns:nodeTypes="http://opentosca.org/nodetypes">
-        <ImplementationArtifacts>
-            <ImplementationArtifact name="VSphere_5.5-CloudProviderInterface-w1" interfaceName="CloudProviderInterface" artifactType="artifactTypes:WAR" artifactRef="artifactTemplates:VSphere_5.5-CloudProviderInterface-w1" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" xmlns:artifactTypes="http://opentosca.org/artifacttypes"/>
-        </ImplementationArtifacts>
-    </NodeTypeImplementation>
-</Definitions>

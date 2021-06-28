@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-MySQL-DB_Impl-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="MySQL-DB_Impl-w1" abstract="no" final="no" nodeType="nodeTypes:MySQL-DB_w1" xmlns:nodeTypes="http://opentosca.org/nodetypes">
-        <ImplementationArtifacts>
-            <ImplementationArtifact name="MySQL-DB_Install-w1" interfaceName="http://www.example.com/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifactTemplates:MySQL-DB_Install-w1" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
-            <ImplementationArtifact name="MySQL-DB_Configure-w1" interfaceName="http://www.example.com/interfaces/lifecycle" operationName="configure" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifactTemplates:MySQL-DB_Configure-w1" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
-        </ImplementationArtifacts>
-    </NodeTypeImplementation>
-</Definitions>

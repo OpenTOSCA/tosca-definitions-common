@@ -1,11 +1,21 @@
-# Tomcat_7_Install-AT [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# Java-11-Implementation_w1 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)  
+
+## Properties
+
+- `OpenStackIdentityEndpoint`
+- `OpenStackProjectId`
+- `OpenStackUserName`
+- `OpenStackUserPassword`
 
 ## Haftungsausschluss
 
 Dies ist ein Forschungsprototyp und enthält insbesondere Beiträge von Studenten.
-Diese Software enthält möglicherweise Fehler und funktioniert möglicherweise, insbesondere bei variierten oder neuen Anwendungsfällen, nicht richtig.
+Diese Software enthält möglicherweise Fehler und funktioniert möglicherweise, insbesondere bei variierten oder neuen 
+Anwendungsfällen, nicht richtig.
 Insbesondere beim Produktiveinsatz muss 1. die Funktionsfähigkeit geprüft und 2. die Einhaltung sämtlicher Lizenzen geprüft werden.
-Die Haftung für entgangenen Gewinn, Produktionsausfall, Betriebsunterbrechung, entgangene Nutzungen, Verlust von Daten und Informationen, Finanzierungsaufwendungen sowie sonstige Vermögens- und Folgeschäden ist, außer in Fällen von grober Fahrlässigkeit, Vorsatz und Personenschäden ausgeschlossen.
+Die Haftung für entgangenen Gewinn, Produktionsausfall, Betriebsunterbrechung, entgangene Nutzungen, Verlust von Daten
+und Informationen, Finanzierungsaufwendungen sowie sonstige Vermägens- und Folgeschäden ist, außer in Fällen von grober
+Fahrlässigkeit, Vorsatz und Personenschäden ausgeschlossen.
 
 ## Disclaimer of Warranty
 

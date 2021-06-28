@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-NGINX-Impl_w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="NGINX-Impl_w1" abstract="no" final="no" nodeType="otntyIgeneral:NGINX_latest-w1" xmlns:otntyIgeneral="http://opentosca.org/nodetypes">
-        <ImplementationArtifacts>
-            <ImplementationArtifact name="install" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:NGINX_Install-latest-w1" xmlns:otateIgeneral="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
-            <ImplementationArtifact name="start" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="start" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:NGINX_Start-w1" xmlns:otateIgeneral="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
-        </ImplementationArtifacts>
-    </NodeTypeImplementation>
-</Definitions>
