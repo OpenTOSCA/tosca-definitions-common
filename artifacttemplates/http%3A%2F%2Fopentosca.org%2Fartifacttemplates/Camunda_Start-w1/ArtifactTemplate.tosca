@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-Camunda_Start-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+    <ArtifactTemplate name="Camunda_Start-w1" type="ToscaBaseTypes:ScriptArtifact" id="Camunda_Start-w1" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes">
+        <ArtifactReferences>
+            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/Camunda_Start-w1/files/start.sh"/>
+        </ArtifactReferences>
+    </ArtifactTemplate>
+</Definitions>

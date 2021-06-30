@@ -1,4 +1,4 @@
-# Tomcat7_Impl_ConfigureIA_AT [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# Tomcat 7 Configure IA [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Haftungsausschluss
 

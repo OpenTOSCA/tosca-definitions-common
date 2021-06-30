@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" targetNamespace="http://opentosca.org/artifacttemplates" id="winery-defs-for_artifacttemplates-PythonApp_3_Install_IA-w1">
-    <ArtifactTemplate xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" name="PythonApp_3_Install_IA-w1" type="ToscaBaseTypes:ScriptArtifact" id="PythonApp_3_Install_IA-w1">
-        <ArtifactReferences>
-            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/PythonApp_3_Install_IA-w1/files/install.sh"/>
-        </ArtifactReferences>
-    </ArtifactTemplate>
-</Definitions>

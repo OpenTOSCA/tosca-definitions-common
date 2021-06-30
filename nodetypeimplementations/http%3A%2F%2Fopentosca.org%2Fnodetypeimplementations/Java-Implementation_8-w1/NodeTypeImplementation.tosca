@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-Java-Implementation_8-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
+    <NodeTypeImplementation targetNamespace="http://opentosca.org/nodetypeimplementations" name="Java-Implementation_8-w1" abstract="no" final="no" nodeType="nodeTypes:Java_8-w1" xmlns:nodeTypes="http://opentosca.org/nodetypes">
+        <ImplementationArtifacts>
+            <ImplementationArtifact name="Install" interfaceName="http://www.example.com/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifactTemplates:Java_8-Install-w1" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes"/>
+        </ImplementationArtifacts>
+    </NodeTypeImplementation>
+</Definitions>
