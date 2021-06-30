@@ -1,4 +1,4 @@
-# VSphere_5.5-CloudProviderInterface-w1 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# VSphere 5.5 Cloud-Provider-Interface IA [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Haftungsausschluss
 

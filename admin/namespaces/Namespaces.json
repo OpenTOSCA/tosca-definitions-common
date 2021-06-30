@@ -4,8 +4,8 @@
     "prefix" : "winery",
     "readableName" : "TOSCA extension by Eclipse Winery",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   },
   "http://opentosca.org/nodetypeimplementations" : {
@@ -13,8 +13,8 @@
     "prefix" : "nodeTypeImplementations",
     "readableName" : "",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   },
   "http://opentosca.org/capabilitytypes" : {
@@ -22,8 +22,8 @@
     "prefix" : "capabilityTypes",
     "readableName" : "",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   },
   "http://opentosca.org/artifacttemplates" : {
@@ -31,8 +31,8 @@
     "prefix" : "artifactTemplates",
     "readableName" : "",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   },
   "http://opentosca.org/policytypes" : {
@@ -40,8 +40,8 @@
     "prefix" : "policyTypes",
     "readableName" : "",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   },
   "http://www.w3.org/2001/XMLSchema" : {
@@ -49,8 +49,8 @@
     "prefix" : "xsd",
     "readableName" : "W3C XML schema namespace",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   },
   "http://opentosca.org/nodetypes" : {
@@ -58,8 +58,8 @@
     "prefix" : "nodeTypes",
     "readableName" : "",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   },
   "http://www.uni-stuttgart.de/opentosca" : {
@@ -67,8 +67,8 @@
     "prefix" : "opentosca",
     "readableName" : "",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   },
   "http://opentosca.org/requirementtypes" : {
@@ -76,8 +76,8 @@
     "prefix" : "requirementTypes",
     "readableName" : "",
     "upstreamRepository" : "",
-    "patternCollection" : false,
     "secureCollection" : false,
+    "patternCollection" : false,
     "generatedNamespace" : false
   }
 }
