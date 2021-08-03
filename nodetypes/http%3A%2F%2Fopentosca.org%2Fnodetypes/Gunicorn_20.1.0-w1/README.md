@@ -2,11 +2,6 @@
 
 > This node type installs and starts a Gunicorn HTTP server.
 
-## Properties
-
-- `Port`. The port to start the HTTP server on.
-- `AppModule` The name of the Python module to execute using Gunicorn.
-
 ## Haftungsausschluss
 
 Dies ist ein Forschungsprototyp und enthält insbesondere Beiträge von Studenten.

@@ -3,7 +3,6 @@
     <NodeTypeImplementation xmlns:nodeTypes="http://opentosca.org/nodetypes" targetNamespace="http://opentosca.org/nodetypeimplementations" name="Gunicorn-Implementation_20.1.0-w1" abstract="no" final="no" nodeType="nodeTypes:Gunicorn_20.1.0-w1">
         <ImplementationArtifacts>
             <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" name="Gunicorn_install" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifactTemplates:Gunicorn_install_20.1.0-install-w1"/>
-            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" name="Gunicorn_start" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="start" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifactTemplates:Gunicorn_start_20.1.0-start-w1"/>
         </ImplementationArtifacts>
     </NodeTypeImplementation>
 </Definitions>
