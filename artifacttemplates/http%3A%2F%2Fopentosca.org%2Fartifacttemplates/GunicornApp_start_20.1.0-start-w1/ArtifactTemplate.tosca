@@ -2,7 +2,7 @@
 <Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-GunicornApp_start_20.1.0-start-w1">
     <ArtifactTemplate xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" name="GunicornApp_start_20.1.0-start-w1" type="ToscaBaseTypes:ScriptArtifact" id="GunicornApp_start_20.1.0-start-w1">
         <ArtifactReferences>
-            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/Gunicorn_start_20.1.0-start-w1/files/start.sh"/>
+            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/GunicornApp_start_20.1.0-start-w1/files/start.sh"/>
         </ArtifactReferences>
     </ArtifactTemplate>
 </Definitions>
