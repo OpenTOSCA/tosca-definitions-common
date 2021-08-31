@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-ApacheWebServer_w1-wip1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:yml="http://docs.oasis-open.org/tosca/ns/simple/yaml/1.3" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org">
+    <NodeType name="ApacheWebServer_w1-wip1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes">
+        <winery:PropertiesDefinition elementname="properties" namespace="http://opentosca.org/nodetypes/propertiesdefinition/winery">
+            <winery:properties>
+                <winery:defaultValue>80</winery:defaultValue>
+                <winery:description>The port of the webserver</winery:description>
+                <winery:key>Port</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:defaultValue>var/www/html</winery:defaultValue>
+                <winery:description>The path to the root webpage</winery:description>
+                <winery:key>Rootpath</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+            <winery:properties>
+                <winery:description>The version of the installed Apache Web Server</winery:description>
+                <winery:key>Version</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
+        </winery:PropertiesDefinition>
+        <Interfaces>
+            <Interface name="http://opentosca.org/interfaces/lifecycle">
+                <Operation name="install">
+                    <InputParameters>
+                        <InputParameter name="Port" type="xsd:string" required="yes"/>
+                        <InputParameter name="Rootpath" type="xsd:string" required="yes"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="Version" type="xsd:string" required="yes"/>
+                    </OutputParameters>
+                </Operation>
+                <Operation name="start"/>
+                <Operation name="uninstall"/>
+                <Operation name="stop"/>
+            </Interface>
+        </Interfaces>
+    </NodeType>
+</Definitions>
