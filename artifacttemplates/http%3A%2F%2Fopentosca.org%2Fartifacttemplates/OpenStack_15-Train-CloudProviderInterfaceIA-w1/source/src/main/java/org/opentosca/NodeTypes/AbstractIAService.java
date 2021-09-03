@@ -24,12 +24,9 @@ public abstract class AbstractIAService {
 
     @Resource
     private WebServiceContext context;
-
-    private final Client client;
-
+    
     public AbstractIAService() {
         System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
-        this.client = ClientBuilder.newClient();
     }
 
     protected void sendResponse(HashMap<String, String> returnParameters) {
@@ -93,7 +90,7 @@ public abstract class AbstractIAService {
         if (replyTo == null) {
             logger.error("No 'ReplyTo' header found!\nTherefore, reply message is printed here:\n{}", builder.toString());
         } else {
-            this.client.target(replyTo).request().post(Entity.xml(builder.toString()));
+            ClientBuilder.newClient().target(replyTo).request().post(Entity.xml(builder.toString())).close();
         }
     }
 }
