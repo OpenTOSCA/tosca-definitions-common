@@ -1,5 +1,6 @@
 #!/bin/sh
 rootpassword=$DBMSPassword
+rootuser=$DBMSUser
 
 echo "Received, $DBMSPassword as password for user 'root' and $DBMSPort as port"
 
@@ -16,6 +17,14 @@ DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
 FLUSH PRIVILEGES;
 _EOF_
+
+mysql --user=root <<_EOF_
+CREATE USER '$rootuser'@'localhost' IDENTIFIED BY '$rootpassword';
+GRANT ALL PRIVILEGES ON *.* TO '$rootuser'@'localhost' IDENTIFIED BY '$rootpassword';
+FLUSH PRIVILEGES;
+_EOF_
+
+# mysql -uroot -p$rootpassword -e "rename user 'root' to '$rootuser';"
 
 #set port
 sudo sed -i -e "/port	/c\port=$DBMSPort" $mySqlConfig;
