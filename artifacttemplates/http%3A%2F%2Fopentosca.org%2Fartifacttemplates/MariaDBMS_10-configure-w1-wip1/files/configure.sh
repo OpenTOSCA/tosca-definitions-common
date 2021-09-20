@@ -19,8 +19,8 @@ FLUSH PRIVILEGES;
 _EOF_
 
 mysql --user=root <<_EOF_
-CREATE USER '$rootuser'@'localhost' IDENTIFIED BY '$rootpassword';
-GRANT ALL PRIVILEGES ON *.* TO '$rootuser'@'localhost' IDENTIFIED BY '$rootpassword';
+CREATE USER '$rootuser'@'%' IDENTIFIED BY '$rootpassword';
+GRANT ALL PRIVILEGES ON *.* TO '$rootuser'@'%' IDENTIFIED BY '$rootpassword' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 _EOF_
 
