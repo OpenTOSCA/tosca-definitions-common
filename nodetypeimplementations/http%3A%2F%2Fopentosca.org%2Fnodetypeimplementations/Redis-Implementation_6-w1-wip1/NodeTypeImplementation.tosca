@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-Redis-Implementation_6-w1-wip1">
+    <NodeTypeImplementation xmlns:nodeTypes="http://opentosca.org/nodetypes" targetNamespace="http://opentosca.org/nodetypeimplementations" name="Redis-Implementation_6-w1-wip1" abstract="no" final="no" nodeType="nodeTypes:Redis_6-w1-wip1">
+        <ImplementationArtifacts>
+            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" name="Redis_install" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifactTemplates:Redis_6-install-w1-wip1"/>
+            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" name="Redis_start" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="start" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="artifactTemplates:Redis_6-start-w1-wip1"/>
+        </ImplementationArtifacts>
+    </NodeTypeImplementation>
+</Definitions>
