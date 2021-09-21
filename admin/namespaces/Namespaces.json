@@ -1,12 +1,4 @@
 {
-  "http://www.opentosca.org/winery/extensions/tosca/2013/02/12" : {
-    "namespace" : "http://www.opentosca.org/winery/extensions/tosca/2013/02/12",
-    "prefix" : "winery",
-    "readableName" : "TOSCA extension by Eclipse Winery",
-    "generatedNamespace" : false,
-    "patternCollection" : false,
-    "secureCollection" : false
-  },
   "http://opentosca.org/nodetypeimplementations" : {
     "namespace" : "http://opentosca.org/nodetypeimplementations",
     "prefix" : "nodeTypeImplementations",
@@ -35,14 +27,6 @@
     "namespace" : "http://opentosca.org/policytypes",
     "prefix" : "policyTypes",
     "readableName" : "",
-    "generatedNamespace" : false,
-    "patternCollection" : false,
-    "secureCollection" : false
-  },
-  "http://www.w3.org/2001/XMLSchema" : {
-    "namespace" : "http://www.w3.org/2001/XMLSchema",
-    "prefix" : "xsd",
-    "readableName" : "W3C XML schema namespace",
     "generatedNamespace" : false,
     "patternCollection" : false,
     "secureCollection" : false
