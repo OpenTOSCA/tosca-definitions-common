@@ -10,43 +10,28 @@
 
     <properties>
         <run.HttpPort>9090</run.HttpPort>
-        <winery.upload.url>
-            http://localhost:8080/winery/artifacttemplates/http%253A%252F%252Fopentosca.org%252FNodeTypes/DockerEngine_DockerEngine-Interface-w1/files/
-        </winery.upload.url>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.7.6</cxf.version>
-        <highlevelrestapi.version>0.1.6</highlevelrestapi.version>
+        <cxf.version>3.1.10</cxf.version>
     </properties>
 
     <dependencies>
         <!-- LIBRARIES ADDED FOR IMPLEMENTATION ARTIFACT IMPLEMENTATION -->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-api</artifactId>-->
+<!--            <version>1.7.32</version>-->
+<!--        </dependency>-->
         <dependency>
-            <!-- NOTE: "The Commons HttpClient project is now end of life, and is
-                no longer being developed." See http://hc.apache.org/httpclient-3.x/. New
-                project: http://hc.apache.org/httpcomponents-client-ga/ -->
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-            <exclusions>
-                <!-- provided by jcl-over-slf4j to enable logging via logback -->
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.6</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>log4j-over-slf4j</artifactId>-->
+<!--            <version>1.7.32</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-ssh</artifactId>
-            <version>1.5.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.vngx</groupId>
-            <artifactId>vngx-jsch</artifactId>
-            <version>0.10</version>
-        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -55,20 +40,14 @@
         <!-- END - LIBRARIES ADDED FOR IMPLEMENTATION ARTIFACT IMPLEMENTATION -->
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>3.0.7.RELEASE</version>
+            <version>5.2.13.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.0.7.RELEASE</version>
+            <version>5.2.13.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -86,14 +65,19 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-soap</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java</artifactId>
-            <version>3.0.14</version>
+            <version>3.2.12</version>
         </dependency>
         <dependency>
             <groupId>net.lingala.zip4j</groupId>
             <artifactId>zip4j</artifactId>
-            <version>1.3.2</version>
+            <version>2.9.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
         <dependency>
@@ -168,102 +152,6 @@
                 <configuration>
                     <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                 </configuration>
-            </plugin>
-
-            <!-- Inspired by: http://giallone.blogspot.de/2013/02/post-file-to-web-page-as-part-of-maven.html -->
-            <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.4</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.gmaven.runtime</groupId>
-                        <artifactId>gmaven-runtime-1.7</artifactId>
-                        <version>1.2</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpmime</artifactId>
-                        <version>4.2.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpcore</artifactId>
-                        <version>4.2.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpclient</artifactId>
-                        <version>4.2.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.hierynomus</groupId>
-                        <artifactId>sshj</artifactId>
-                        <version>0.23.0</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>upload2winery</id>
-                        <!-- In this mvn phase... -->
-                        <phase>deploy</phase>
-                        <!-- ...run the execute goal of this plugin -->
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <providerSelection>1.7</providerSelection>
-                            <source>
-                                import org.apache.http.impl.client.DefaultHttpClient
-                                import org.apache.http.client.methods.HttpPost
-                                import
-
-                                org.apache.http.entity.mime.MultipartEntity
-                                import
-
-                                org.apache.http.entity.mime.content.FileBody
-
-                                // Get WAR file
-                                def
-                                        name = "target/${project.build.finalName}.war"
-                                println "Archive
-                                file:
-                                $name "
-                                def f = new File(name)
-
-                                // POST file
-                                DefaultHttpClient
-                                httpclient = new DefaultHttpClient()
-                                println "Upload URL:
-                                $ { winery.upload.url }
-                                "
-                                def post = new
-                                HttpPost("${winery.upload.url}")
-                                def entity = new
-                                MultipartEntity()
-                                def fileBody = new FileBody(f)
-                                entity.addPart("files[]", fileBody)
-                                post.setEntity(entity)
-
-                                //
-                                Process response
-                                def response = httpclient.execute(post)
-                                def
-                                        status = response.getStatusLine()
-                                if (!(status ==~ /.*Created.*/)
-                                )
-                                    fail("IA upload to Winery FAILED, please upload manually. (HTTP
-                                            status
-                                            code: $status)
-                                " )
-                                else
-                                println "IA upload finished
-                                sucessfully(HTTP status code $status)
-                                "
-                            </source>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>

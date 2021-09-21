@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngineService" targetNamespace="http://NodeTypes.opentosca.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://NodeTypes.opentosca.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://NodeTypes.opentosca.org/" elementFormDefault="unqualified" targetNamespace="http://NodeTypes.opentosca.org/" version="1.0">
-<xs:element name="removeContainer" type="tns:removeContainer"/>
-<xs:element name="startContainer" type="tns:startContainer"/>
-<xs:complexType name="removeContainer">
+<xs:schema xmlns:tns="http://NodeTypes.opentosca.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://NodeTypes.opentosca.org/" version="1.0">
+
+  <xs:element name="removeContainer" type="tns:removeContainer"/>
+
+  <xs:element name="startContainer" type="tns:startContainer"/>
+
+  <xs:complexType name="removeContainer">
     <xs:sequence>
       <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
       <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
       <xs:element form="qualified" minOccurs="0" name="ContainerID" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="startContainer">
+
+  <xs:complexType name="startContainer">
     <xs:sequence>
       <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
       <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
@@ -29,6 +33,7 @@
       <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
+
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="removeContainer">

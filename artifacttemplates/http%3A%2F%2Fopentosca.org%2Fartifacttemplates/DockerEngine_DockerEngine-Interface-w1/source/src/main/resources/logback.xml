@@ -8,7 +8,7 @@
     </appender>
 
     <logger name="org.jboss.resteasy.resteasy_jaxrs.i18n" level="ERROR"/>
-    <logger name="org.opentosca" level="TRACE" />
+    <logger name="org.opentosca.NodeTypes" level="TRACE" />
 
     <root level="error">
         <appender-ref ref="STDOUT"/>

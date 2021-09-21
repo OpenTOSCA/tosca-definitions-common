@@ -2,6 +2,20 @@
 
 > Common TOSCA definitions (e.g., VMs, cloud providers, and runtimes) prepared for being consumed by a TOSCA-compliant engine, such as the [OpenTOSCA Container](http://opentosca.github.io/container).
 
+## Usage
+
+This repository uses [git lfs](https://git-lfs.github.com/) as it contains large binary files which are not checked in to the git tree.
+Therefore, make sure that
+  1. you have an active git lfs installation on your machine,
+  2. run `git lfs install` directly after cloning the repository inside the cloned folder, and
+  3. run `git lfs pull` to download the binary files.
+
+⚠️ If the lfs-files are not downloaded, the repository, and thus the modeled applications, cannot run! 
+Thus, ensure you run `git lfs pull`.
+
+💡 To install git lfs globally, run `git lfs install --system`. 
+This makes git lfs automatically available for all repositories, and you do not have to run git lfs pull yourself.
+
 ## Haftungsausschluss
 
 Dies ist ein Forschungsprototyp und enthält insbesondere Beiträge von Studenten.
