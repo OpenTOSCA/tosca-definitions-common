@@ -1,0 +1,12 @@
+[
+  {
+    "name": "TOSCA Normative Types",
+    "url": "https://github.com/OpenTOSCA/tosca-normative-types",
+    "branch": "main"
+  },
+  {
+    "name": "OpenTOSCA Artifact Types",
+    "url": "https://github.com/OpenTOSCA/tosca-common-artifact-types",
+    "branch": "main"
+  }
+]
