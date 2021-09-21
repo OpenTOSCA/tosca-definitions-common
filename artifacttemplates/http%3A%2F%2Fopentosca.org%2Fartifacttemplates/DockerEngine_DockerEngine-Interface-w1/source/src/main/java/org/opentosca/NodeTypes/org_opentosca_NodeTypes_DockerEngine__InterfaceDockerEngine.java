@@ -358,12 +358,12 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
             dockerClient
                     .startContainerCmd(container.getId())
                     .exec();
-            LOG.info("Started container {}", container.getId());
 
             // get name of the new container
             final String containerName = dockerClient.inspectContainerCmd(container.getId())
                     .exec()
                     .getName().substring(1);
+            LOG.info("Started container {} with name {}", container.getId(), containerName);
 
             // return outer ports for the requested inner ports
             StringBuilder portMapping = new StringBuilder();
@@ -496,8 +496,11 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
             // stop ssh and real container together
             for (final String id : ContainerID.split(";")) {
                 // stop and remove container
+                LOG.info("Stopping container {}...", id);
                 dockerClient.stopContainerCmd(id).exec();
+                LOG.info("Removing container {}...", id);
                 dockerClient.removeContainerCmd(id).exec();
+                LOG.info("Stopped and removed container {}", id);
             }
 
             returnParameters.put("Result", "Stopped and Removed container " + ContainerID);
