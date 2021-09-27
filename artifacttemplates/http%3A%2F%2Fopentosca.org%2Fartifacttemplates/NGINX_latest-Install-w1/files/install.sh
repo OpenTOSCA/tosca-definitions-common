@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-sudo apt update
+sudo apt-get update -qq
 
 echo "Installing NGINX..."
-sudo apt install nginx -qqy
+sudo DEBIAN_FRONTEND="noninteractive" TZ="UTC" apt-get install -qqy nginx
 
 echo "Successfully installed NGINX!"
