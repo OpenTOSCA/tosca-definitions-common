@@ -1,6 +1,6 @@
 #!/bin/bash
-sudo apt update -qq
-sudo apt -qqy install unzip;
+sudo apt-get update -qq
+sudo apt-get -qqy install unzip;
 
 IFS=';' read -ra NAMES <<< "$DAs";
 for i in "${NAMES[@]}"; do

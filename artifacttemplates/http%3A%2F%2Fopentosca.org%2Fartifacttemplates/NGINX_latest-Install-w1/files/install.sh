@@ -4,9 +4,9 @@
 export TZ=Europe/Berlin
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-sudo apt update
+sudo apt-get update -qq
 
 echo "Installing NGINX..."
-sudo apt install nginx -qqy
+sudo DEBIAN_FRONTEND="noninteractive" TZ="UTC" apt-get install -qqy nginx
 
 echo "Successfully installed NGINX!"
