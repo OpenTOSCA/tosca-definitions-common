@@ -1,5 +1,8 @@
 #!/bin/sh
-redis-server --port $RedisPort --protected-mode no
+echo "Starting Redis..."
+
+redis-server --port $RedisPort --protected-mode no --daemonize yes
+
 echo "Started Redis on Port {$RedisPort}"
 
-sleep 5
+sleep 2
