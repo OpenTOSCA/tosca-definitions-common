@@ -1,11 +1,12 @@
 package org.opentosca.nodetypes;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.xml.ws.WebServiceContext;
@@ -14,85 +15,85 @@ import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.jaxws.context.WrappedMessageContext;
 import org.apache.cxf.message.Message;
-import org.springframework.http.MediaType;
 import org.w3c.dom.Node;
 
 public abstract class AbstractIAService {
 
-	@Resource
-	private WebServiceContext context;
+    @Resource
+    private WebServiceContext context;
 
-	private Client client;
+    protected void sendResponse(HashMap<String, String> returnParameters) {
 
-	public AbstractIAService() {
-		this.client = ClientBuilder.newClient();
-	}
+        // Extract message
+        WrappedMessageContext wrappedContext = (WrappedMessageContext) context.getMessageContext();
+        Message message = wrappedContext.getWrappedMessage();
 
-	protected void sendResponse(HashMap<String, String> returnParameters) {
+        // Extract headers from message
+        List<Header> headers = CastUtils.cast((List<?>) message.get(Header.HEADER_LIST));
 
-		// Extract message
-		WrappedMessageContext wrappedContext = (WrappedMessageContext) context.getMessageContext();
-		Message message = wrappedContext.getWrappedMessage();
+        // Find ReplyTo and MessageID SOAP Header
+        String replyTo = null;
+        String messageID = null;
+        for (Header iter : headers) {
 
-		// Extract headers from message
-		List<Header> headers = CastUtils.cast((List<?>) message.get(Header.HEADER_LIST));
+            Object headerObject = iter.getObject();
 
-		// Find ReplyTo and MessageID SOAP Header
-		String replyTo = null;
-		String messageID = null;
-		for (Header iter : headers) {
+            // Unmarshall to org.w3c.dom.Node
+            if (headerObject instanceof Node) {
+                Node node = (Node) headerObject;
+                String localPart = iter.getName().getLocalPart();
+                String content = node.getTextContent();
 
-			Object headerObject = iter.getObject();
+                // Extract ReplyTo Header value
+                if ("ReplyTo".equals(localPart)) {
+                    replyTo = content;
+                }
 
-			// Unmarshall to org.w3c.dom.Node
-			if (headerObject instanceof Node) {
-				Node node = (Node) headerObject;
-				String localPart = iter.getName().getLocalPart();
-				String content = node.getTextContent();
+                // Extract MessageID Header value
+                if ("MessageID".equals(localPart)) {
+                    messageID = content;
+                }
+            }
+        }
 
-				// Extract ReplyTo Header value
-				if ("ReplyTo".equals(localPart)) {
-					replyTo = content;
-				}
+        // Create asynchronous SOAP Response Message
+        StringBuilder builder = new StringBuilder();
 
-				// Extract MessageID Header value
-				if ("MessageID".equals(localPart)) {
-					messageID = content;
-				}
-			}
-		}
-
-		// Create asynchronous SOAP Response Message
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(
-				"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:sch='http://siserver.org/schema'>");
-		builder.append("   <soapenv:Header/>");
-		builder.append("   <soapenv:Body>");
-		builder.append("      <sch:invokeResponse>");
-		builder.append("         <sch:MessageID>")
+        builder.append(
+                "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:sch='http://siserver.org/schema'>\n");
+        builder.append("   <soapenv:Header/>\n");
+        builder.append("   <soapenv:Body>\n");
+        builder.append("      <sch:invokeResponse>\n");
+        builder.append("         <sch:MessageID>")
                 .append(messageID)
-                .append("</sch:MessageID>");
+                .append("</sch:MessageID>\n");
 
-		// Insert return parameters into asynchronous SOAP Response Message
-		for (Entry<String, String> paramIter : returnParameters.entrySet()) {
+        // Insert return parameters into asynchronous SOAP Response Message
+        for (Entry<String, String> paramIter : returnParameters.entrySet()) {
+            String key = paramIter.getKey();
+            String value = paramIter.getValue();
+            try {
+                builder.append("         <").append(key).append(">\n")
+                        .append(URLEncoder.encode(value, "UTF-8"))
+                        .append("\n        </").append(key).append(">\n");
+            } catch (UnsupportedEncodingException e) {
+                System.err.println("Could not encode\n" + value);
+            }
+        }
 
-			String key = paramIter.getKey();
-			String value = paramIter.getValue();
+        builder.append("      </sch:invokeResponse>\n");
+        builder.append("    </soapenv:Body>\n");
+        builder.append("</soapenv:Envelope>\n");
 
-			builder.append("         <").append(key).append(">").append(value).append("</").append(key).append(">");
-		}
-
-		builder.append("      </sch:invokeResponse>");
-		builder.append("	</soapenv:Body>");
-		builder.append("</soapenv:Envelope>");
-
-		// Send SOAP Response Message back to requester
-		if (replyTo == null) {
-			System.err.println(
-					"No 'ReplyTo' header found!\nTherefore, reply message is printed here:\n" + builder.toString());
-		} else {
-			this.client.target(replyTo).request().post(Entity.xml(builder.toString()));
-		}
-	}
+        // Send SOAP Response Message back to requester
+        if (replyTo == null) {
+            System.err.println(
+                    "No 'ReplyTo' header found!\nTherefore, reply message is printed here:\n" + builder.toString());
+        } else {
+            ClientBuilder.newClient()
+                    .target(replyTo)
+                    .request()
+                    .post(Entity.xml(builder.toString()));
+        }
+    }
 }
