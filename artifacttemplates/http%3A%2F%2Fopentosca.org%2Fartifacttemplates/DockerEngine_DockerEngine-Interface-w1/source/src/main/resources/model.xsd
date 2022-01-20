@@ -1,72 +1,50 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://NodeTypes.opentosca.org"
-           targetNamespace="http://NodeTypes.opentosca.org" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://NodeTypes.opentosca.org" elementFormDefault="qualified">
 
-    <xs:element name="getCountryRequest">
+    <xs:element name="removeContainerRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerID" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="getCountryResponse">
+    <xs:element name="removeContainerResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="country" type="tns:country"/>
+                <xs:element form="qualified" minOccurs="0" name="MessageID" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="country">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="population" type="xs:int"/>
-            <xs:element name="capital" type="xs:string"/>
-            <xs:element name="currency" type="tns:currency"/>
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="startContainerRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerImage" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerPorts" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerEnv" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ImageLocation" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="PrivateKey" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="Links" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="Devices" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="RemoteVolumeData" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="HostVolumeData" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerMountPath" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
-    <xs:simpleType name="currency">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="GBP"/>
-            <xs:enumeration value="EUR"/>
-            <xs:enumeration value="PLN"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-
-
-    <xs:complexType name="invokeResponse">
-        <xs:sequence>
-            <xs:element form="qualified" minOccurs="0" name="MessageID" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="removeContainerRequest">
-        <xs:sequence>
-            <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="ContainerID" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="startContainerRequest">
-        <xs:sequence>
-            <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="ContainerImage" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="ContainerPorts" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="ContainerEnv" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="ImageLocation" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="PrivateKey" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="Links" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="Devices" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="RemoteVolumeData" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="HostVolumeData" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="ContainerMountPath" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="startContainerResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element form="qualified" minOccurs="0" name="MessageID" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
 </xs:schema>
