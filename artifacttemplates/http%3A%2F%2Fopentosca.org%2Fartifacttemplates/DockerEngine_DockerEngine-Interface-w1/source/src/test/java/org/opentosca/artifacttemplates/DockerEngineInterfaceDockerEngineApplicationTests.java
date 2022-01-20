@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.spring.guides.gs_producing_web_service.GetCountryRequest;
+import org.opentosca.nodetypes.GetCountryRequest;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -51,6 +51,6 @@ public class DockerEngineInterfaceDockerEngineApplicationTests {
 		request.setName("Spain");
 
 		assertThat(ws.marshalSendAndReceive("http://localhost:"
-				+ port + "/ws", request) != null);
+				+ port + Constants.LOCATION_URI, request) != null);
     }
 }

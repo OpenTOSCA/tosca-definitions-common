@@ -5,10 +5,10 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import io.spring.guides.gs_producing_web_service.Country;
-import io.spring.guides.gs_producing_web_service.Currency;
-import io.spring.guides.gs_producing_web_service.GetCountryRequest;
-import io.spring.guides.gs_producing_web_service.GetCountryResponse;
+import org.opentosca.nodetypes.Country;
+import org.opentosca.nodetypes.Currency;
+import org.opentosca.nodetypes.GetCountryRequest;
+import org.opentosca.nodetypes.GetCountryResponse;
 
 @Endpoint
 public class DockerEngineInterfaceDockerEngineApplicationEndpoint {
