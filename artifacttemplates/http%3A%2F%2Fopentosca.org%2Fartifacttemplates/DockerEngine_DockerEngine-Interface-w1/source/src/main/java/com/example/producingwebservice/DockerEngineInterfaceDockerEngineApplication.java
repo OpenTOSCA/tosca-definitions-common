@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProducingWebServiceApplication {
+public class DockerEngineInterfaceDockerEngineApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProducingWebServiceApplication.class, args);
+		SpringApplication.run(DockerEngineInterfaceDockerEngineApplication.class, args);
 	}
 }

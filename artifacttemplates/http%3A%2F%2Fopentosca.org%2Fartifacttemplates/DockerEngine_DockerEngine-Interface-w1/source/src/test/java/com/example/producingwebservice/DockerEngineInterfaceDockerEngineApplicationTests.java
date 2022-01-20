@@ -31,7 +31,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ProducingWebServiceApplicationIntegrationTests {
+public class DockerEngineInterfaceDockerEngineApplicationTests {
 
 	private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 
