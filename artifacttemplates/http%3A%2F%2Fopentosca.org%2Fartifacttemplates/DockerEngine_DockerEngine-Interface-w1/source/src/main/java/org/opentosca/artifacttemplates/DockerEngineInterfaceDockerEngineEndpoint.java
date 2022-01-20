@@ -371,6 +371,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
         } catch (final Exception e) {
             LOG.error("Error while closing docker client.", e);
             StartContainerResponse response = new StartContainerResponse();
+            response.setMessageID("TODO"); // TODO: extract message ID from headers
             response.setError(e.getMessage());
             return response;
         }
@@ -381,9 +382,29 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
     public RemoveContainerResponse removeContainer(@RequestPayload RemoveContainerRequest request) {
         LOG.info("Received removeContainer request!");
 
-        // TODO
-        LOG.info(String.valueOf(request));
+        try (final DockerClient dockerClient = DockerClientBuilder
+                .getInstance(DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate()))
+                .build()) {
+            // stop ssh and real container together
+            for (final String id : request.getContainerID().split(";")) {
+                // stop and remove container
+                LOG.info("Stopping container {}...", id);
+                dockerClient.stopContainerCmd(id).exec();
+                LOG.info("Removing container {}...", id);
+                dockerClient.removeContainerCmd(id).exec();
+                LOG.info("Stopped and removed container {}", id);
+            }
 
-        return new RemoveContainerResponse();
+            RemoveContainerResponse response = new RemoveContainerResponse();
+            response.setMessageID("TODO"); // TODO: extract message ID from headers
+            response.setResult("Stopped and Removed container " + request.getContainerID());
+            return response;
+        } catch (final IOException e) {
+            LOG.error("Error closing the Docker client", e);
+            RemoveContainerResponse response = new RemoveContainerResponse();
+            response.setMessageID("TODO"); // TODO: extract message ID from headers
+            response.setError(e.getMessage());
+            return response;
+        }
     }
 }
