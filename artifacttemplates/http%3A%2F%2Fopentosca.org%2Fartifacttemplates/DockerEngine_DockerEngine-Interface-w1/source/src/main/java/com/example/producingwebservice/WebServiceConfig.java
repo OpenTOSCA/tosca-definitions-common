@@ -15,26 +15,27 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
-	@Bean
-	public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
-		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
-		servlet.setApplicationContext(applicationContext);
-		servlet.setTransformWsdlLocations(true);
-		return new ServletRegistrationBean<>(servlet, "/ws/*");
-	}
 
-	@Bean(name = "countries")
-	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
-		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-		wsdl11Definition.setPortTypeName("CountriesPort");
-		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
-		wsdl11Definition.setSchema(countriesSchema);
-		return wsdl11Definition;
-	}
+    @Bean
+    public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
+        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
+        servlet.setApplicationContext(applicationContext);
+        servlet.setTransformWsdlLocations(true);
+        return new ServletRegistrationBean<>(servlet, Constants.LOCATION_URI + "/*");
+    }
 
-	@Bean
-	public XsdSchema countriesSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("model.xsd"));
-	}
+    @Bean(name = Constants.WSDL_NAME)
+    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName(Constants.PORT_TYPE_NAME);
+        wsdl11Definition.setLocationUri(Constants.LOCATION_URI);
+        wsdl11Definition.setTargetNamespace(Constants.NAMESPACE_URI);
+        wsdl11Definition.setSchema(countriesSchema);
+        return wsdl11Definition;
+    }
+
+    @Bean
+    public XsdSchema countriesSchema() {
+        return new SimpleXsdSchema(new ClassPathResource(Constants.XSD_NAME));
+    }
 }

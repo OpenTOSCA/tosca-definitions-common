@@ -12,9 +12,8 @@ import io.spring.guides.gs_producing_web_service.GetCountryResponse;
 
 @Endpoint
 public class DockerEngineInterfaceDockerEngineApplicationEndpoint {
-	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCountryRequest")
+	@PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "getCountryRequest")
 	@ResponsePayload
 	public GetCountryResponse getCountry(@RequestPayload GetCountryRequest request) {
 		GetCountryResponse response = new GetCountryResponse();
