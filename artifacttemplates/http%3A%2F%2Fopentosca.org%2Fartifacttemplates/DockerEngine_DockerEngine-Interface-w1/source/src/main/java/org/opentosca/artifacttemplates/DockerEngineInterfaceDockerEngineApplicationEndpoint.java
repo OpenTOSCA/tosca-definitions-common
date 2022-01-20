@@ -1,4 +1,4 @@
-package com.example.producingwebservice;
+package org.opentosca.artifacttemplates;
 
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;

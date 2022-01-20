@@ -1,4 +1,4 @@
-package com.example.producingwebservice;
+package org.opentosca.artifacttemplates;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;

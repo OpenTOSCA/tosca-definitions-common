@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.producingwebservice;
+package org.opentosca.artifacttemplates;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

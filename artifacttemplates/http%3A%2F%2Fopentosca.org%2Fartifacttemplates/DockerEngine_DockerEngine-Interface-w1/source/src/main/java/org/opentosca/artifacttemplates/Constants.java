@@ -1,4 +1,4 @@
-package com.example.producingwebservice;
+package org.opentosca.artifacttemplates;
 
 public class Constants {
 
