@@ -3,8 +3,8 @@
     <ArtifactTemplate type="otatyIgeneral:WAR" id="DockerEngine_DockerEngine-Interface-w1" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes">
         <Properties>
             <opentosca:WSProperties xmlns:opentosca="http://www.uni-stuttgart.de/opentosca">
-                <opentosca:ServiceEndpoint>/services/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEnginePort</opentosca:ServiceEndpoint>
-                <opentosca:PortType>{http://opentosca.org/nodetypes}org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine</opentosca:PortType>
+                <opentosca:ServiceEndpoint>/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEnginePort</opentosca:ServiceEndpoint>
+                <opentosca:PortType>{http://NodeTypes.opentosca.org}org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine</opentosca:PortType>
                 <opentosca:InvocationType>SOAP/HTTP</opentosca:InvocationType>
             </opentosca:WSProperties>
         </Properties>
