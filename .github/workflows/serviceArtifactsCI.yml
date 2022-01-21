@@ -26,7 +26,11 @@ jobs:
     strategy:
       matrix:
         artifactTempaltes:
-          - { "name": "DockerEngine-Interface", "path": "artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1",              "sourceDir": "source", "outputName": "org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine" }
+          - name: DockerEngine-Interface
+            path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
+            sourceDir: source
+            outputName: org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine
+            runsOn: ubuntu-latest
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,5 +40,5 @@ jobs:
           java-version: 17
       - name: Build ${{ matrix.artifactTempaltes.name }}
         run: | 
-          cd $GITHUB_WORKSPACE/${{ matrix.artifactTempaltes.path }}/${{ sourceDir }}
+          cd $GITHUB_WORKSPACE/${{ matrix.artifactTempaltes.path }}/${{ matrix.artifactTempaltes.sourceDir }}
           mvn -B package
