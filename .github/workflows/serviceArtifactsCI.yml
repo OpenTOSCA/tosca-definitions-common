@@ -30,7 +30,8 @@ jobs:
             path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
             sourceDir: source
             outputName: org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine
-    runs-on: ubuntu-latest
+            runsOn: ubuntu-latest
+    runs-on: ${{ matrix.artifactTempaltes.runsOn }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17
