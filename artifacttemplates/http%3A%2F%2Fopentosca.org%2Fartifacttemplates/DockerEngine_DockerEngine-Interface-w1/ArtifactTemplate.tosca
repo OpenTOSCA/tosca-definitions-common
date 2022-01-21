@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-DockerEngine_DockerEngine-Interface-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <ArtifactTemplate type="otatyIgeneral:WAR" id="DockerEngine_DockerEngine-Interface-w1" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes">
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ns0="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-DockerEngine_DockerEngine-Interface-w1">
+    <ArtifactTemplate xmlns:otatyIgeneral="http://opentosca.org/artifacttypes" type="otatyIgeneral:WAR" id="DockerEngine_DockerEngine-Interface-w1">
         <Properties>
-            <opentosca:WSProperties xmlns:opentosca="http://www.uni-stuttgart.de/opentosca">
-                <opentosca:ServiceEndpoint>/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEnginePort</opentosca:ServiceEndpoint>
-                <opentosca:PortType>{http://NodeTypes.opentosca.org}org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine</opentosca:PortType>
-                <opentosca:InvocationType>SOAP/HTTP</opentosca:InvocationType>
-            </opentosca:WSProperties>
+            <WSProperties xmlns="http://www.uni-stuttgart.de/opentosca">
+                <ServiceEndpoint>/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEnginePort</ServiceEndpoint>
+                <PortType>{http://NodeTypes.opentosca.org}org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine</PortType>
+                <InvocationType>SOAP/HTTP</InvocationType>
+            </WSProperties>
         </Properties>
         <ArtifactReferences>
-            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1/files/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine.war"/>
-            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1/files/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine.zip"/>
+            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1/files/org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine.war"/>
+            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1/files/org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine.zip"/>
         </ArtifactReferences>
     </ArtifactTemplate>
 </Definitions>
