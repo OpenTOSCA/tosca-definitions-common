@@ -19,9 +19,17 @@ jobs:
       - id: skip_check
         uses: fkirc/skip-duplicate-actions@master
 
-  DockerEngine-Interface:
+  build:
+    name: Build ${{ matrix.artifactTempaltes.name }}
     needs: duplicate_check
     if: ${{ needs.duplicate_check.outputs.should_skip != 'true' }}
+    strategy:
+      matrix:
+        artifactTempaltes:
+          - name: DockerEngine-Interface
+            path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
+            sourceDir: source
+            outputName: org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +37,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
-      - name: Build with Maven
+      - name: Build ${{ matrix.artifactTempaltes.name }}
         run: | 
-          cd artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1/source
+          cd $GITHUB_WORKSPACE/${{ matrix.artifactTempaltes.path }}/${{ sourceDir }}
           mvn -B package
