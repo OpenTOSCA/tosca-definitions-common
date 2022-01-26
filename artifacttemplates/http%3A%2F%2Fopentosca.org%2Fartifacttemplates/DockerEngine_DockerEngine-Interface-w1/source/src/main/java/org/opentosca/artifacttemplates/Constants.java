@@ -13,4 +13,7 @@ public class Constants {
 
     // name of the header containing the message ID to send results to the OpenTOSCA Container
     protected static final String MESSAGE_ID_HEADER = "MessageID";
+
+    // name of the header containing the return address to send results to the OpenTOSCA Container
+    protected static final String REPLY_TO_HEADER = "ReplyTo";
 }

@@ -10,16 +10,6 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="removeContainerResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element form="qualified" minOccurs="0" name="MessageID" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="Error" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="Result" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
     <xs:element name="startContainerRequest">
         <xs:complexType>
             <xs:sequence>
@@ -41,15 +31,22 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="startContainerResponse">
+    <xs:element name="invokeResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element form="qualified" minOccurs="0" name="MessageID" type="xs:string"/>
+                <xs:element form="qualified" name="MessageID" type="xs:string"/>
                 <xs:element form="qualified" minOccurs="0" name="Error" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerPorts" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerID" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerIP" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerName" type="xs:string"/>
+                <xs:choice>
+                    <xs:sequence>
+                        <xs:element form="qualified" minOccurs="0" name="ContainerPorts" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="ContainerID" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="ContainerIP" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="ContainerName" type="xs:string"/>
+                    </xs:sequence>
+                    <xs:sequence>
+                        <xs:element form="qualified" minOccurs="0" name="Result" type="xs:string"/>
+                    </xs:sequence>
+                </xs:choice>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
