@@ -3,8 +3,10 @@ package org.opentosca.artifacttemplates;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.soap.SOAPHeaderElement;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -14,7 +16,10 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -33,7 +38,7 @@ public abstract class SoapUtil {
      * Send SOAP response to the OpenTOSCA Container
      *
      * @param invokeResponse the response object to add as SOAP body
-     * @param replyTo the address to send the reply to
+     * @param replyTo        the address to send the reply to
      */
     public static void sendSoapResponse(Object invokeResponse, String replyTo) {
         try {
@@ -75,5 +80,32 @@ public abstract class SoapUtil {
             LOG.error("Failed to transform document to string:", e);
             return null;
         }
+    }
+
+    /**
+     * Get the SOAP header with the given name from the current SOAP message
+     *
+     * @param messageContext the context to access the SOAP message
+     * @return the Node representing the content of the header if the given name, or null if the corresponding header is not defined
+     */
+    protected static Node getHeaderFieldByName(MessageContext messageContext, String headerName) {
+        SaajSoapMessage soapRequest = (SaajSoapMessage) messageContext.getRequest();
+
+        try {
+            Iterator<SOAPHeaderElement> itr = soapRequest.getSaajMessage().getSOAPHeader().examineAllHeaderElements();
+            while (itr.hasNext()) {
+                SOAPHeaderElement header = itr.next();
+                LOG.debug("Found header with name '{}'", header.getNodeName());
+
+                if (header.getNodeName().equals(headerName)) {
+                    return header.getFirstChild();
+                }
+            }
+        } catch (javax.xml.soap.SOAPException e) {
+            e.printStackTrace();
+        }
+
+        // no header with the given name found
+        return null;
     }
 }

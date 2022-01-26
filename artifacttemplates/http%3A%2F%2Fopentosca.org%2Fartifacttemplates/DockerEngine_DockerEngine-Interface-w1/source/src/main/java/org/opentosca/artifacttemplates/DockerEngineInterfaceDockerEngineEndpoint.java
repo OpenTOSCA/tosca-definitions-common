@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -30,9 +31,7 @@ import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
-import org.springframework.ws.soap.SoapHeader;
-import org.springframework.ws.soap.SoapHeaderElement;
-import org.springframework.ws.soap.saaj.SaajSoapMessage;
+import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,20 +60,32 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(DockerEngineInterfaceDockerEngineEndpoint.class);
 
     @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "startContainerRequest")
-    public void startContainer(@RequestPayload StartContainerRequest request, MessageContext messageContext) {
+    public void startContainer(@RequestPayload JAXBElement<StartContainerRequest> requestJaxb, MessageContext messageContext) {
         LOG.info("Received startContainer request!");
+        StartContainerRequest request = requestJaxb.getValue();
 
         // retrieve the SOAP headers, e.g., to get the message ID
-        String messageId = getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
-        String replyTo = getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
-        if (Objects.isNull(messageId) || Objects.isNull(replyTo)) {
-            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!\nMessage ID: {}\nReplyTo: {}", messageId,
-                    replyTo);
+        Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
+        Node replyToNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
+        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
+            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
             return;
         }
+        String messageId = messageIdNode.getTextContent();
+        String replyTo = replyToNode.getFirstChild().getTextContent();
         LOG.info("Retrieved message ID: {}", messageId);
+        LOG.info("ReplyTo address: {}", replyTo);
 
         // create connection to the docker engine
+        if (Objects.isNull(request.getDockerEngineURL())) {
+            LOG.error("Docker Engine URL not defined in SOAP request!");
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setError("Docker Engine URL must be defined to start a container!");
+
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
+            return;
+        }
         DefaultDockerClientConfig config = DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate());
 
         try (DockerClient dockerClient = DockerClientBuilder.getInstance(config).build()) {
@@ -392,18 +403,21 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
     }
 
     @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "removeContainerRequest")
-    public void removeContainer(@RequestPayload RemoveContainerRequest request, MessageContext messageContext) {
+    public void removeContainer(@RequestPayload JAXBElement<RemoveContainerRequest> requestJaxb, MessageContext messageContext) {
         LOG.info("Received removeContainer request!");
+        RemoveContainerRequest request = requestJaxb.getValue();
 
         // retrieve the SOAP headers, e.g., to get the message ID
-        String messageId = getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
-        String replyTo = getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
-        if (Objects.isNull(messageId) || Objects.isNull(replyTo)) {
-            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!\nMessage ID: {}\nReplyTo: {}",
-                    messageId, replyTo);
+        Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
+        Node replyToNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
+        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
+            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
             return;
         }
+        String messageId = messageIdNode.getTextContent();
+        String replyTo = replyToNode.getFirstChild().getTextContent();
         LOG.info("Retrieved message ID: {}", messageId);
+        LOG.info("ReplyTo address: {}", replyTo);
 
         try (final DockerClient dockerClient = DockerClientBuilder
                 .getInstance(DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate()))
@@ -432,31 +446,5 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
 
             SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         }
-    }
-
-    /**
-     * Get the SOAP header with the given name from the current SOAP message
-     *
-     * @param messageContext the context to access the SOAP message
-     * @return the string representing the message ID, or null if the corresponding header is not defined
-     */
-    private String getHeaderFieldByName(MessageContext messageContext, String headerName) {
-        SaajSoapMessage soapRequest = (SaajSoapMessage) messageContext.getRequest();
-        SoapHeader requestHeader = soapRequest.getSoapHeader();
-        if (Objects.isNull(requestHeader)) {
-            return null;
-        }
-        Iterator<SoapHeaderElement> itr = requestHeader.examineAllHeaderElements();
-        while (itr.hasNext()) {
-            SoapHeaderElement header = itr.next();
-            LOG.info("Found header with name '{}' and content: {}", header.getName(), header.getText());
-
-            if (header.getName().getLocalPart().equals(headerName)) {
-                return header.getText();
-            }
-        }
-
-        // no header with the message ID found
-        return null;
     }
 }
