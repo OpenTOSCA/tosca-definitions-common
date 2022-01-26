@@ -10,7 +10,6 @@
         </Properties>
         <ArtifactReferences>
             <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1/files/org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine.war"/>
-            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1/files/org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine.zip"/>
         </ArtifactReferences>
     </ArtifactTemplate>
 </Definitions>
