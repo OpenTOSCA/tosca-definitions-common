@@ -12,7 +12,7 @@
     <artifactId>DockerEngine__InterfaceDockerEngine</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>DockerEngine__InterfaceDockerEngine</name>
+    <name>DockerEngine_InterfaceDockerEngine</name>
     <description>Implementation Artifact for the InterfaceDockerEngine at the DockerEngine NodeType</description>
 
     <properties>
@@ -124,6 +124,31 @@
                         <source>src/main/resources/model.xsd</source>
                     </sources>
                 </configuration>
+            </plugin>
+            <!-- Move the built war file to the ArtifactTemplate's files folder -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resource-one</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/../files/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/target/</directory>
+                                    <includes>
+                                        <include>${build.finalName}.war</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
