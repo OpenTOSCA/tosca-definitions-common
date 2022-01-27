@@ -1,14 +1,13 @@
 package org.opentosca.artifacttemplates;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ContainerPort;
 import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DockerClientHandler {
 
