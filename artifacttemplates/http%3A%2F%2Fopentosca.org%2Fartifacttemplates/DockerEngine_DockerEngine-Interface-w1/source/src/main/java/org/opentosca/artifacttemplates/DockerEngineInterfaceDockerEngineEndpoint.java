@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -402,7 +401,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
     }
 
     @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "removeContainerRequest")
-    public void removeContainer(@RequestPayload RemoveContainerRequest requestJaxb, MessageContext messageContext) {
+    public void removeContainer(@RequestPayload RemoveContainerRequest request, MessageContext messageContext) {
         LOG.info("Received removeContainer request!");
 
         // retrieve the SOAP headers, e.g., to get the message ID
