@@ -1,11 +1,11 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://NodeTypes.opentosca.org" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://NodeTypes.opentosca.org" elementFormDefault="unqualified">
 
     <xs:element name="removeContainerRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerID" type="xs:string"/>
+                <xs:element minOccurs="0" name="dockerEngineURL" type="xs:string"/>
+                <xs:element minOccurs="0" name="dockerEngineCertificate" type="xs:string"/>
+                <xs:element minOccurs="0" name="containerID" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -13,20 +13,20 @@
     <xs:element name="startContainerRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerImage" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerPorts" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerEnv" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ImageLocation" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="PrivateKey" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="Links" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="Devices" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="RemoteVolumeData" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="HostVolumeData" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="ContainerMountPath" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
+                <xs:element minOccurs="0" name="dockerEngineURL" type="xs:string"/>
+                <xs:element minOccurs="0" name="dockerEngineCertificate" type="xs:string"/>
+                <xs:element minOccurs="0" name="containerImage" type="xs:string"/>
+                <xs:element minOccurs="0" name="containerPorts" type="xs:string"/>
+                <xs:element minOccurs="0" name="containerEnv" type="xs:string"/>
+                <xs:element minOccurs="0" name="imageLocation" type="xs:string"/>
+                <xs:element minOccurs="0" name="privateKey" type="xs:string"/>
+                <xs:element minOccurs="0" name="links" type="xs:string"/>
+                <xs:element minOccurs="0" name="devices" type="xs:string"/>
+                <xs:element minOccurs="0" name="remoteVolumeData" type="xs:string"/>
+                <xs:element minOccurs="0" name="hostVolumeData" type="xs:string"/>
+                <xs:element minOccurs="0" name="containerMountPath" type="xs:string"/>
+                <xs:element minOccurs="0" name="vmIP" type="xs:string"/>
+                <xs:element minOccurs="0" name="vmPrivateKey" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -34,17 +34,17 @@
     <xs:element name="invokeResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element form="qualified" name="MessageID" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="Error" type="xs:string"/>
+                <xs:element name="MessageID" type="xs:string"/>
+                <xs:element minOccurs="0" name="Error" type="xs:string"/>
                 <xs:choice>
                     <xs:sequence>
-                        <xs:element form="qualified" minOccurs="0" name="ContainerPorts" type="xs:string"/>
-                        <xs:element form="qualified" minOccurs="0" name="ContainerID" type="xs:string"/>
-                        <xs:element form="qualified" minOccurs="0" name="ContainerIP" type="xs:string"/>
-                        <xs:element form="qualified" minOccurs="0" name="ContainerName" type="xs:string"/>
+                        <xs:element minOccurs="0" name="containerPorts" type="xs:string"/>
+                        <xs:element minOccurs="0" name="containerID" type="xs:string"/>
+                        <xs:element minOccurs="0" name="containerIP" type="xs:string"/>
+                        <xs:element minOccurs="0" name="containerName" type="xs:string"/>
                     </xs:sequence>
                     <xs:sequence>
-                        <xs:element form="qualified" minOccurs="0" name="Result" type="xs:string"/>
+                        <xs:element minOccurs="0" name="result" type="xs:string"/>
                     </xs:sequence>
                 </xs:choice>
             </xs:sequence>

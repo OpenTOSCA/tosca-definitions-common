@@ -5,9 +5,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeaderElement;
+import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -15,14 +23,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.soap.MessageFactory;
-import jakarta.xml.soap.SOAPBody;
-import jakarta.xml.soap.SOAPConnection;
-import jakarta.xml.soap.SOAPConnectionFactory;
-import jakarta.xml.soap.SOAPException;
-import jakarta.xml.soap.SOAPMessage;
+import com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnectionFactory;
+import org.opentosca.nodetypes.InvokeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.context.MessageContext;
@@ -40,22 +42,26 @@ public abstract class SoapUtil {
      * @param invokeResponse the response object to add as SOAP body
      * @param replyTo        the address to send the reply to
      */
-    public static void sendSoapResponse(Object invokeResponse, String replyTo) {
+    public static void sendSoapResponse(InvokeResponse invokeResponse, String replyTo) {
         try {
-            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-            SOAPConnection connection = soapConnectionFactory.createConnection();
+            SOAPConnection connection = new HttpSOAPConnectionFactory().createConnection();
             MessageFactory factory = MessageFactory.newInstance();
             SOAPMessage message = factory.createMessage();
-            SOAPBody body = message.getSOAPBody();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             Document doc = dbf.newDocumentBuilder().newDocument();
-            JAXBContext context = JAXBContext.newInstance(invokeResponse.getClass());
-            context.createMarshaller().marshal(invokeResponse, doc);
-            body.addDocument(doc);
+            JAXBContext.newInstance(InvokeResponse.class)
+                    .createMarshaller()
+                    .marshal(
+                            new JAXBElement<>(new QName("", "invokeResponse"), InvokeResponse.class, invokeResponse),
+                            doc
+                    );
+            // Log must be done before adding, because the doc seems to be empty afterwards
+            LOG.debug("Sending response to OpenTOSCA Container at URL: {}\n{}", replyTo, SoapUtil.docToString(doc));
 
             URL endpoint = new URL(replyTo);
-            LOG.debug("Sending response to OpenTOSCA Container at URL: {}\n{}", replyTo, SoapUtil.docToString(doc));
+            message.getSOAPBody().addDocument(doc);
             SOAPMessage response = connection.call(message, endpoint);
+
             LOG.debug("Response to OpenTOSCA Container returned message: {}", response.toString());
         } catch (SOAPException | ParserConfigurationException | JAXBException | MalformedURLException e) {
             LOG.error("Failed to send SOAP response to address: {}", replyTo, e);
