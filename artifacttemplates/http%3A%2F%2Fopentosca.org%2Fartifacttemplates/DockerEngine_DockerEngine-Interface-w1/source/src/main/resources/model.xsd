@@ -3,9 +3,9 @@
     <xs:element name="removeContainerRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="0" name="DockerEngineURL" type="xs:string"/>
-                <xs:element minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
-                <xs:element minOccurs="0" name="ContainerID" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerID" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -13,20 +13,20 @@
     <xs:element name="startContainerRequest" >
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="0" name="DockerEngineURL" type="xs:string"/>
-                <xs:element minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
-                <xs:element minOccurs="0" name="ContainerImage" type="xs:string"/>
-                <xs:element minOccurs="0" name="ContainerPorts" type="xs:string"/>
-                <xs:element minOccurs="0" name="ContainerEnv" type="xs:string"/>
-                <xs:element minOccurs="0" name="ImageLocation" type="xs:string"/>
-                <xs:element minOccurs="0" name="PrivateKey" type="xs:string"/>
-                <xs:element minOccurs="0" name="Links" type="xs:string"/>
-                <xs:element minOccurs="0" name="Devices" type="xs:string"/>
-                <xs:element minOccurs="0" name="RemoteVolumeData" type="xs:string"/>
-                <xs:element minOccurs="0" name="HostVolumeData" type="xs:string"/>
-                <xs:element minOccurs="0" name="ContainerMountPath" type="xs:string"/>
-                <xs:element minOccurs="0" name="VMIP" type="xs:string"/>
-                <xs:element minOccurs="0" name="VMPrivateKey" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="DockerEngineURL" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="DockerEngineCertificate" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerImage" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerPorts" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerEnv" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ImageLocation" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="PrivateKey" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="Links" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="Devices" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="RemoteVolumeData" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="HostVolumeData" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="ContainerMountPath" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
