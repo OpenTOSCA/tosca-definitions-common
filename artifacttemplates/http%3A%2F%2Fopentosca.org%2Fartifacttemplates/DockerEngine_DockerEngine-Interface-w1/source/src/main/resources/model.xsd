@@ -1,4 +1,4 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://NodeTypes.opentosca.org" elementFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://NodeTypes.opentosca.org">
 
     <xs:element name="removeContainerRequest">
         <xs:complexType>
@@ -10,7 +10,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="startContainerRequest">
+    <xs:element name="startContainerRequest" >
         <xs:complexType>
             <xs:sequence>
                 <xs:element minOccurs="0" name="DockerEngineURL" type="xs:string"/>

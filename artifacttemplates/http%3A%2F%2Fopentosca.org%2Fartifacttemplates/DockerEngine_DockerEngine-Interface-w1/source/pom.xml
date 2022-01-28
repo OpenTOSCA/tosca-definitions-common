@@ -121,7 +121,7 @@
                 </executions>
                 <configuration>
                     <sources>
-                        <source>src/main/resources/model.xsd</source>
+                        <source>${basedir}/src/main/resources/model.xsd</source>
                     </sources>
                 </configuration>
             </plugin>
@@ -142,7 +142,7 @@
                                 <resource>
                                     <directory>${basedir}/target/</directory>
                                     <includes>
-                                        <include>${build.finalName}.war</include>
+                                        <include>${project.build.finalName}.war</include>
                                     </includes>
                                 </resource>
                             </resources>
