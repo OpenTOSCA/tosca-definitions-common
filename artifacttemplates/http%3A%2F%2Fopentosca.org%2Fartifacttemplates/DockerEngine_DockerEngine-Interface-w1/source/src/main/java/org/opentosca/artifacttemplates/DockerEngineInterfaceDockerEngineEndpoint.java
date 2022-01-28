@@ -15,8 +15,23 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-
 import javax.xml.bind.JAXBElement;
+
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.opentosca.nodetypes.InvokeResponse;
+import org.opentosca.nodetypes.RemoveContainerRequest;
+import org.opentosca.nodetypes.StartContainerRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,22 +51,8 @@ import com.github.dockerjava.api.model.Volume;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.google.common.io.Files;
+
 import net.lingala.zip4j.ZipFile;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.opentosca.nodetypes.InvokeResponse;
-import org.opentosca.nodetypes.RemoveContainerRequest;
-import org.opentosca.nodetypes.StartContainerRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.ws.context.MessageContext;
-import org.springframework.ws.server.endpoint.annotation.Endpoint;
-import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-import org.springframework.ws.server.endpoint.annotation.RequestPayload;
-import org.w3c.dom.Node;
 
 @Endpoint
 public class DockerEngineInterfaceDockerEngineEndpoint {
@@ -59,9 +60,8 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(DockerEngineInterfaceDockerEngineEndpoint.class);
 
     @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "startContainerRequest")
-    public void startContainer(@RequestPayload JAXBElement<StartContainerRequest> requestJaxb, MessageContext messageContext) {
+    public void startContainer(@RequestPayload StartContainerRequest request, MessageContext messageContext) {
         LOG.info("Received startContainer request!");
-        StartContainerRequest request = requestJaxb.getValue();
 
         // retrieve the SOAP headers, e.g., to get the message ID
         Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
@@ -402,9 +402,8 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
     }
 
     @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "removeContainerRequest")
-    public void removeContainer(@RequestPayload JAXBElement<RemoveContainerRequest> requestJaxb, MessageContext messageContext) {
+    public void removeContainer(@RequestPayload RemoveContainerRequest requestJaxb, MessageContext messageContext) {
         LOG.info("Received removeContainer request!");
-        RemoveContainerRequest request = requestJaxb.getValue();
 
         // retrieve the SOAP headers, e.g., to get the message ID
         Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
