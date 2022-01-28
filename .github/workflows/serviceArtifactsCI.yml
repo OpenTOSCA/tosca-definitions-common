@@ -20,12 +20,12 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
 
   build:
-    name: Build ${{ matrix.artifactTempaltes.name }}
+    name: Build ${{ matrix.artifactTemplates.name }}
     needs: duplicate_check
     if: ${{ needs.duplicate_check.outputs.should_skip != 'true' }}
     strategy:
       matrix:
-        artifactTempaltes:
+        artifactTemplates:
           - name: DockerEngine-Interface
             path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
             outputName: org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine
@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
-      - name: Build ${{ matrix.artifactTempaltes.name }}
+      - name: Build ${{ matrix.artifactTemplates.name }}
         run: | 
-          cd $GITHUB_WORKSPACE/${{ matrix.artifactTempaltes.path }}/source
+          cd $GITHUB_WORKSPACE/${{ matrix.artifactTemplates.path }}/source
           mvn -B package
