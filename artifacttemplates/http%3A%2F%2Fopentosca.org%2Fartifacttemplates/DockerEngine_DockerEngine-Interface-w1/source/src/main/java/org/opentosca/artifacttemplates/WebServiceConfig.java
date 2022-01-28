@@ -46,21 +46,4 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     public XsdSchema dockerInterfaceSchema() {
         return new SimpleXsdSchema(new ClassPathResource(Constants.XSD_NAME));
     }
-
-    @Bean
-    public Jaxb2Marshaller jaxb2Marshaller() {
-        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-
-        marshaller.setClassesToBeBound(
-                StartContainerRequest.class,
-                RemoveContainerRequest.class,
-                InvokeResponse.class
-        );
-        HashMap<String, Object> properties = new HashMap<>();
-        properties.put(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.setMarshallerProperties(properties);
-        marshaller.setUnmarshallerProperties(properties);
-
-        return marshaller;
-    }
 }
