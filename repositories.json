@@ -7,6 +7,6 @@
   {
     "name": "OpenTOSCA Artifact Types",
     "url": "https://github.com/OpenTOSCA/tosca-common-artifact-types",
-    "branch": "main"
+    "branch": "feature/WAR-versions"
   }
 ]
