@@ -15,33 +15,33 @@
             <Interface name="InterfaceDockerEngine">
                 <Operation name="startContainer">
                     <InputParameters>
-                        <InputParameter name="dockerEngineURL" type="xs:string" required="yes"/>
-                        <InputParameter name="dockerEngineCertificate" type="xs:string" required="no"/>
-                        <InputParameter name="containerImage" type="xs:string" required="no"/>
-                        <InputParameter name="containerPorts" type="xs:string" required="no"/>
-                        <InputParameter name="containerEnv" type="xs:string" required="no"/>
-                        <InputParameter name="devices" type="xs:string" required="no"/>
-                        <InputParameter name="links" type="xs:string" required="no"/>
-                        <InputParameter name="remoteVolumeData" type="xs:string" required="no"/>
-                        <InputParameter name="hostVolumeData" type="xs:string" required="no"/>
-                        <InputParameter name="containerMountPath" type="xs:string" required="no"/>
-                        <InputParameter name="vmIP" type="xs:string" required="no"/>
-                        <InputParameter name="vmPrivateKey" type="xs:string" required="no"/>
+                        <InputParameter name="DockerEngineURL" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerImage" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerPorts" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerEnv" type="xs:string" required="no"/>
+                        <InputParameter name="Devices" type="xs:string" required="no"/>
+                        <InputParameter name="Links" type="xs:string" required="no"/>
+                        <InputParameter name="RemoteVolumeData" type="xs:string" required="no"/>
+                        <InputParameter name="HostVolumeData" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerMountPath" type="xs:string" required="no"/>
+                        <InputParameter name="VMIP" type="xs:string" required="no"/>
+                        <InputParameter name="VMPrivateKey" type="xs:string" required="no"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="containerPorts" type="xs:string" required="no"/>
-                        <OutputParameter name="containerID" type="xs:string" required="no"/>
-                        <OutputParameter name="containerIP" type="xs:string" required="yes"/>
+                        <OutputParameter name="ContainerPorts" type="xs:string" required="no"/>
+                        <OutputParameter name="ContainerID" type="xs:string" required="no"/>
+                        <OutputParameter name="ContainerIP" type="xs:string" required="yes"/>
                     </OutputParameters>
                 </Operation>
                 <Operation name="removeContainer">
                     <InputParameters>
-                        <InputParameter name="dockerEngineURL" type="xs:string" required="yes"/>
-                        <InputParameter name="dockerEngineCertificate" type="xs:string" required="no"/>
-                        <InputParameter name="containerID" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineURL" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerID" type="xs:string" required="yes"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="result" type="xsd:string" required="no"/>
+                        <OutputParameter name="Result" type="xsd:string" required="no"/>
                     </OutputParameters>
                 </Operation>
             </Interface>
@@ -49,10 +49,10 @@
                 <Operation name="install"/>
                 <Operation name="configure">
                     <InputParameters>
-                        <InputParameter name="vmIP" type="xsd:string" required="yes"/>
+                        <InputParameter name="VMIP" type="xsd:string" required="yes"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="dockerEngineURL" type="xsd:string" required="yes"/>
+                        <OutputParameter name="DockerEngineURL" type="xsd:string" required="yes"/>
                     </OutputParameters>
                 </Operation>
                 <Operation name="uninstall"/>

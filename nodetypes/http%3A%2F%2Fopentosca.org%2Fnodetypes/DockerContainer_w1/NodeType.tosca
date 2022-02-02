@@ -3,31 +3,31 @@
     <NodeType name="DockerContainer_w1" abstract="yes" final="yes" targetNamespace="http://opentosca.org/nodetypes" winery:bordercolor="#409a21">
         <winery:PropertiesDefinition elementname="properties" namespace="http://opentosca.org/nodetypes/properties">
             <winery:properties>
-                <winery:key>port</winery:key>
+                <winery:key>Port</winery:key>
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
             <winery:properties>
-                <winery:key>containerPort</winery:key>
+                <winery:key>ContainerPort</winery:key>
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
             <winery:properties>
-                <winery:key>containerID</winery:key>
+                <winery:key>ContainerID</winery:key>
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
             <winery:properties>
-                <winery:key>containerIP</winery:key>
+                <winery:key>ContainerIP</winery:key>
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
             <winery:properties>
-                <winery:key>imageID</winery:key>
+                <winery:key>ImageID</winery:key>
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
             <winery:properties>
-                <winery:key>containerMountPath</winery:key>
+                <winery:key>ContainerMountPath</winery:key>
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
             <winery:properties>
-                <winery:key>hostMountFiles</winery:key>
+                <winery:key>HostMountFiles</winery:key>
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
         </winery:PropertiesDefinition>
@@ -36,25 +36,25 @@
             <Interface name="ContainerManagementInterface">
                 <Operation name="runScript">
                     <InputParameters>
-                        <InputParameter name="dockerEngineURL" type="xs:string" required="yes"/>
-                        <InputParameter name="dockerEngineCertificate" type="xs:string" required="yes"/>
-                        <InputParameter name="containerID" type="xs:string" required="yes"/>
-                        <InputParameter name="script" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineURL" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="yes"/>
+                        <InputParameter name="ContainerID" type="xs:string" required="yes"/>
+                        <InputParameter name="Script" type="xs:string" required="yes"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="scriptResult" type="xs:string" required="yes"/>
+                        <OutputParameter name="ScriptResult" type="xs:string" required="yes"/>
                     </OutputParameters>
                 </Operation>
                 <Operation name="transferFile">
                     <InputParameters>
-                        <InputParameter name="dockerEngineURL" type="xs:string" required="yes"/>
-                        <InputParameter name="dockerEngineCertificate" type="xs:string" required="yes"/>
-                        <InputParameter name="containerID" type="xs:string" required="yes"/>
-                        <InputParameter name="targetAbsolutePath" type="xs:string" required="yes"/>
-                        <InputParameter name="sourceURLorLocalPath" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineURL" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="yes"/>
+                        <InputParameter name="ContainerID" type="xs:string" required="yes"/>
+                        <InputParameter name="TargetAbsolutePath" type="xs:string" required="yes"/>
+                        <InputParameter name="SourceURLorLocalPath" type="xs:string" required="yes"/>
                     </InputParameters>
                     <OutputParameters>
-                        <OutputParameter name="transferResult" type="xs:string" required="yes"/>
+                        <OutputParameter name="TransferResult" type="xs:string" required="yes"/>
                     </OutputParameters>
                 </Operation>
             </Interface>
