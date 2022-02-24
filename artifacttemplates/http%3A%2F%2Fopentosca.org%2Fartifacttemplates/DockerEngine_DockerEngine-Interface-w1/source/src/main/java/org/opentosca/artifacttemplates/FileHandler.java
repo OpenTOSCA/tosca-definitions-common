@@ -10,11 +10,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLConnection;
 
+import com.google.common.io.Files;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.IOUtils;
-
-import com.google.common.io.Files;
 
 public class FileHandler {
 

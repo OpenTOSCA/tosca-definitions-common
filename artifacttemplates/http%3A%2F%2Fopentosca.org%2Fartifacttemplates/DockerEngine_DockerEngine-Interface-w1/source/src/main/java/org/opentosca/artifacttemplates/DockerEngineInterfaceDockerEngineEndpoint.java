@@ -21,20 +21,16 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.opentosca.nodetypes.InvokeResponse;
 import org.opentosca.nodetypes.RemoveContainerRequest;
-import org.opentosca.nodetypes.RemoveContainerResponse;
 import org.opentosca.nodetypes.StartContainerRequest;
-import org.opentosca.nodetypes.StartContainerResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
-import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import org.springframework.ws.soap.SoapHeader;
-import org.springframework.ws.soap.SoapHeaderElement;
-import org.springframework.ws.soap.saaj.SaajSoapMessage;
+import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,21 +59,31 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(DockerEngineInterfaceDockerEngineEndpoint.class);
 
     @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "startContainerRequest")
-    @ResponsePayload
-    public StartContainerResponse startContainer(@RequestPayload StartContainerRequest request, MessageContext messageContext) {
+    public void startContainer(@RequestPayload StartContainerRequest request, MessageContext messageContext) {
         LOG.info("Received startContainer request!");
 
         // retrieve the SOAP headers, e.g., to get the message ID
-        String messageId = getMessageIdFromHeaders(messageContext);
-        if (Objects.isNull(messageId)) {
-            LOG.error("Unable to retrieve message ID from received SOAP request!");
-            StartContainerResponse response = new StartContainerResponse();
-            response.setError("Unable to retrieve message ID from received SOAP request!");
-            return response;
+        Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
+        Node replyToNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
+        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
+            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
+            return;
         }
+        String messageId = messageIdNode.getTextContent();
+        String replyTo = replyToNode.getFirstChild().getTextContent();
         LOG.info("Retrieved message ID: {}", messageId);
+        LOG.info("ReplyTo address: {}", replyTo);
 
         // create connection to the docker engine
+        if (Objects.isNull(request.getDockerEngineURL())) {
+            LOG.error("Docker Engine URL not defined in SOAP request!");
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setError("Docker Engine URL must be defined to start a container!");
+
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
+            return;
+        }
         DefaultDockerClientConfig config = DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate());
 
         try (DockerClient dockerClient = DockerClientBuilder.getInstance(config).build()) {
@@ -376,36 +382,39 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
             }
 
             // create response and send back
-            StartContainerResponse response = new StartContainerResponse();
-            response.setMessageID(messageId);
-            response.setContainerPorts(portMapping.toString());
-            response.setContainerID(container.getId());
-            response.setContainerIP(ipAddress);
-            response.setContainerName(containerName);
-            return response;
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setContainerPorts(portMapping.toString());
+            invokeResponse.setContainerID(container.getId());
+            invokeResponse.setContainerIP(ipAddress);
+            invokeResponse.setContainerName(containerName);
+
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         } catch (final Exception e) {
             LOG.error("Error while closing docker client.", e);
-            StartContainerResponse response = new StartContainerResponse();
-            response.setMessageID(messageId);
-            response.setError(e.getMessage());
-            return response;
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setError(e.getMessage());
+
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         }
     }
 
     @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "removeContainerRequest")
-    @ResponsePayload
-    public RemoveContainerResponse removeContainer(@RequestPayload RemoveContainerRequest request, MessageContext messageContext) {
+    public void removeContainer(@RequestPayload RemoveContainerRequest request, MessageContext messageContext) {
         LOG.info("Received removeContainer request!");
 
         // retrieve the SOAP headers, e.g., to get the message ID
-        String messageId = getMessageIdFromHeaders(messageContext);
-        if (Objects.isNull(messageId)) {
-            LOG.error("Unable to retrieve message ID from received SOAP request!");
-            RemoveContainerResponse response = new RemoveContainerResponse();
-            response.setError("Unable to retrieve message ID from received SOAP request!");
-            return response;
+        Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
+        Node replyToNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
+        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
+            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
+            return;
         }
+        String messageId = messageIdNode.getTextContent();
+        String replyTo = replyToNode.getFirstChild().getTextContent();
         LOG.info("Retrieved message ID: {}", messageId);
+        LOG.info("ReplyTo address: {}", replyTo);
 
         try (final DockerClient dockerClient = DockerClientBuilder
                 .getInstance(DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate()))
@@ -420,42 +429,19 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                 LOG.info("Stopped and removed container {}", id);
             }
 
-            RemoveContainerResponse response = new RemoveContainerResponse();
-            response.setMessageID(messageId);
-            response.setResult("Stopped and Removed container " + request.getContainerID());
-            return response;
+            // create response and send back
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setResult("Stopped and Removed container " + request.getContainerID());
+
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         } catch (final IOException e) {
             LOG.error("Error closing the Docker client", e);
-            RemoveContainerResponse response = new RemoveContainerResponse();
-            response.setMessageID(messageId);
-            response.setError(e.getMessage());
-            return response;
-        }
-    }
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setError(e.getMessage());
 
-    /**
-     * Get the message ID of the current message from the SOAP headers
-     *
-     * @param messageContext the context to access the SOAP message
-     * @return the string representing the message ID, or null if the corresponding header is not defined
-     */
-    private String getMessageIdFromHeaders(MessageContext messageContext) {
-        SaajSoapMessage soapRequest = (SaajSoapMessage) messageContext.getRequest();
-        SoapHeader requestHeader = soapRequest.getSoapHeader();
-        if (Objects.isNull(requestHeader)){
-            return null;
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         }
-        Iterator<SoapHeaderElement> itr = requestHeader.examineAllHeaderElements();
-        while (itr.hasNext()) {
-            SoapHeaderElement header = itr.next();
-            LOG.info("Found header with name '{}' and content: {}", header.getName(), header.getText());
-
-            if (header.getName().getLocalPart().equals(Constants.MESSAGE_ID_HEADER)){
-                return header.getText();
-            }
-        }
-
-        // no header with the message ID found
-        return null;
     }
 }
