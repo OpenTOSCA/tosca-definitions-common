@@ -40,11 +40,11 @@ jobs:
         run: | 
           cd $GITHUB_WORKSPACE/${{ matrix.artifactTemplates.path }}/source
           mvn -B package
-      - run: ls
+      - run: cd ${{ matrix.artifactTemplates.path }}/target && ls
       - name: Upload binary of artifact ${{ matrix.artifactTemplates.name }}
         uses: actions/upload-artifact@v2
         if: |
           github.ref == 'refs/heads/main' || contains(github.ref, 'refs/tags') || github.ref == 'refs/pull/18/merge'
         with:
           name: artifacts
-          path: $GITHUB_WORKSPACE/${{ matrix.artifactTemplates.path }}/target/${{ matrix.artifactTemplates.outputName }}.war
+          path: ${{ matrix.artifactTemplates.path }}/target/${{ matrix.artifactTemplates.outputName }}.war
