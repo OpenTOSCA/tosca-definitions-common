@@ -94,7 +94,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
             LOG.info("Try to connect to " + ipAddress);
 
             // create image or pull it if a remote image shall be used
-            String image = null;
+            String image;
             if (request.getContainerImage() == null) { // either ContainerImage or ImageLocation
                 // has to be set
                 image = "da/" + System.currentTimeMillis();

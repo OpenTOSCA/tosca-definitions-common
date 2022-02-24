@@ -40,3 +40,11 @@ jobs:
         run: | 
           cd $GITHUB_WORKSPACE/${{ matrix.artifactTemplates.path }}/source
           mvn -B package
+      - name: Upload binary of artifact ${{ matrix.artifactTemplates.name }}
+        uses: actions/upload-artifact@v2
+        if: |
+          github.repository_owner == 'OpenTOSCA' &&
+          (github.ref == 'refs/heads/main' || contains(github.ref, 'refs/tags'))
+        with:
+          name: artifacts
+          path: target/*.war
