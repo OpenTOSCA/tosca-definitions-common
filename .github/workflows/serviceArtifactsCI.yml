@@ -43,8 +43,7 @@ jobs:
       - name: Upload binary of artifact ${{ matrix.artifactTemplates.name }}
         uses: actions/upload-artifact@v2
         if: |
-          github.repository_owner == 'OpenTOSCA' &&
-          (github.ref == 'refs/heads/main' || contains(github.ref, 'refs/tags') || contains(github.ref, 'feature/java17IAs'))
+          github.ref == 'refs/heads/main' || contains(github.ref, 'refs/tags') || github.ref == 'refs/heads/feature/java17IAs'
         with:
           name: artifacts
           path: target/*.war
