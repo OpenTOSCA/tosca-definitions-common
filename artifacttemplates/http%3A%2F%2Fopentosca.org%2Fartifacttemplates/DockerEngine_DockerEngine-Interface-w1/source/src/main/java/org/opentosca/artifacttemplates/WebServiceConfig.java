@@ -1,18 +1,10 @@
 package org.opentosca.artifacttemplates;
 
-import java.util.HashMap;
-
-import javax.xml.bind.Marshaller;
-
-import org.opentosca.nodetypes.InvokeResponse;
-import org.opentosca.nodetypes.RemoveContainerRequest;
-import org.opentosca.nodetypes.StartContainerRequest;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
