@@ -1,5 +1,7 @@
 package org.opentosca.artifacttemplates;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,9 +40,12 @@ public class DockerClientHandler {
         LOG.info("Searching available Images...");
         DockerClient client = DockerClientBuilder.getInstance(getConfig(dockerEngineURL, dockerEngineCertificate)).build();
         for (final Image availImage : client.listImagesCmd().exec()) {
-            for (final String tag : availImage.getRepoTags()) {
-                if (tag.startsWith(image)) {
-                    return availImage.getId();
+            // if there are 'none' images at the Docker Engine, e.g., from a local build, this results in null as availImage
+            if (Objects.nonNull(availImage)) {
+                for (final String tag : availImage.getRepoTags()) {
+                    if (tag.startsWith(image)) {
+                        return availImage.getId();
+                    }
                 }
             }
         }
