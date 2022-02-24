@@ -40,6 +40,7 @@ jobs:
         run: | 
           cd $GITHUB_WORKSPACE/${{ matrix.artifactTemplates.path }}/source
           mvn -B package
+      - run: echo ${{github.ref}}
       - name: Upload binary of artifact ${{ matrix.artifactTemplates.name }}
         uses: actions/upload-artifact@v2
         if: |
