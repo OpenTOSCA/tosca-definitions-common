@@ -1,4 +1,8 @@
-# TOSCA Definitions Common Repository [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# TOSCA Definitions Common Repository
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Repository Check](https://github.com/OpenTOSCA/tosca-definitions-common/workflows/Repository%20Check/badge.svg)](https://github.com/OpenTOSCA/tosca-definitions-common/actions?query=workflow%3A%22Repository+Check%22)
+[![Repository Check](https://github.com/OpenTOSCA/tosca-definitions-common/workflows/WAR%20Builds%20and%20Test/badge.svg)](https://github.com/OpenTOSCA/tosca-definitions-common/actions?query=workflow%3A%22WAR+Builds+and+Test%22)
 
 > Common TOSCA definitions (e.g., VMs, cloud providers, and runtimes) prepared for being consumed by a TOSCA-compliant engine, such as the [OpenTOSCA Container](http://opentosca.github.io/container).
 
@@ -27,13 +31,13 @@ For example, if you need the `Port` property to start the SpringWebApp shown in 
 
 ![RealWorldApplication](docs/RealWorldApplication.jpg)
 
-### Service Development
+### Webservice Development
 
-To develop a new webservice IA using java, you can see the [DockerEngine Interface](artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1) as an example.
-We use Java 17, Spring and Maven to build a SOAP webservice that can be invoked by the [OpenTOSCA Orchestrator](https://github.com/OpenTOSCA/container).
+To develop a new webservice IA using Java, you can see the [DockerEngine Interface](artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1) as an example.
+We use Java 17, Spring, and Maven to build a SOAP webservice that can be invoked by the [OpenTOSCA Orchestrator](https://github.com/OpenTOSCA/container).
 
 To follow current DevOps principles, we use GitHub Actions to test and build the webservice IAs.
-Therefore, we added a multi-stage build which can be easily extended to automatically build and test the new IA automatically.
+Therefore, we added a matrix build which can be easily extended to automatically build and test the new IA automatically.
 For example, to automatically build the DockerEngine Interface, there is this entry in the [serviceArtifactsCI workflow](.github/workflows/serviceArtifactsCI.yml):
 
 ```yaml
@@ -47,7 +51,7 @@ strategy:
 To enable the automated build of a new IA, simply add a new entry to the `artifactTempaltes` with the `name` of the IA and
 the `path` to the root of the Artifact Template that describes this IA.
 
-⚠️The `path` must point to the root of the Artifact Template, **NOT** the `source` folder - it is automatically added by the build.
+⚠️The `path` must point to the root of the Artifact Template, **NOT** to the `source` folder - it is automatically added by the build.
 
 For example, if a new `DummyIA` is added under the path `artifacttemplates/encoded_namespace/DummyIA`, the resulting artifactTemplates in the [serviceArtifactsCI workflow](.github/workflows/serviceArtifactsCI.yml) will contain:
 
@@ -58,12 +62,12 @@ strategy:
       - name: DockerEngine-Interface
         path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
       - name: DummyIA
-        path: artifacttemplates/encodec_namespace/DummyIA-w1
+        path: artifacttemplates/encoded_namespace/DummyIA-w1
 ```
 
 #### Tips & Tricks
 
-To automatically move the WAR built by maven to the `files` of an Artifact Template, add the following task at the end of the plugins at the `pom.xml`:
+To automatically move the WAR built by Maven to the `files` of an Artifact Template, add the following task at the end of the plugins at the `pom.xml`:
 
 ````xml
 <!-- Move the built war file to the ArtifactTemplate's files folder -->
@@ -93,12 +97,12 @@ To automatically move the WAR built by maven to the `files` of an Artifact Templ
 </plugin>
 ````
 
-NOTE: if this part of the build in projects, the move command in the [serviceArtifactsCI workflow](.github/workflows/serviceArtifactsCI.yml) may be omitted.
+**NOTE**: If this part of the Maven build is embedded in all projects, the move command in the [serviceArtifactsCI workflow](.github/workflows/serviceArtifactsCI.yml) may be omitted.
 
 ### Script Development
 
 To deploy, e.g., a MySQL database management system onto a virtual machine (VM), a bash script, in case the VM is running an Ubuntu operating system (OS), can be used.
-In this case, the script may simply be used to run: 
+In this case, the script may simply contain: 
 
 ```bash
 apt get update
