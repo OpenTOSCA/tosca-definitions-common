@@ -28,7 +28,6 @@ jobs:
         artifactTemplates:
           - name: DockerEngine-Interface
             path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
-            outputName: org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -46,4 +45,4 @@ jobs:
           github.ref == 'refs/heads/main' || contains(github.ref, 'refs/tags') || github.ref == 'refs/pull/18/merge'
         with:
           name: artifacts
-          path: ${{ matrix.artifactTemplates.path }}/source/target/${{ matrix.artifactTemplates.outputName }}.war
+          path: ${{ matrix.artifactTemplates.path }}/source/target/*.war

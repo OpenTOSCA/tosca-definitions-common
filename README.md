@@ -16,6 +16,72 @@ Thus, ensure you run `git lfs pull`.
 💡 To install git lfs globally, run `git lfs install --system`. 
 This makes git lfs automatically available for all repositories, and you do not have to run git lfs pull yourself.
 
+## Implementation Artifact Development
+
+In general, TOSCA Implementation Artifacts (IAs) can be implemented in two ways:
+1. as a webservice that can be deployed dynamically by a TOSCA orchestrator
+2. as scripts that can be executed on a target machine.
+
+If input variables are needed in an IA from the application's Topology Template, they must be defined as Input Parameters at the corresponding Node Type's operation which the IA is implementing.
+For example, if you need the `Port` property to start the SpringWebApp shown in the figure below, make sure that the corresponding operation defines `Port` as its input parameter and that the case matches.
+
+![RealWorldApplication](docs/RealWorldApplication.jpg)
+
+### Service Development
+
+To develop a new webservice IA using java, you can see the [DockerEngine Interface](artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1) as an example.
+We use Java 17, Spring and Maven to build a SOAP webservice that can be invoked by the [OpenTOSCA Orchestrator](https://github.com/OpenTOSCA/container).
+
+To follow current DevOps principles, we use GitHub Actions to test and build the webservice IAs.
+Therefore, we added a multi-stage build which can be easily extended to automatically build and test the new IA automatically.
+For example, to automatically build the DockerEngine Interface, there is this entry in the [serviceArtifactsCI workflow](.github/workflows/serviceArtifactsCI.yml):
+
+```yaml
+strategy:
+  matrix:
+    artifactTemplates:
+      - name: DockerEngine-Interface
+        path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
+```
+
+To enable the automated build of a new IA, simply add a new entry to the `artifactTempaltes` with the `name` of the IA and
+the `path` to the root of the Artifact Template that describes this IA.
+
+⚠️The `path` must point to the root of the Artifact Template, **NOT** the `source` folder - it is automatically added by the build.
+
+For example, if a new `DummyIA` is added under the path `artifacttemplates/encoded_namespace/DummyIA`, the resulting artifactTemplates in the [serviceArtifactsCI workflow](.github/workflows/serviceArtifactsCI.yml) will contain:
+
+```yaml
+strategy:
+  matrix:
+    artifactTemplates:
+      - name: DockerEngine-Interface
+        path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
+      - name: DummyIA
+        path: artifacttemplates/encodec_namespace/DummyIA-w1
+```
+
+### Script Development
+
+To deploy, e.g., a MySQL database management system onto a virtual machine (VM), a bash script, in case the VM is running an Ubuntu operating system (OS), can be used.
+In this case, the script may simply be used to run: 
+
+```bash
+apt get update
+apt get install mysql
+```
+
+If you need the input variables defined at the operation, you can simply use them as variables.
+They are automatically set by the OpenTOSCA Orchestrator when executing the script.
+For example, if the operation you are implementing defines the input parameters `VMIP` and `Port`, you can access them in the bash script as follows:
+
+```bash
+echo "Got value for the IP: $VMIP"
+echo "Got value for the port: $Port"
+```
+
+⚠️The input parameters are case-sensitive! Thus, check that the case matches the input parameters definition in the script.
+
 ## Haftungsausschluss
 
 Dies ist ein Forschungsprototyp und enthält insbesondere Beiträge von Studenten.
