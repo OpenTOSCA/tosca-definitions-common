@@ -61,6 +61,40 @@ strategy:
         path: artifacttemplates/encodec_namespace/DummyIA-w1
 ```
 
+#### Tips & Tricks
+
+To automatically move the WAR built by maven to the `files` of an Artifact Template, add the following task at the end of the plugins at the `pom.xml`:
+
+````xml
+<!-- Move the built war file to the ArtifactTemplate's files folder -->
+<plugin>
+    <artifactId>maven-resources-plugin</artifactId>
+    <version>3.2.0</version>
+    <executions>
+        <execution>
+            <id>copy-resource-one</id>
+            <phase>package</phase>
+            <goals>
+                <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>${basedir}/../files/</outputDirectory>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/target/</directory>
+                        <includes>
+                            <include>${project.build.finalName}.war</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+````
+
+NOTE: if this part of the build in projects, the move command in the [serviceArtifactsCI workflow](.github/workflows/serviceArtifactsCI.yml) may be omitted.
+
 ### Script Development
 
 To deploy, e.g., a MySQL database management system onto a virtual machine (VM), a bash script, in case the VM is running an Ubuntu operating system (OS), can be used.
