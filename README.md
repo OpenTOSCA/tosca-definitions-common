@@ -33,7 +33,7 @@ For example, if you need the `Port` property to start the SpringWebApp shown in 
 
 ### Webservice Development
 
-To develop a new webservice IA using Java, you can see the [DockerEngine Interface](artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1) as an example.
+To develop a new webservice IA using Java, you can see the [DockerEngine Interface](artifacttemplates/http%253A%252F%252Fopentosca.org%252Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1) as an example.
 We use Java 17, Spring, and Maven to build a SOAP webservice that can be invoked by the [OpenTOSCA Orchestrator](https://github.com/OpenTOSCA/container).
 
 To follow current DevOps principles, we use GitHub Actions to test and build the webservice IAs.
