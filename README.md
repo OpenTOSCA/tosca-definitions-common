@@ -48,7 +48,7 @@ strategy:
         path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
 ```
 
-To enable the automated build of a new IA, simply add a new entry to the `artifactTempaltes` with the `name` of the IA and
+To enable the automated build of a new IA, simply add a new entry to the `artifactTemplates` with the `name` of the IA and
 the `path` to the root of the Artifact Template that describes this IA.
 
 ⚠️The `path` must point to the root of the Artifact Template, **NOT** to the `source` folder - it is automatically added by the build.
