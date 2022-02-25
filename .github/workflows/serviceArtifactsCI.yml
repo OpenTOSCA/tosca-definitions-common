@@ -47,4 +47,4 @@ jobs:
           github.ref == 'refs/heads/main' || contains(github.ref, 'refs/tags') || github.ref == 'refs/pull/18/merge'
         with:
           name: implementation_artifacts-WAR
-          path: $GITHUB_WORKSPACE/*${{ matrix.artifactTemplates.path }}/source/target/*.war
+          path: /**/${{ matrix.artifactTemplates.path }}/source/target/*.war
