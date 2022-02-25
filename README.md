@@ -41,12 +41,11 @@ strategy:
   matrix:
     artifactTemplates:
       - name: DockerEngine-Interface
-        qName: '{http://opentosca.org/artifacttemplates}DockerEngine_DockerEngine-Interface-w1'
         path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
 ```
 
-To enable the automated build of a new IA, simply add a new entry to the `artifactTempaltes` with the `name` of the IA,
-the `path` to the root of the Artifact Template that describes this IA, and the Artifact Template's QName.
+To enable the automated build of a new IA, simply add a new entry to the `artifactTempaltes` with the `name` of the IA and
+the `path` to the root of the Artifact Template that describes this IA.
 
 ⚠️The `path` must point to the root of the Artifact Template, **NOT** the `source` folder - it is automatically added by the build.
 
@@ -57,10 +56,8 @@ strategy:
   matrix:
     artifactTemplates:
       - name: DockerEngine-Interface
-        qName: '{http://opentosca.org/artifacttemplates}DockerEngine_DockerEngine-Interface-w1'
         path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
       - name: DummyIA
-        qName: '{namespace}DummyIA-w1'
         path: artifacttemplates/encodec_namespace/DummyIA-w1
 ```
 
