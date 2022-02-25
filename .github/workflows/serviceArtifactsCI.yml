@@ -45,7 +45,7 @@ jobs:
       - name: Upload binary of artifact ${{ matrix.artifactTemplates.name }}
         uses: actions/upload-artifact@v2
         if: |
-          github.ref == 'refs/heads/main' || contains(github.ref, 'refs/tags') || github.ref == 'refs/pull/18/merge'
+          github.ref == 'refs/heads/main' || contains(github.ref, 'refs/tags')
         with:
           name: implementation_artifacts-WAR
           path: '**/${{ matrix.artifactTemplates.path }}/files/*.war'
