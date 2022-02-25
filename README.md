@@ -1,8 +1,8 @@
 # TOSCA Definitions Common Repository
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Repository Check](https://github.com/OpenTOSCA/tosca-definitions-common/workflows/Repository%20Check/badge.svg)](https://github.com/OpenTOSCA/tosca-definitions-common/actions?query=workflow%3A%22Repository+Check%22)
-[![Repository Check](https://github.com/OpenTOSCA/tosca-definitions-common/workflows/WAR%20Builds%20and%20Test/badge.svg)](https://github.com/OpenTOSCA/tosca-definitions-common/actions?query=workflow%3A%22WAR+Builds+and+Test%22)
+[![Repository Check](https://github.com/OpenTOSCA/tosca-definitions-common/workflows/Repository%20Check/badge.svg?branch=main)](https://github.com/OpenTOSCA/tosca-definitions-common/actions?query=workflow%3A%22Repository+Check%22+branch%3Amain)
+[![Repository Check](https://github.com/OpenTOSCA/tosca-definitions-common/workflows/WAR%20Builds%20and%20Test/badge.svg?branch=main)](https://github.com/OpenTOSCA/tosca-definitions-common/actions?query=workflow%3A%22WAR+Builds+and+Test%22+branch%3Amain)
 
 > Common TOSCA definitions (e.g., VMs, cloud providers, and runtimes) prepared for being consumed by a TOSCA-compliant engine, such as the [OpenTOSCA Container](http://opentosca.github.io/container).
 
