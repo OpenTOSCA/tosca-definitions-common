@@ -1,4 +1,4 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://NodeTypes.opentosca.org">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://artifacttemplates.opentosca.org">
 
     <xs:element name="removeContainerRequest">
         <xs:complexType>

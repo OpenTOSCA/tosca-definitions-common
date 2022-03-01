@@ -24,7 +24,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnectionFactory;
-import org.opentosca.nodetypes.InvokeResponse;
+import org.opentosca.artifacttemplates.dockerengine.InvokeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.context.MessageContext;
@@ -81,7 +81,7 @@ public abstract class SoapUtil {
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             StringWriter writer = new StringWriter();
             transformer.transform(new DOMSource(document), new StreamResult(writer));
-            return writer.getBuffer().toString().replaceAll("\n|\r", "");
+            return writer.getBuffer().toString().replaceAll("[\n\r]", "");
         } catch (TransformerException e) {
             LOG.error("Failed to transform document to string:", e);
             return null;
@@ -109,7 +109,7 @@ public abstract class SoapUtil {
                 }
             }
         } catch (javax.xml.soap.SOAPException e) {
-            e.printStackTrace();
+            LOG.error("Error while parsing SOAP header!", e);
         }
 
         // no header with the given name found
