@@ -1,4 +1,4 @@
-package org.opentosca.NodeTypes;
+package org.opentosca.artifacttemplates;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -6,23 +6,31 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
-import javax.jws.Oneway;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.opentosca.artifacttemplates.dockerengine.InvokeResponse;
+import org.opentosca.artifacttemplates.dockerengine.RemoveContainerRequest;
+import org.opentosca.artifacttemplates.dockerengine.StartContainerRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,73 +42,67 @@ import com.github.dockerjava.api.command.PullImageResultCallback;
 import com.github.dockerjava.api.model.AccessMode;
 import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.BuildResponseItem;
-import com.github.dockerjava.api.model.Container;
-import com.github.dockerjava.api.model.ContainerPort;
 import com.github.dockerjava.api.model.Device;
 import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.api.model.Link;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Volume;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.google.common.io.Files;
+
 import net.lingala.zip4j.ZipFile;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@WebService(targetNamespace = "http://NodeTypes.opentosca.org/")
-public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends AbstractIAService {
+@Endpoint
+public class DockerEngineInterfaceDockerEngineEndpoint {
 
-    private static final Logger LOG = LoggerFactory.getLogger(org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DockerEngineInterfaceDockerEngineEndpoint.class);
 
-    @WebMethod
-    @SOAPBinding
-    @Oneway
-    public void startContainer(
-            @WebParam(name = "DockerEngineURL", targetNamespace = "http://NodeTypes.opentosca.org/") final String DockerEngineURL,
-            @WebParam(name = "DockerEngineCertificate", targetNamespace = "http://NodeTypes.opentosca.org/") final String DockerEngineCertificate,
-            @WebParam(name = "ContainerImage", targetNamespace = "http://NodeTypes.opentosca.org/") final String ContainerImage,
-            @WebParam(name = "ContainerPorts", targetNamespace = "http://NodeTypes.opentosca.org/") final String ContainerPorts,
-            @WebParam(name = "ContainerEnv", targetNamespace = "http://NodeTypes.opentosca.org/") final String ContainerEnv,
-            @WebParam(name = "ImageLocation", targetNamespace = "http://NodeTypes.opentosca.org/") final String ImageLocation,
-            @WebParam(name = "PrivateKey", targetNamespace = "http://NodeTypes.opentosca.org/") final String PrivateKey,
-            @WebParam(name = "Links", targetNamespace = "http://NodeTypes.opentosca.org/") final String Links,
-            @WebParam(name = "Devices", targetNamespace = "http://NodeTypes.opentosca.org/") final String Devices,
-            @WebParam(name = "RemoteVolumeData", targetNamespace = "http://NodeTypes.opentosca.org/") final String RemoteVolumeData,
-            @WebParam(name = "HostVolumeData", targetNamespace = "http://NodeTypes.opentosca.org/") final String HostVolumeData,
-            @WebParam(name = "ContainerMountPath", targetNamespace = "http://NodeTypes.opentosca.org/") final String ContainerMountPath,
-            @WebParam(name = "VMIP", targetNamespace = "http://NodeTypes.opentosca.org/") final String VMIP,
-            @WebParam(name = "VMPrivateKey", targetNamespace = "http://NodeTypes.opentosca.org/") final String VMPrivateKey) {
+    @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "startContainerRequest")
+    public void startContainer(@RequestPayload StartContainerRequest request, MessageContext messageContext) {
+        LOG.info("Received startContainer request!");
+
+        // retrieve the SOAP headers, e.g., to get the message ID
+        Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
+        Node replyToNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
+        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
+            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
+            return;
+        }
+        String messageId = messageIdNode.getTextContent();
+        String replyTo = replyToNode.getFirstChild().getTextContent();
+        LOG.info("Retrieved message ID: {}", messageId);
+        LOG.info("ReplyTo address: {}", replyTo);
+
         // create connection to the docker engine
+        if (Objects.isNull(request.getDockerEngineURL())) {
+            LOG.error("Docker Engine URL not defined in SOAP request!");
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setError("Docker Engine URL must be defined to start a container!");
 
-        DefaultDockerClientConfig config = getConfig(DockerEngineURL, DockerEngineCertificate);
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
+            return;
+        }
+        DefaultDockerClientConfig config = DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate());
 
-        try (DockerClient dockerClient = DockerClientBuilder
-                .getInstance(config)
-                .build()) {
+        try (DockerClient dockerClient = DockerClientBuilder.getInstance(config).build()) {
 
             // cut ip address out of DockerEngineURL
-            final String ipAddress = DockerEngineURL.split(":")[1].substring(2);
+            final String ipAddress = request.getDockerEngineURL().split(":")[1].substring(2);
 
             LOG.info("Try to connect to " + ipAddress);
 
             // create image or pull it if a remote image shall be used
-            String image = null;
-            if (ContainerImage == null) { // either ContainerImage or ImageLocation
+            String image;
+            if (request.getContainerImage() == null) { // either ContainerImage or ImageLocation
                 // has to be set
                 image = "da/" + System.currentTimeMillis();
 
-                File basePath = new File(ImageLocation);
+                File basePath = new File(request.getImageLocation());
 
                 try {
-                    final URI dockerImageURI = new URI(ImageLocation);
+                    final URI dockerImageURI = new URI(request.getImageLocation());
 
                     final String[] pathSplit = dockerImageURI.getRawPath().split("/");
                     final String fileName = pathSplit[pathSplit.length - 1];
@@ -112,7 +114,7 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
 
                         if (dockerImageURI.toString().startsWith("http")) {
 
-                            downloadFile(dockerImageURI, tempFile);
+                            FileHandler.downloadFile(dockerImageURI, tempFile);
                         } else {
                             tempFile = basePath;
                         }
@@ -185,7 +187,7 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
                     }
                 } else {
                     // the tar.gz case
-                    if (isImageAvailable(image, DockerEngineURL, DockerEngineCertificate) == null) {
+                    if (DockerClientHandler.isImageAvailable(image, request.getDockerEngineURL(), request.getDockerEngineCertificate()) == null) {
                         LOG.info("Image {} not found", image);
                         LOG.info("Starting to load image from tar.gz file at {}", basePath);
 
@@ -195,7 +197,7 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
                         // cf. https://github.com/docker-java/docker-java/issues/841
                         try (FileInputStream fis = new FileInputStream(basePath)) {
                             DockerClientBuilder
-                                    .getInstance(getConfig(DockerEngineURL, DockerEngineCertificate))
+                                    .getInstance(DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate()))
                                     .build()
                                     .loadImageCmd(fis).exec();
                         } catch (final FileNotFoundException e) {
@@ -207,21 +209,22 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
                     }
                 }
             } else {
-                image = isImageAvailable(ContainerImage, DockerEngineURL, DockerEngineCertificate);
+                image = DockerClientHandler.isImageAvailable(request.getContainerImage(), request.getDockerEngineURL(),
+                        request.getDockerEngineCertificate());
                 if (image == null) {
                     LOG.info("App container image not yet available. Pulling image...");
-                    dockerClient.pullImageCmd(ContainerImage)
+                    dockerClient.pullImageCmd(request.getContainerImage())
                             .exec(new PullImageResultCallback())
                             .awaitCompletion();
-                    image = ContainerImage;
+                    image = request.getContainerImage();
                 }
             }
 
             // expose ports if needed for the container
             final List<ExposedPort> exposedPorts = new ArrayList<>();
             Ports portBindings = new Ports();
-            if (ContainerPorts != null) {
-                for (final String portMapping : ContainerPorts.split(";")) {
+            if (request.getContainerPorts() != null) {
+                for (final String portMapping : request.getContainerPorts().split(";")) {
                     if (portMapping.trim().isEmpty()) {
                         continue;
                     }
@@ -252,15 +255,15 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
 
             // parse environment variables
             List<String> environmentVariables = new ArrayList<>();
-            if (ContainerEnv != null) {
-                environmentVariables = Arrays.asList(ContainerEnv.split(";"));
+            if (request.getContainerEnv() != null) {
+                environmentVariables = Arrays.asList(request.getContainerEnv().split(";"));
             }
 
             LOG.info("Will start container with following environment variables:\n\t{}", environmentVariables);
 
             final List<Link> links = new ArrayList<>();
-            if (Links != null) {
-                final String[] idsToLinkSplit = Links.split(";");
+            if (request.getLinks() != null) {
+                final String[] idsToLinkSplit = request.getLinks().split(";");
                 for (final String idToLink : idsToLinkSplit) {
                     LOG.info("Will link container to container with id {}", idToLink);
                     links.add(new Link(idToLink.trim(), null));
@@ -268,8 +271,8 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
             }
 
             final List<Device> devices = new ArrayList<>();
-            if (Devices != null) {
-                final String[] devMappingSplit = Devices.split(";");
+            if (request.getDevices() != null) {
+                final String[] devMappingSplit = request.getDevices().split(";");
                 for (final String devMapping : devMappingSplit) {
                     final String[] devMapSplit = devMapping.split("=");
                     if (devMapSplit.length == 2) {
@@ -282,8 +285,8 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
             Volume volume = null;
             final String hostVolPath = "/volumeFor" + image.replace("/", "_").replace(":", "") + System.currentTimeMillis();
 
-            if (ContainerMountPath != null && !ContainerMountPath.isEmpty()) {
-                volume = new Volume(ContainerMountPath);
+            if (request.getContainerMountPath() != null && !request.getContainerMountPath().isEmpty()) {
+                volume = new Volume(request.getContainerMountPath());
 
                 final CreateContainerResponse volumeContainer = dockerClient.createContainerCmd("phusion/baseimage:latest")
                         .withBinds(new Bind(hostVolPath, volume, AccessMode.rw))
@@ -294,29 +297,29 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
                 try {
                     final ExecCreateCmdResponse execCmdResp = dockerClient
                             .execCreateCmd(volumeContainer.getId())
-                            .withCmd("mkdir", "-p", ContainerMountPath)
+                            .withCmd("mkdir", "-p", request.getContainerMountPath())
                             .exec();
                     dockerClient.execStartCmd(execCmdResp.getId())
                             .start()
                             .awaitCompletion();
 
-                    if (RemoteVolumeData != null) {
+                    if (request.getRemoteVolumeData() != null) {
                         // volumeData is a set of http paths pointing to tar files
-                        final String[] dataPaths = RemoteVolumeData.split(";");
+                        final String[] dataPaths = request.getRemoteVolumeData().split(";");
 
                         for (final String dataPath : dataPaths) {
-                            final File volumeFile = downloadFile(dataPath);
+                            final File volumeFile = FileHandler.downloadFile(dataPath);
 
                             if (volumeFile != null) {
-                                final File volumeTarFile = createTempTarFromFile(volumeFile);
+                                final File volumeTarFile = FileHandler.createTempTarFromFile(volumeFile);
 
                                 dockerClient.copyArchiveToContainerCmd(volumeContainer.getId())
-                                        .withRemotePath(ContainerMountPath)
+                                        .withRemotePath(request.getContainerMountPath())
                                         .withTarInputStream(new FileInputStream(volumeTarFile)).exec();
 
                                 final ExecCreateCmdResponse execChmodCmdResp = dockerClient
                                         .execCreateCmd(volumeContainer.getId())
-                                        .withCmd("chmod", "600", ContainerMountPath + "/" + volumeFile.getName()).exec();
+                                        .withCmd("chmod", "600", request.getContainerMountPath() + "/" + volumeFile.getName()).exec();
                                 dockerClient.execStartCmd(execChmodCmdResp.getId())
                                         .start()
                                         .awaitCompletion();
@@ -329,7 +332,7 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
                 }
             }
 
-            CreateContainerResponse container = null;
+            CreateContainerResponse container;
             if (volume != null) {
                 container = dockerClient.createContainerCmd(image)
                         .withEnv(environmentVariables)
@@ -374,127 +377,50 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
                 }
                 portMapping.append(port.getPort())
                         .append("-->")
-                        .append(findPort(dockerClient, container.getId(), port.getPort()));
+                        .append(DockerClientHandler.findPort(dockerClient, container.getId(), port.getPort()));
                 first = false;
             }
 
-            // this HashMap holds the return parameters of this operation.
-            final HashMap<String, String> returnParameters = new HashMap<>();
+            // create response and send back
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setContainerPorts(portMapping.toString());
+            invokeResponse.setContainerID(container.getId());
+            invokeResponse.setContainerIP(ipAddress);
+            invokeResponse.setContainerName(containerName);
 
-            returnParameters.put("ContainerPorts", portMapping.toString());
-            returnParameters.put("ContainerID", container.getId());
-            returnParameters.put("ContainerIP", ipAddress);
-            returnParameters.put("ContainerName", containerName);
-
-            sendResponse(returnParameters);
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         } catch (final Exception e) {
             LOG.error("Error while closing docker client.", e);
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setError(e.getMessage());
+
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         }
     }
 
-    private DefaultDockerClientConfig getConfig(String DockerEngineURL, String DockerEngineCertificate) {
-        DefaultDockerClientConfig.Builder config = DefaultDockerClientConfig
-                .createDefaultConfigBuilder()
-                .withDockerHost(DockerEngineURL)
-                .withApiVersion("1.21");
+    @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "removeContainerRequest")
+    public void removeContainer(@RequestPayload RemoveContainerRequest request, MessageContext messageContext) {
+        LOG.info("Received removeContainer request!");
 
-        if (DockerEngineCertificate == null) {
-            config.withDockerTlsVerify(false);
-        } else {
-            config.withDockerCertPath(DockerEngineCertificate);
+        // retrieve the SOAP headers, e.g., to get the message ID
+        Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
+        Node replyToNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
+        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
+            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
+            return;
         }
-        return config.build();
-    }
-
-    private File downloadFile(final String url) {
-        try {
-            final URI dockerImageURI = new URI(url);
-
-            final String[] pathSplit = dockerImageURI.getRawPath().split("/");
-            final String fileName = pathSplit[pathSplit.length - 1];
-
-            final File tempDir = Files.createTempDir();
-            final File tempFile = new File(tempDir, fileName);
-
-            downloadFile(dockerImageURI, tempFile);
-            return tempFile;
-        } catch (final URISyntaxException | IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private void downloadFile(URI dockerImageURI, File tempFile) throws IOException {
-        final URLConnection connection = dockerImageURI.toURL().openConnection();
-        connection.setRequestProperty("Accept", "application/octet-stream");
-
-        try (final InputStream input = connection.getInputStream()) {
-            final byte[] buffer = new byte[4096];
-            int n;
-
-            try (final OutputStream output = new FileOutputStream(tempFile)) {
-                while ((n = input.read(buffer)) != -1) {
-                    output.write(buffer, 0, n);
-                }
-            }
-        }
-    }
-
-    private File createTempTarFromFile(final File file) {
-        final TarArchiveEntry entry = new TarArchiveEntry(file, file.getName());
-
-        File tarArchive = null;
-        try {
-            tarArchive = File.createTempFile(String.valueOf(System.currentTimeMillis()), ".tar");
-            final TarArchiveOutputStream out = new TarArchiveOutputStream(new FileOutputStream(tarArchive));
-            out.putArchiveEntry(entry);
-            IOUtils.copy(new FileInputStream(file), out);
-            out.closeArchiveEntry();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
-
-        return tarArchive;
-    }
-
-    /**
-     * Check if the image is already available at the Docker host
-     *
-     * @param image the image to check availability for
-     * @return The image ID if the image is available, null otherwise
-     */
-    private String isImageAvailable(final String image, String dockerEngineURL, String dockerEngineCertificate) {
-        LOG.info("Searching available Images...");
-        DockerClient client = DockerClientBuilder
-                .getInstance(getConfig(dockerEngineURL, dockerEngineCertificate))
-                .build();
-        for (final Image availImage : client.listImagesCmd().exec()) {
-            for (final String tag : availImage.getRepoTags()) {
-                if (tag.startsWith(image)) {
-                    return availImage.getId();
-                }
-            }
-        }
-
-        return null;
-    }
-
-    @WebMethod
-    @SOAPBinding
-    @Oneway
-    public void removeContainer(
-            @WebParam(name = "DockerEngineURL", targetNamespace = "http://NodeTypes.opentosca.org/") final String DockerEngineURL,
-            @WebParam(name = "DockerEngineCertificate", targetNamespace = "http://NodeTypes.opentosca.org/") final String DockerEngineCertificate,
-            @WebParam(name = "ContainerID", targetNamespace = "http://NodeTypes.opentosca.org/") final String ContainerID) {
-        // this HashMap holds the return parameters of this operation.
-        final HashMap<String, String> returnParameters = new HashMap<>();
+        String messageId = messageIdNode.getTextContent();
+        String replyTo = replyToNode.getFirstChild().getTextContent();
+        LOG.info("Retrieved message ID: {}", messageId);
+        LOG.info("ReplyTo address: {}", replyTo);
 
         try (final DockerClient dockerClient = DockerClientBuilder
-                .getInstance(getConfig(DockerEngineURL, DockerEngineCertificate))
+                .getInstance(DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate()))
                 .build()) {
             // stop ssh and real container together
-            for (final String id : ContainerID.split(";")) {
+            for (final String id : request.getContainerID().split(";")) {
                 // stop and remove container
                 LOG.info("Stopping container {}...", id);
                 dockerClient.stopContainerCmd(id).exec();
@@ -503,32 +429,19 @@ public class org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine extends
                 LOG.info("Stopped and removed container {}", id);
             }
 
-            returnParameters.put("Result", "Stopped and Removed container " + ContainerID);
+            // create response and send back
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setResult("Stopped and Removed container " + request.getContainerID());
 
-            sendResponse(returnParameters);
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         } catch (final IOException e) {
             LOG.error("Error closing the Docker client", e);
-        }
-    }
+            InvokeResponse invokeResponse = new InvokeResponse();
+            invokeResponse.setMessageID(messageId);
+            invokeResponse.setError(e.getMessage());
 
-    /**
-     * Returns the port to which a docker container is bound.
-     *
-     * @param dockerClient The docker client where the container is running.
-     * @param containerID  The ID of the container
-     * @param searchedPort The inner port of the container
-     * @return The outer port to which the specified inner port of the container is bound.
-     */
-    private int findPort(final DockerClient dockerClient, final String containerID, final int searchedPort) {
-        for (final Container container : dockerClient.listContainersCmd().exec()) {
-            if (container.getId().equals(containerID)) {
-                for (final ContainerPort port : container.getPorts()) {
-                    if (port != null && port.getPrivatePort() != null && port.getPrivatePort() == searchedPort) {
-                        return port.getPublicPort();
-                    }
-                }
-            }
+            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         }
-        return -1;
     }
 }

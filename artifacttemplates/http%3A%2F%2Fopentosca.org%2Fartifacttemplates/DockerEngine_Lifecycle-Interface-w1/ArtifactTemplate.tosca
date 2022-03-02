@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-DockerEngine_Lifecycle-Interface-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <ArtifactTemplate type="otatyIgeneral:WAR" id="DockerEngine_Lifecycle-Interface-w1" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes">
+    <ArtifactTemplate type="otatyIgeneral:WAR-Java8" id="DockerEngine_Lifecycle-Interface-w1" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes">
         <Properties>
             <opentosca:WSProperties xmlns:opentosca="http://www.uni-stuttgart.de/opentosca">
                 <opentosca:ServiceEndpoint>/services/org_opentosca_NodeTypes_DockerEngine__com_example_www_interfaces_lifecyclePort</opentosca:ServiceEndpoint>
