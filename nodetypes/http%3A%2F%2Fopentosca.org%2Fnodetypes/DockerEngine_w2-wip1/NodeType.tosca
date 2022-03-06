@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ns0="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-DockerEngine_w2-wip1">
+    <NodeType name="DockerEngine_w2-wip1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" ns0:bordercolor="#b490a2">
+        <ns0:PropertiesDefinition elementname="DockerEngine_Properties" namespace="http://opentosca.org/nodetypes/properties">
+            <ns0:properties>
+                <ns0:key>DockerEngineURL</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+            <ns0:properties>
+                <ns0:key>DockerEngineCertificate</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+        </ns0:PropertiesDefinition>
+        <Interfaces>
+            <Interface name="InterfaceDockerEngine">
+                <Operation name="startContainer">
+                    <InputParameters>
+                        <InputParameter name="DockerEngineURL" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerImage" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerPorts" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerEnv" type="xs:string" required="no"/>
+                        <InputParameter name="Devices" type="xs:string" required="no"/>
+                        <InputParameter name="Links" type="xs:string" required="no"/>
+                        <InputParameter name="RemoteVolumeData" type="xs:string" required="no"/>
+                        <InputParameter name="HostVolumeData" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerMountPath" type="xs:string" required="no"/>
+                        <InputParameter name="VMIP" type="xs:string" required="no"/>
+                        <InputParameter name="VMPrivateKey" type="xs:string" required="no"/>
+                        <InputParameter name="PrivilegedMode" type="xs:string" required="no"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="ContainerPorts" type="xs:string" required="no"/>
+                        <OutputParameter name="ContainerID" type="xs:string" required="no"/>
+                        <OutputParameter name="ContainerIP" type="xs:string" required="yes"/>
+                    </OutputParameters>
+                </Operation>
+                <Operation name="removeContainer">
+                    <InputParameters>
+                        <InputParameter name="DockerEngineURL" type="xs:string" required="yes"/>
+                        <InputParameter name="DockerEngineCertificate" type="xs:string" required="no"/>
+                        <InputParameter name="ContainerID" type="xs:string" required="yes"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="Result" type="xsd:string" required="no"/>
+                    </OutputParameters>
+                </Operation>
+            </Interface>
+            <Interface name="http://www.example.com/interfaces/lifecycle">
+                <Operation name="install"/>
+                <Operation name="configure">
+                    <InputParameters>
+                        <InputParameter name="VMIP" type="xsd:string" required="yes"/>
+                    </InputParameters>
+                    <OutputParameters>
+                        <OutputParameter name="DockerEngineURL" type="xsd:string" required="yes"/>
+                    </OutputParameters>
+                </Operation>
+                <Operation name="uninstall"/>
+            </Interface>
+        </Interfaces>
+    </NodeType>
+</Definitions>
