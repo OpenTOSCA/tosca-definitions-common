@@ -27,6 +27,7 @@
                 <xs:element form="qualified" minOccurs="0" name="ContainerMountPath" type="xs:string"/>
                 <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
                 <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="PrivilegedMode" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -332,6 +332,8 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                 }
             }
 
+            final Boolean privileged = request.getPrivilegedMode() != null && request.getPrivilegedMode().equals("true");
+
             CreateContainerResponse container;
             if (volume != null) {
                 container = dockerClient.createContainerCmd(image)
@@ -344,6 +346,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                         .withVolumes(volume)
                         .withDevices(devices)
                         .withCmd("-v")
+                        .withPrivileged(privileged)
                         .exec();
             } else {
                 // start container
@@ -354,6 +357,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                         .withTty(true)
                         .withLinks(links)
                         .withDevices(devices)
+                        .withPrivileged(privileged)
                         .exec();
             }
 
