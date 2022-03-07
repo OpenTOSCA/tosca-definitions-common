@@ -1,37 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-DockerContainer_w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" >
-    <NodeType name="DockerContainer_w1" abstract="yes" final="yes" targetNamespace="http://opentosca.org/nodetypes" winery:bordercolor="#409a21">
-        <winery:PropertiesDefinition elementname="properties" namespace="http://opentosca.org/nodetypes/properties">
-            <winery:properties>
-                <winery:key>Port</winery:key>
-                <winery:type>xsd:string</winery:type>
-            </winery:properties>
-            <winery:properties>
-                <winery:key>ContainerPort</winery:key>
-                <winery:type>xsd:string</winery:type>
-            </winery:properties>
-            <winery:properties>
-                <winery:key>ContainerID</winery:key>
-                <winery:type>xsd:string</winery:type>
-            </winery:properties>
-            <winery:properties>
-                <winery:key>ContainerIP</winery:key>
-                <winery:type>xsd:string</winery:type>
-            </winery:properties>
-            <winery:properties>
-                <winery:key>ImageID</winery:key>
-                <winery:type>xsd:string</winery:type>
-            </winery:properties>
-            <winery:properties>
-                <winery:key>ContainerMountPath</winery:key>
-                <winery:type>xsd:string</winery:type>
-            </winery:properties>
-            <winery:properties>
-                <winery:key>HostMountFiles</winery:key>
-                <winery:type>xsd:string</winery:type>
-            </winery:properties>
-        </winery:PropertiesDefinition>
-        <DerivedFrom typeRef="ToscaNormativeNodeTypes:ContainerApplication" xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes"/>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ns0="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-DockerContainer_w1">
+    <NodeType name="DockerContainer_w1" abstract="yes" final="yes" targetNamespace="http://opentosca.org/nodetypes" ns0:bordercolor="#409a21">
+        <ns0:PropertiesDefinition elementname="DockerContainer_w1" namespace="http://opentosca.org/nodetypes">
+            <ns0:properties>
+                <ns0:derivedFromStatus>SELF</ns0:derivedFromStatus>
+                <ns0:derivedFromType xmlns:nodeTypes="http://opentosca.org/nodetypes">nodeTypes:DockerContainer_w1</ns0:derivedFromType>
+                <ns0:key>Port</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+            <ns0:properties>
+                <ns0:derivedFromStatus>SELF</ns0:derivedFromStatus>
+                <ns0:derivedFromType xmlns:nodeTypes="http://opentosca.org/nodetypes">nodeTypes:DockerContainer_w1</ns0:derivedFromType>
+                <ns0:key>ContainerPort</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+            <ns0:properties>
+                <ns0:derivedFromStatus>SELF</ns0:derivedFromStatus>
+                <ns0:derivedFromType xmlns:nodeTypes="http://opentosca.org/nodetypes">nodeTypes:DockerContainer_w1</ns0:derivedFromType>
+                <ns0:key>ContainerID</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+            <ns0:properties>
+                <ns0:derivedFromStatus>SELF</ns0:derivedFromStatus>
+                <ns0:derivedFromType xmlns:nodeTypes="http://opentosca.org/nodetypes">nodeTypes:DockerContainer_w1</ns0:derivedFromType>
+                <ns0:key>ContainerIP</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+            <ns0:properties>
+                <ns0:derivedFromStatus>SELF</ns0:derivedFromStatus>
+                <ns0:derivedFromType xmlns:nodeTypes="http://opentosca.org/nodetypes">nodeTypes:DockerContainer_w1</ns0:derivedFromType>
+                <ns0:key>ImageID</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+            <ns0:properties>
+                <ns0:derivedFromStatus>SELF</ns0:derivedFromStatus>
+                <ns0:derivedFromType xmlns:nodeTypes="http://opentosca.org/nodetypes">nodeTypes:DockerContainer_w1</ns0:derivedFromType>
+                <ns0:key>ContainerMountPath</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+            <ns0:properties>
+                <ns0:derivedFromStatus>SELF</ns0:derivedFromStatus>
+                <ns0:derivedFromType xmlns:nodeTypes="http://opentosca.org/nodetypes">nodeTypes:DockerContainer_w1</ns0:derivedFromType>
+                <ns0:key>HostMountFiles</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+            <ns0:properties>
+                <ns0:constraint>
+                    <ns0:key>valid_values</ns0:key>
+                    <ns0:list>true</ns0:list>
+                    <ns0:list>false</ns0:list>
+                    <ns0:value></ns0:value>
+                </ns0:constraint>
+                <ns0:derivedFromStatus>SELF</ns0:derivedFromStatus>
+                <ns0:derivedFromType xmlns:nodeTypes="http://opentosca.org/nodetypes">nodeTypes:DockerContainer_w1</ns0:derivedFromType>
+                <ns0:key>PrivilegedMode</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+        </ns0:PropertiesDefinition>
+        <DerivedFrom xmlns:ntyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes" typeRef="ntyIgeneral:ContainerApplication"/>
         <Interfaces>
             <Interface name="ContainerManagementInterface">
                 <Operation name="runScript">
