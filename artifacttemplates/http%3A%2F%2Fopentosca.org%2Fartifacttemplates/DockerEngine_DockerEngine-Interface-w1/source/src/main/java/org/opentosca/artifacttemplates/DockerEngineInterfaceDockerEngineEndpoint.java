@@ -332,7 +332,11 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                 }
             }
 
+
             final Boolean privileged = request.getPrivilegedMode() != null && request.getPrivilegedMode().equals("true");
+            if (privileged) {
+                LOG.info("Will start container in privileged mode!");
+            }
 
             CreateContainerResponse container;
             if (volume != null) {
