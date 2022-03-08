@@ -138,6 +138,7 @@
             </plugin>
             <!-- Move the built war file to the ArtifactTemplate's files folder -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.2.0</version>
                 <executions>

@@ -30,6 +30,10 @@
                 <winery:key>HostMountFiles</winery:key>
                 <winery:type>xsd:string</winery:type>
             </winery:properties>
+            <winery:properties>
+                <winery:key>PrivilegedMode</winery:key>
+                <winery:type>xsd:string</winery:type>
+            </winery:properties>
         </winery:PropertiesDefinition>
         <DerivedFrom typeRef="ToscaNormativeNodeTypes:ContainerApplication" xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes"/>
         <Interfaces>

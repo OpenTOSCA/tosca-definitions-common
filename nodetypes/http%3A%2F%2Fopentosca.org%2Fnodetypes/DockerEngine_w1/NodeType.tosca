@@ -27,6 +27,7 @@
                         <InputParameter name="ContainerMountPath" type="xs:string" required="no"/>
                         <InputParameter name="VMIP" type="xs:string" required="no"/>
                         <InputParameter name="VMPrivateKey" type="xs:string" required="no"/>
+                        <InputParameter name="PrivilegedMode" type="xs:string" required="no"/>
                     </InputParameters>
                     <OutputParameters>
                         <OutputParameter name="ContainerPorts" type="xs:string" required="no"/>
