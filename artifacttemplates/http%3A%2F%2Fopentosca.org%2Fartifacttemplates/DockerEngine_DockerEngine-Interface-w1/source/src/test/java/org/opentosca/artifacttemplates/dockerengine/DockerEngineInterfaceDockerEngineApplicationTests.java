@@ -1,4 +1,4 @@
-package org.opentosca.artifacttemplates;
+package org.opentosca.artifacttemplates.dockerengine;
 
 import org.junit.jupiter.api.Test;
 

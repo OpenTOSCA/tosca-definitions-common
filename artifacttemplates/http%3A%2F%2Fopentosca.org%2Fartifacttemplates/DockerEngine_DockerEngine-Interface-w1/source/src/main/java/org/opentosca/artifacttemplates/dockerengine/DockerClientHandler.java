@@ -1,4 +1,4 @@
-package org.opentosca.artifacttemplates;
+package org.opentosca.artifacttemplates.dockerengine;
 
 import java.util.Objects;
 
