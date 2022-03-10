@@ -3,8 +3,8 @@
     <ArtifactTemplate xmlns:artifactTypes="http://opentosca.org/artifacttypes" name="OpenStack_15-Train-CloudProviderInterfaceIA-w1" type="artifactTypes:WAR-Java8" id="OpenStack_15-Train-CloudProviderInterfaceIA-w1">
         <Properties>
             <ot:WSProperties xmlns:ot="http://www.uni-stuttgart.de/opentosca" xmlns="http://www.uni-stuttgart.de/opentosca" xmlns:artifacttypes1="http://opentosca.org/artifacttypes" xmlns:extt2="http://www.example.com/ToscaTypes" xmlns:ns0="http://www.eclipse.org/winery/model/selfservice" xmlns:ns1="http://www.eclipse.org/winery/model/selfservice" xmlns:ns10="http://www.example.com/ToscaTypes" xmlns:ns13="http://opentosca.org/artifacttypes" xmlns:ns2="http://www.eclipse.org/winery/model/selfservice" xmlns:ns6="http://www.eclipse.org/winery/model/selfservice" xmlns:ns9="http://opentosca.org/artifacttypes" xmlns:tosca="http://docs.oasis-open.org/tosca/ns/2011/12">
-                <ServiceEndpoint>/services/OpenStackTrainIAPort</ServiceEndpoint>
-                <PortType>{http://opentosca.org/implementationartifacts}OpenStackTrainIAPort</PortType>
+                <ServiceEndpoint>/org_opentosca_artifactTemplates_OpenStackVictoria_CloudProviderInterfacePort</ServiceEndpoint>
+                <PortType>{http://artifacttemplates.opentosca.org}org_opentosca_artifactTemplates_OpenStackVictoria_CloudProviderInterfacePort</PortType>
                 <InvocationType>SOAP/HTTP</InvocationType>
             </ot:WSProperties>
         </Properties>
