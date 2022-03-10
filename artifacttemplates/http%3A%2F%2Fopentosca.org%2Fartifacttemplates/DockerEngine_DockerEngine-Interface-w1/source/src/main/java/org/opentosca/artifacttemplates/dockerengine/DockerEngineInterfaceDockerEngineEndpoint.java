@@ -60,11 +60,12 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
 
         OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
 
+        InvokeResponse invokeResponse = new InvokeResponse();
+        invokeResponse.setMessageID(openToscaHeaders.messageId());
+
         // create connection to the docker engine
         if (Objects.isNull(request.getDockerEngineURL())) {
             LOG.error("Docker Engine URL not defined in SOAP request!");
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(openToscaHeaders.messageId());
             invokeResponse.setError("Docker Engine URL must be defined to start a container!");
 
             SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
@@ -375,22 +376,16 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
             }
 
             // create response and send back
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(openToscaHeaders.messageId());
             invokeResponse.setContainerPorts(portMapping.toString());
             invokeResponse.setContainerID(container.getId());
             invokeResponse.setContainerIP(ipAddress);
             invokeResponse.setContainerName(containerName);
-
-            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
         } catch (final Exception e) {
             LOG.error("Error while closing docker client.", e);
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(openToscaHeaders.messageId());
             invokeResponse.setError(e.getMessage());
-
-            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
         }
+
+        SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 
     @PayloadRoot(namespace = DockerEngineConstants.NAMESPACE_URI, localPart = "removeContainerRequest")
@@ -398,6 +393,9 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
         LOG.info("Received removeContainer request!");
 
         OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
+
+        InvokeResponse invokeResponse = new InvokeResponse();
+        invokeResponse.setMessageID(openToscaHeaders.messageId());
 
         try (final DockerClient dockerClient = DockerClientBuilder
                 .getInstance(DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate()))
@@ -413,18 +411,12 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
             }
 
             // create response and send back
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(openToscaHeaders.messageId());
             invokeResponse.setResult("Stopped and Removed container " + request.getContainerID());
-
-            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
         } catch (final IOException e) {
             LOG.error("Error closing the Docker client", e);
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(openToscaHeaders.messageId());
             invokeResponse.setError(e.getMessage());
-
-            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
         }
+
+        SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 }
