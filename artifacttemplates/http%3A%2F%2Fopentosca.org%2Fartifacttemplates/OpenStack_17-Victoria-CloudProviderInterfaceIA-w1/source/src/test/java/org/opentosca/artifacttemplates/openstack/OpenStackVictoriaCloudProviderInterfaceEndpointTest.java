@@ -1,4 +1,4 @@
-package org.opentosca.artifacttemplates.dockerengine;
+package org.opentosca.artifacttemplates.openstack;
 
 import java.io.IOException;
 
