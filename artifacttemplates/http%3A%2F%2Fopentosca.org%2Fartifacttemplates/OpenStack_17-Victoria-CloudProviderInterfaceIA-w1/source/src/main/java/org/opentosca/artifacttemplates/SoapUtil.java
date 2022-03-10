@@ -3,7 +3,9 @@ package org.opentosca.artifacttemplates;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.xml.bind.JAXBContext;
@@ -24,6 +26,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +82,7 @@ public abstract class SoapUtil {
     }
 
     public static OpenToscaHeaders parseHeaders(MessageContext messageContext) {
-        // retrieve the SOAP headers, e.g., to get the message ID
+        // Retrieve the always required SOAP headers, e.g., the messageID and replyTo headers.
         Node messageIdNode = getHeaderFieldByName(messageContext, MESSAGE_ID_HEADER);
         Node replyToNode = getHeaderFieldByName(messageContext, REPLY_TO_HEADER);
         if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
@@ -91,10 +95,43 @@ public abstract class SoapUtil {
         LOG.info("Retrieved message ID: {}", messageId);
         LOG.info("ReplyTo address: {}", replyTo);
 
-        // additional header elements
-        Node headerFieldByName = getHeaderFieldByName(messageContext, DEPLOYMENT_ARTIFACTS_STRING);
+        // region *** additional header elements ***
 
-        return new OpenToscaHeaders(messageId, replyTo);
+        /* Just for reference, the DEPLOYMENT_ARTIFACTS_STRING element contains something like this:
+         * {
+         *     "{http://opentosca.org/artifacttypes}SQLArtifact": {
+         *         "myTinyToDo.sql": "http://172.17.0.1:1337/csars/.../MyTinyToDo_DB-DA-w1/files/mytinytodo.sql"
+         *     }
+         * }
+         */
+        Node deploymentArtifactsNode = getHeaderFieldByName(messageContext, DEPLOYMENT_ARTIFACTS_STRING);
+        Map<QName, Map<String, String>> deploymentArtifactsMap = new HashMap<>();
+
+        if (deploymentArtifactsNode != null) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, String> artifactTypesMap = objectMapper.readValue(deploymentArtifactsNode.getTextContent(), Map.class);
+
+                if (!artifactTypesMap.isEmpty()) {
+                    for (Map.Entry<String, String> entry : artifactTypesMap.entrySet()) {
+                        deploymentArtifactsMap.put(
+                                QName.valueOf(entry.getKey()),
+                                objectMapper.readValue(entry.getValue(), Map.class)
+                        );
+                    }
+                }
+            } catch (JsonProcessingException e) {
+                LOG.error("Cannot parse attached deployment artifacts!", e);
+            }
+        }
+
+        // endregion
+
+        return new OpenToscaHeaders(
+                messageId,
+                replyTo,
+                deploymentArtifactsMap
+        );
     }
 
     /**

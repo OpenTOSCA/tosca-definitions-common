@@ -3,9 +3,11 @@ package org.opentosca.artifacttemplates.openstack;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceContext;
 
 import org.openstack4j.api.Builders;
@@ -45,8 +47,16 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
     private final static Logger logger = LoggerFactory.getLogger(OpenStackVictoriaCloudProviderInterfaceEndpoint.class);
 
     private final static List<SupportedArtifactType> SUPPORTED_ARTIFACT_TYPE_TYPES = Arrays.asList(
-            new SupportedArtifactType("{http://opentosca.org/artifacttypes}ISO", "iso", DiskFormat.RAW),
-            new SupportedArtifactType("{http://opentosca.org/artifacttypes}CloudImage", "img", DiskFormat.QCOW2)
+            new SupportedArtifactType(
+                    QName.valueOf("{http://opentosca.org/artifacttypes}ISO"),
+                    "iso",
+                    DiskFormat.RAW
+            ),
+            new SupportedArtifactType(
+                    QName.valueOf("{http://opentosca.org/artifacttypes}CloudImage"),
+                    "img",
+                    DiskFormat.QCOW2
+            )
     );
 
     @Resource
@@ -62,56 +72,36 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
         response.setMessageID(openToscaHeaders.messageId());
 
         OSFactory.enableHttpLoggingFilter(true);
-        SupportedArtifactType artifactType = SUPPORTED_ARTIFACT_TYPE_TYPES.get(1);
-//        Gson gson = new Gson();
-//
+
         String isoLocation = null;
-////        isoLocation = "file:///C:/Users/lharz/Downloads/bionic-server-cloudimg-amd64.img";
-//
-//        // Extract message
-//        WrappedMessageContext wrappedContext = (WrappedMessageContext) context.getMessageContext();
-//
-//        Message message = wrappedContext.getWrappedMessage();
-//
-//        // Extract headers from message
-//        List<Header> headers = CastUtils.cast((List<?>) message.get(Header.HEADER_LIST));
-//
-//        for (Header header : headers) {
-//            Object headerObject = header.getObject();
-//            logger.info("Found header: '{}' and content '{}'", header.getName(), headerObject);
-//
-//            // Unmarshall to org.w3c.dom.Node
-//            if (headerObject instanceof Node) {
-//                Node node = (Node) headerObject;
-//                String localPart = header.getName().getLocalPart();
-//                String content = node.getTextContent();
-//
-//                // Extract DEPLOYMENT_ARTIFACTS_STRING Header value
-//                if ("DEPLOYMENT_ARTIFACTS_STRING".equals(localPart)) {
-//                    try {
-//                        JSONObject locationJson = new JSONObject(content);
-//                        Optional<SupportedArtifactType> supportedArtifactType = SUPPORTED_ARTIFACT_TYPE_TYPES.stream()
-//                                .filter(at -> locationJson.keySet().contains(at.artifactType))
-//                                .findFirst();
-//                        if (supportedArtifactType.isPresent()) {
-//                            artifactType = supportedArtifactType.get();
-//                            Set<String> strings = locationJson.getJSONObject(artifactType.artifactType).keySet();
-//                            for (String key : strings) {
-//                                if (key.endsWith(artifactType.fileType)) {
-//                                    isoLocation = locationJson.getJSONObject(artifactType.artifactType).getString(key);
-//                                    logger.info("Found a {} file available at {}", artifactType.fileType.toUpperCase(), isoLocation);
-//                                    break;
-//                                } else {
-//                                    logger.warn("Found non matching file {} for artifact type {}", key, artifactType);
-//                                }
-//                            }
-//                        }
-//                    } catch (Exception e) {
-//                        logger.info("Not able to find attached ISO DA...", e);
-//                    }
-//                }
-//            }
-//        }
+        SupportedArtifactType supportedArtifactType = null;
+
+        if (openToscaHeaders.deploymentArtifactsMap().isEmpty()) {
+            logger.info("Did not receive any attached DeploymentArtifacts!");
+        } else {
+            Optional<SupportedArtifactType> optional = SUPPORTED_ARTIFACT_TYPE_TYPES.stream()
+                    .filter(artifactType ->
+                            openToscaHeaders.deploymentArtifactsMap().containsKey(artifactType.artifactType)
+                    ).findFirst();
+
+            if (optional.isPresent()) {
+                supportedArtifactType = optional.get();
+                logger.info("Found supported Artifact Type {}", supportedArtifactType);
+                Map<String, String> deploymentArtifactLocations = openToscaHeaders.deploymentArtifactsMap()
+                        .get(supportedArtifactType.artifactType);
+
+                for (Map.Entry<String, String> deploymentArtifactLocation : deploymentArtifactLocations.entrySet()) {
+                    if (deploymentArtifactLocation.getKey().endsWith(supportedArtifactType.fileType)) {
+                        isoLocation = deploymentArtifactLocation.getValue();
+                        logger.info("Found a {} file available at {}", supportedArtifactType.fileType.toUpperCase(), isoLocation);
+                        break;
+                    } else {
+                        logger.warn("Found non matching file {} for artifact type {}",
+                                deploymentArtifactLocation.getKey(), supportedArtifactType);
+                    }
+                }
+            }
+        }
 
         // we agreed in the IA knows the security group
         String securityGroup = "default";
@@ -143,17 +133,19 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
 
         org.openstack4j.model.image.v2.Image uploadedImage = null;
         try {
-            if (isoLocation != null && !isoLocation.isEmpty()) {
-                logger.info("{} file is attached! Trying to create image with format '{}'", artifactType.fileType.toUpperCase(), artifactType.diskFormat.value());
+            if (supportedArtifactType != null && isoLocation != null && !isoLocation.isEmpty()) {
+                logger.info("{} file is attached! Trying to create image with format '{}'",
+                        supportedArtifactType.fileType.toUpperCase(), supportedArtifactType.diskFormat.value());
                 Payload<URL> payload = Payloads.create(new URL(isoLocation));
 
-                String generatedImageId = "opentosca-" + request.getVMImageID().replaceAll("\\s", "") + "-" + System.currentTimeMillis();
+                String generatedImageId = "opentosca-" + request.getVMImageID()
+                        .replaceAll("\\s", "") + "-" + System.currentTimeMillis();
                 logger.info("Creating image with name '{}'", generatedImageId);
 
                 uploadedImage = osClient.imagesV2().create(Builders.imageV2()
                         .name(generatedImageId)
                         .containerFormat(ContainerFormat.BARE)
-                        .diskFormat(artifactType.diskFormat)
+                        .diskFormat(supportedArtifactType.diskFormat)
                         .minDisk(3L)
                         .visibility(org.openstack4j.model.image.v2.Image.ImageVisibility.PRIVATE)
                         .build());
@@ -437,7 +429,8 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
         return null;
     }
 
-    private record SupportedArtifactType(String artifactType, String fileType,
+    private record SupportedArtifactType(QName artifactType,
+                                         String fileType,
                                          DiskFormat diskFormat) {
     }
 }
