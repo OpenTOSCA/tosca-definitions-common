@@ -218,7 +218,25 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
 
                     final String[] portMapKV = portMapping.split(",");
                     if (portMapKV.length > 0 && Arrays.stream(portMapKV).noneMatch(String::isEmpty)) {
-                        final ExposedPort tempPort = ExposedPort.tcp(Integer.parseInt(portMapKV[0]));
+                        // exposed port has the pattern <port>/<protocol>, e.g., 9999/udp
+                        String[] portSplit = portMapKV[0].split("/");
+                        String port;
+                        String protocol;
+                        if (portSplit.length == 2) {
+                            port = portSplit[0];
+                            protocol = portSplit[1];
+                        } else {
+                            port = portMapKV[0];
+                            protocol = "tcp";
+                        }
+
+                        ExposedPort tempPort;
+                        switch (protocol) {
+                            case "udp" -> tempPort = ExposedPort.udp(Integer.parseInt(port));
+                            case "sctp" -> tempPort = ExposedPort.sctp(Integer.parseInt(port));
+                            default -> tempPort = ExposedPort.tcp(Integer.parseInt(port));
+                        }
+
                         Integer externalPort = null;
 
                         boolean randomPort = false;
@@ -230,7 +248,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                         exposedPorts.add(tempPort);
 
                         if (!randomPort) {
-                            LOG.info("Creating PortBinding {}:{}", tempPort, externalPort);
+                            LOG.info("Creating PortBinding {}:{}/{}", tempPort.getPort(), externalPort, protocol);
                             portBindings.bind(tempPort, Ports.Binding.bindPort(externalPort));
                         } else {
                             // map to random port
