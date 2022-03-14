@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Definitions targetNamespace="http://opentosca.org/artifacttemplates" id="artifactTemplates-DockerContainer_ContainerManagementInterface-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
-    <ArtifactTemplate type="otatyIgeneral:WAR-Java8" id="DockerContainer_ContainerManagementInterface-w1" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes">
+    <ArtifactTemplate type="otatyIgeneral:WAR-Java17" id="DockerContainer_ContainerManagementInterface-w1" xmlns:otatyIgeneral="http://opentosca.org/artifacttypes">
         <Properties>
             <opentosca:WSProperties xmlns:opentosca="http://www.uni-stuttgart.de/opentosca">
-                <opentosca:ServiceEndpoint>/services/org_opentosca_nodetypes_DockerContainer__ContainerManagementInterfacePort</opentosca:ServiceEndpoint>
-                <opentosca:PortType>{http://opentosca.org/nodetypes}org_opentosca_nodetypes_DockerContainer__ContainerManagementInterface</opentosca:PortType>
+                <opentosca:ServiceEndpoint>/org_opentosca_artifactTemplates_DockerContainer_ContainerManagementInterfacePort</opentosca:ServiceEndpoint>
+                <opentosca:PortType>{http://artifacttemplates.opentosca.org}org_opentosca_artifactTemplates_DockerContainer__ContainerManagementInterface</opentosca:PortType>
                 <opentosca:InvocationType>SOAP/HTTP</opentosca:InvocationType>
             </opentosca:WSProperties>
         </Properties>

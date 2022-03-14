@@ -129,7 +129,7 @@
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>src/main/resources/dockerEngineInterface.xsd</xsd>
-                                    <packagename>org.opentosca.artifacttemplates.dockerengine</packagename>
+                                    <packagename>org.opentosca.artifacttemplates.dockercontainer</packagename>
                                 </xsdOption>
                             </xsdOptions>
                         </configuration>
