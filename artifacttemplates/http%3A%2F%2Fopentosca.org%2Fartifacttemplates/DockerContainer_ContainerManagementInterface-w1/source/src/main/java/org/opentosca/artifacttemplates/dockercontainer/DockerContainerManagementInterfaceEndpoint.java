@@ -62,7 +62,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
             container.awaitAvailability();
 
-            // CASE: Download file from URL
+            // CASE: Transfer file from URL to container
             URL url = getUrl(request.getSourceURLorLocalPath());
             if (url != null) {
                 String target = container.replaceHome(request.getTargetAbsolutePath());
@@ -77,7 +77,7 @@ public class DockerContainerManagementInterfaceEndpoint {
                 return;
             }
 
-            // CASE: Local file
+            // CASE: Transfer local file to container
             File file = getFile(request.getSourceURLorLocalPath());
             if (file != null) {
                 String target = container.replaceHome(request.getTargetAbsolutePath());
