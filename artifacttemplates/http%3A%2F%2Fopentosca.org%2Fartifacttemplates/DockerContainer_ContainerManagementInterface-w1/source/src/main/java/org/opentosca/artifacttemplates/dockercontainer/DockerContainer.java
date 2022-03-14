@@ -48,7 +48,7 @@ public class DockerContainer {
     public String execCommand(String command) throws InterruptedException {
         LOG.info("Executing shell command: {}", command);
 
-        try (OutputStream output = getStringOutputStream()) {
+        try (OutputStream stream = getStringOutputStream()) {
             ExecCreateCmdResponse execCreateCmdResponse = client.execCreateCmd(containerId)
                     .withTty(true)
                     .withAttachStdout(true)
@@ -58,12 +58,12 @@ public class DockerContainer {
             client.execStartCmd(execCreateCmdResponse.getId())
                     .withTty(true)
                     .withDetach(false)
-                    .exec(new ExecStartResultCallback(output, System.err))
+                    .exec(new ExecStartResultCallback(stream, System.err))
                     .awaitCompletion();
 
-            String log = output.toString();
-            LOG.info("Execution log:\n {}", log);
-            return log;
+            String result = stream.toString();
+            LOG.info("Execution log:\n {}", result);
+            return result;
         } catch (IOException e) {
             LOG.error("Could not execute command", e);
         }
@@ -84,8 +84,7 @@ public class DockerContainer {
     public void uploadFile(String source, String target) throws InterruptedException {
         LOG.info("Uploading file '{}' to '{}'...", source, target);
 
-        int end = target.lastIndexOf('/');
-        String folders = target.substring(0, end);
+        String folders = target.substring(0, target.lastIndexOf('/'));
         execCommand("mkdir -p " + folders);
 
         client.copyArchiveToContainerCmd(containerId)
@@ -93,7 +92,7 @@ public class DockerContainer {
                 .withHostResource(source)
                 .exec();
 
-        LOG.info("Successfully uploaded file!");
+        LOG.info("Successfully uploaded file");
     }
 
     public void convertToUnix(String target) throws InterruptedException {
