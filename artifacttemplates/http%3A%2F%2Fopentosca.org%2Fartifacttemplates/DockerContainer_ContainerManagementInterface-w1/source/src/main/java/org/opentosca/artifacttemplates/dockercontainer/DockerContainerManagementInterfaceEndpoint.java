@@ -17,13 +17,6 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 
-import static org.opentosca.artifacttemplates.dockercontainer.DockerClientHandler.dos2unix;
-import static org.opentosca.artifacttemplates.dockercontainer.DockerClientHandler.ensurePackage;
-import static org.opentosca.artifacttemplates.dockercontainer.DockerClientHandler.executeCommand;
-import static org.opentosca.artifacttemplates.dockercontainer.DockerClientHandler.replaceHome;
-import static org.opentosca.artifacttemplates.dockercontainer.DockerClientHandler.uploadFile;
-import static org.opentosca.artifacttemplates.dockercontainer.DockerClientHandler.waitForAvailability;
-
 @Endpoint
 public class DockerContainerManagementInterfaceEndpoint {
 
@@ -37,13 +30,14 @@ public class DockerContainerManagementInterfaceEndpoint {
         InvokeResponse invokeResponse = new InvokeResponse();
         invokeResponse.setMessageID(openToscaHeaders.messageId());
 
-        waitForAvailability(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
-
         try {
-            ensurePackage(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID(), "sudo");
+            DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
+            container.awaitAvailability();
 
-            String command = replaceHome(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID(), request.getScript(), true);
-            String result = executeCommand(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID(), command);
+            container.ensurePackage("sudo");
+
+            String command = container.replaceHome(request.getScript());
+            String result = container.execCommand(command);
             invokeResponse.setScriptResult(result);
         } catch (InterruptedException e) {
             LOG.error("Could not execute script", e);
@@ -61,12 +55,8 @@ public class DockerContainerManagementInterfaceEndpoint {
         InvokeResponse invokeResponse = new InvokeResponse();
         invokeResponse.setMessageID(openToscaHeaders.messageId());
 
-        waitForAvailability(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
-
-        String targetAbsolutePath = request.getTargetAbsolutePath();
-        if (targetAbsolutePath.startsWith("~")) {
-            targetAbsolutePath = replaceHome(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID(), targetAbsolutePath, false);
-        }
+        DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
+        container.awaitAvailability();
 
         // Transform sourceURLorLocalAbsolutePath to URL
         URL url;
@@ -79,8 +69,9 @@ public class DockerContainerManagementInterfaceEndpoint {
             File file = new File(request.getSourceURLorLocalPath());
             if (file.exists()) {
                 try {
-                    uploadFile(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID(), file.toString(), targetAbsolutePath);
-                    dos2unix(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID(), targetAbsolutePath);
+                    String target = container.replaceHome(request.getTargetAbsolutePath());
+                    container.uploadFile(file.toString(), target);
+                    container.convertToUnix(target);
                 } catch (Exception ex) {
                     LOG.error("Could not transfer file", ex);
                     invokeResponse.setError("Could not transfer file: " + ex.getMessage());
@@ -103,16 +94,17 @@ public class DockerContainerManagementInterfaceEndpoint {
             httpConnection.setRequestProperty("Accept", "application/octet-stream");
             inputStream = httpConnection.getInputStream();
 
-            int start = targetAbsolutePath.lastIndexOf('/') + 1;
-            String filename = targetAbsolutePath.substring(start);
+            String target = container.replaceHome(request.getTargetAbsolutePath());
+            int start = target.lastIndexOf('/') + 1;
+            String filename = target.substring(start);
 
             Path tempDirectory = Files.createTempDirectory(filename);
             File tempFile = new File(tempDirectory.toString(), filename);
             FileUtils.copyInputStreamToFile(inputStream, tempFile);
             LOG.info("Temp file {} exists: {}", tempFile, tempFile.exists());
 
-            uploadFile(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID(), tempFile.toString(), targetAbsolutePath);
-            dos2unix(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID(), targetAbsolutePath);
+            container.uploadFile(tempFile.toString(), target);
+            container.convertToUnix(target);
 
             FileUtils.deleteDirectory(tempDirectory.toFile());
             LOG.info("Deleting temp file was successful!");
