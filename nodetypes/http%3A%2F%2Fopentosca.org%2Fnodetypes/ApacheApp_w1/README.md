@@ -1,0 +1,2 @@
+## Apache Web Server Application
+A simple NodeType to install Apache Web Server applications. Needs to be hosted on an Apache Web Server and have an ArchiveArtifact DA having a .zip file containing the application.
