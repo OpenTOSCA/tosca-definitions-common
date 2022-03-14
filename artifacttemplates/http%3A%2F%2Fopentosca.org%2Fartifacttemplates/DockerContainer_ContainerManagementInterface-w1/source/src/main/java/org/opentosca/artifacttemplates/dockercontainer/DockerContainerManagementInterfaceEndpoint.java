@@ -65,6 +65,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             // CASE: Transfer file from URL to container
             URL url = getUrl(request.getSourceURLorLocalPath());
             if (url != null) {
+                LOG.info("Transferring file from URL '{}' to container", request.getSourceURLorLocalPath());
                 String target = container.replaceHome(request.getTargetAbsolutePath());
                 String filename = target.substring(target.lastIndexOf('/') + 1);
                 Path directory = Files.createTempDirectory(filename);
@@ -80,6 +81,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             // CASE: Transfer local file to container
             File file = getFile(request.getSourceURLorLocalPath());
             if (file != null) {
+                LOG.info("Transferring local file '{}' to container", request.getSourceURLorLocalPath());
                 String target = container.replaceHome(request.getTargetAbsolutePath());
                 String source = file.toString();
                 container.uploadFile(source, target);

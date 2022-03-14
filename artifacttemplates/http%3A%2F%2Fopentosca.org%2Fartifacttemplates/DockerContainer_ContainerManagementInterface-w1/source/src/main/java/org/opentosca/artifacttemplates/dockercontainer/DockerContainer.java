@@ -30,10 +30,11 @@ public class DockerContainer {
         long endTime = startTime + 25000;
         while (System.currentTimeMillis() < endTime) {
             try {
-                execCommand("pwd");
                 // if we can execute pwd without issues ssh is up!
+                execCommand("pwd");
+                LOG.info("Container is available");
                 return;
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 LOG.error("Could not await availability", e);
                 try {
                     Thread.sleep(1000);
@@ -71,12 +72,18 @@ public class DockerContainer {
         return "";
     }
 
-    // TODO: why has this been contains instead of startsWith?!
     public String replaceHome(String command) throws InterruptedException {
+        // TODO: why has this been contains instead of startsWith?!
         if (command.startsWith("~")) {
             String pwd = execCommand("pwd").trim();
-            LOG.info("Replaced ~ with user home ('{}'): '{}'", pwd, command);
-            return command.replaceFirst("~", pwd);
+            // TODO: why replaceAll?!
+            String replaced = command.replaceFirst("~", pwd);
+            if (replaced.startsWith("//")) {
+                replaced = replaced.replaceFirst("//", "/");
+            }
+
+            LOG.info("Replaced '~' in '{}' with home '{}' which results in '{}'", command, pwd, replaced);
+            return replaced;
         }
         return command;
     }
@@ -110,8 +117,8 @@ public class DockerContainer {
     }
 
     public void ensurePackage(String name) throws InterruptedException {
-        String check = execCommand("apt -qq list" + name);
-        if (check.contains("[installed]")) {
+        String check = execCommand("apt -qq list " + name);
+        if (!check.contains("[installed]")) {
             LOG.info("Installing package {}", name);
             execCommand("apt update -y && apt install -yq " + name);
             LOG.info("Installed package {}", name);
