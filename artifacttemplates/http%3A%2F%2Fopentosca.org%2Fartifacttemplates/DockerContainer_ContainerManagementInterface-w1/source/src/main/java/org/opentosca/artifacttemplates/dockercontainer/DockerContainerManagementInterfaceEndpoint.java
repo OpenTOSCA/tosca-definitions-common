@@ -1,8 +1,7 @@
 package org.opentosca.artifacttemplates.dockercontainer;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +16,10 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 
+import static org.opentosca.artifacttemplates.dockercontainer.FileHandler.downloadFile;
+import static org.opentosca.artifacttemplates.dockercontainer.FileHandler.getFile;
+import static org.opentosca.artifacttemplates.dockercontainer.FileHandler.getUrl;
+
 @Endpoint
 public class DockerContainerManagementInterfaceEndpoint {
 
@@ -24,7 +27,7 @@ public class DockerContainerManagementInterfaceEndpoint {
 
     @PayloadRoot(namespace = DockerContainerConstants.NAMESPACE_URI, localPart = "runScriptRequest")
     public void runScript(@RequestPayload RunScriptRequest request, MessageContext messageContext) {
-        LOG.info("Received runScript request!");
+        LOG.info("Received runScript request");
 
         OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
         InvokeResponse invokeResponse = new InvokeResponse();
@@ -47,86 +50,53 @@ public class DockerContainerManagementInterfaceEndpoint {
         SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 
-    @PayloadRoot(namespace = DockerContainerConstants.NAMESPACE_URI, localPart = "runScriptRequest")
+    @PayloadRoot(namespace = DockerContainerConstants.NAMESPACE_URI, localPart = "transferFileRequest")
     public void transferFile(@RequestPayload TransferFileRequest request, MessageContext messageContext) {
-        LOG.info("Received transferFile request!");
+        LOG.info("Received transferFile request");
 
         OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
         InvokeResponse invokeResponse = new InvokeResponse();
         invokeResponse.setMessageID(openToscaHeaders.messageId());
 
-        DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
-        container.awaitAvailability();
-
-        // Transform sourceURLorLocalAbsolutePath to URL
-        URL url;
         try {
-            // Check if the string is a URL right away?
-            url = new URL(request.getSourceURLorLocalPath());
-        } catch (Exception e) {
-            // It's not a URL
-            // Check if string is a local path
-            File file = new File(request.getSourceURLorLocalPath());
-            if (file.exists()) {
-                try {
-                    String target = container.replaceHome(request.getTargetAbsolutePath());
-                    container.uploadFile(file.toString(), target);
-                    container.convertToUnix(target);
-                } catch (Exception ex) {
-                    LOG.error("Could not transfer file", ex);
-                    invokeResponse.setError("Could not transfer file: " + ex.getMessage());
-                }
-            } else {
-                String message = "TRANSFER_FAILED: File " + request.getSourceURLorLocalPath() + " is no valid URL and does not exist on the local file system.";
-                LOG.error(message);
-                invokeResponse.setError("Could not transfer file: " + message);
+            DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
+            container.awaitAvailability();
+
+            // CASE: Download file from URL
+            URL url = getUrl(request.getSourceURLorLocalPath());
+            if (url != null) {
+                String target = container.replaceHome(request.getTargetAbsolutePath());
+                String filename = target.substring(target.lastIndexOf('/') + 1);
+                Path directory = Files.createTempDirectory(filename);
+                String source = downloadFile(url, directory.toString(), filename);
+                container.uploadFile(source, target);
+                container.convertToUnix(target);
+                FileUtils.deleteDirectory(directory.toFile());
+                invokeResponse.setTransferResult("successful");
+                SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
+                return;
             }
-            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
-            return;
-        }
 
-        // Opens stream and uploads file
-        HttpURLConnection httpConnection = null;
-        InputStream inputStream = null;
-        try {
-            // If there is no output stream a HTTP GET is done by default
-            httpConnection = (HttpURLConnection) url.openConnection();
-            httpConnection.setRequestProperty("Accept", "application/octet-stream");
-            inputStream = httpConnection.getInputStream();
+            // CASE: Local file
+            File file = getFile(request.getSourceURLorLocalPath());
+            if (file != null) {
+                String target = container.replaceHome(request.getTargetAbsolutePath());
+                String source = file.toString();
+                container.uploadFile(source, target);
+                container.convertToUnix(target);
+                invokeResponse.setTransferResult("successful");
+                SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
+                return;
+            }
 
-            String target = container.replaceHome(request.getTargetAbsolutePath());
-            int start = target.lastIndexOf('/') + 1;
-            String filename = target.substring(start);
-
-            Path tempDirectory = Files.createTempDirectory(filename);
-            File tempFile = new File(tempDirectory.toString(), filename);
-            FileUtils.copyInputStreamToFile(inputStream, tempFile);
-            LOG.info("Temp file {} exists: {}", tempFile, tempFile.exists());
-
-            container.uploadFile(tempFile.toString(), target);
-            container.convertToUnix(target);
-
-            FileUtils.deleteDirectory(tempDirectory.toFile());
-            LOG.info("Deleting temp file was successful!");
-
-            invokeResponse.setTransferResult("successful");
-        } catch (Exception e) {
+            // DEFAULT
+            String message = "File " + request.getSourceURLorLocalPath() + " is no valid URL and does not exist on the local file system.";
+            LOG.error(message);
+            invokeResponse.setError("Could not transfer file: " + message);
+        } catch (InterruptedException | IOException e) {
             LOG.error("Could not transfer file", e);
             invokeResponse.setError("Could not transfer file: " + e.getMessage());
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (httpConnection != null) {
-                    httpConnection.disconnect();
-                }
-            } catch (Exception e) {
-                LOG.error("Could not close resources", e);
-                invokeResponse.setError("Could not close resources: " + e.getMessage());
-            }
+            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
         }
-
-        SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 }

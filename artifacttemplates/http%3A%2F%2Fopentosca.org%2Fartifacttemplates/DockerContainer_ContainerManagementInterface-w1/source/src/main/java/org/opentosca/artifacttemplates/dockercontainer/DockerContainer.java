@@ -25,23 +25,24 @@ public class DockerContainer {
         this.containerId = containerId;
     }
 
-    public void awaitAvailability() {
+    public void awaitAvailability() throws InterruptedException {
         long startTime = System.currentTimeMillis();
         long endTime = startTime + 25000;
         while (System.currentTimeMillis() < endTime) {
             try {
                 execCommand("pwd");
                 // if we can execute pwd without issues ssh is up!
-                break;
+                return;
             } catch (Exception e) {
-                LOG.error("Could not wait for availability", e);
+                LOG.error("Could not await availability", e);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e1) {
-                    LOG.error("Could not wait for availability", e1);
+                    LOG.error("Could not await availability", e1);
                 }
             }
         }
+        execCommand("pwd");
     }
 
     public String execCommand(String command) throws InterruptedException {
@@ -70,6 +71,7 @@ public class DockerContainer {
         return "";
     }
 
+    // TODO: why has this been contains instead of startsWith?!
     public String replaceHome(String command) throws InterruptedException {
         if (command.startsWith("~")) {
             String pwd = execCommand("pwd").trim();
