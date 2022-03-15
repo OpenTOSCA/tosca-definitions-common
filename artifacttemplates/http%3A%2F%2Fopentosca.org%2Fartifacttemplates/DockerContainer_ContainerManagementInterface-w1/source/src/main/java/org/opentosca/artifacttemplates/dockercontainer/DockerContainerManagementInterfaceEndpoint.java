@@ -37,7 +37,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
             container.awaitAvailability();
             container.ensurePackage("sudo");
-            String command = container.replaceHome(request.getScript(), true);
+            String command = container.replaceHome(request.getScript());
             String result = container.execCommand(command);
             invokeResponse.setScriptResult(result);
             LOG.info("RunScript request successful");
@@ -62,21 +62,24 @@ public class DockerContainerManagementInterfaceEndpoint {
             container.awaitAvailability();
 
             // TODO: refactor this
+            /*
             String target = request.getTargetAbsolutePath();
             if (target.startsWith("~")) {
                 target = container.replaceHome(target, false);
             }
+            */
 
             // CASE: Transfer file from URL to container
             URL url = getUrl(request.getSourceURLorLocalPath());
             if (url != null) {
                 LOG.info("Transferring file from URL '{}' to container", request.getSourceURLorLocalPath());
+                String target = container.replaceHome(request.getTargetAbsolutePath());
                 String filename = target.substring(target.lastIndexOf('/') + 1);
                 Path directory = Files.createTempDirectory(filename);
                 String source = downloadFile(url, directory.toString(), filename);
                 container.uploadFile(source, target);
                 container.convertToUnix(target);
-                FileUtils.deleteDirectory(directory.toFile());
+                // TODO: FileUtils.deleteDirectory(directory.toFile());
                 LOG.info("Deleted temporary directory successful");
                 invokeResponse.setTransferResult("successful");
                 LOG.info("TransferFile request successful");
@@ -88,6 +91,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             File file = getFile(request.getSourceURLorLocalPath());
             if (file != null) {
                 LOG.info("Transferring local file '{}' to container", request.getSourceURLorLocalPath());
+                String target = container.replaceHome(request.getTargetAbsolutePath());
                 String source = file.toString();
                 container.uploadFile(source, target);
                 container.convertToUnix(target);
@@ -102,7 +106,6 @@ public class DockerContainerManagementInterfaceEndpoint {
             LOG.error(message);
             invokeResponse.setError("Could not transfer file: " + message);
             SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
-
         } catch (InterruptedException | IOException e) {
             LOG.error("Could not transfer file", e);
             invokeResponse.setError("Could not transfer file: " + e.getMessage());

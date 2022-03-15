@@ -26,6 +26,7 @@ public class DockerContainer {
     }
 
     public void awaitAvailability() throws InterruptedException {
+        LOG.info("Checking if container is available");
         long startTime = System.currentTimeMillis();
         long endTime = startTime + 25000;
         InterruptedException error = null;
@@ -36,12 +37,12 @@ public class DockerContainer {
                 LOG.info("Container is available");
                 return;
             } catch (InterruptedException e) {
-                LOG.error("Could not await availability", e);
+                LOG.error("Could not check if container is available", e);
                 error = e;
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e1) {
-                    LOG.error("Could not await availability", e1);
+                    LOG.error("Could not check if container is available", e1);
                 }
             }
         }
@@ -51,7 +52,7 @@ public class DockerContainer {
     }
 
     public String execCommand(String command) throws InterruptedException {
-        LOG.info("Executing shell command: {}", command);
+        LOG.info("Executing command on container: {}", command);
 
         try (OutputStream stream = getStringOutputStream()) {
             ExecCreateCmdResponse execCreateCmdResponse = client.execCreateCmd(containerId)
@@ -92,8 +93,8 @@ public class DockerContainer {
 
     public String replaceHome(String command) throws InterruptedException {
         if (command.contains("~/")) {
-            String pwd = execCommand("pwd").trim();
-            String replaced = command.replaceAll("~/", pwd);
+            String pwd = execCommand("realpath ~").trim();
+            String replaced = command.replaceAll("~", pwd);
             LOG.info("Replaced '~' in '{}' with home '{}' which results in '{}'", command, pwd, replaced);
             return replaced;
         }
@@ -101,10 +102,10 @@ public class DockerContainer {
     }
 
     public void uploadFile(String source, String target) throws InterruptedException {
-        LOG.info("Uploading file '{}' to '{}'...", source, target);
+        LOG.info("Uploading host file '{}' to container at '{} '", source, target);
 
         String folders = target.substring(0, target.lastIndexOf('/'));
-        LOG.info("Creating remote directory '{}'", folders);
+        LOG.info("Creating directory on the container: '{}'", folders);
         execCommand("mkdir -p " + folders);
 
         LOG.info("Copy file to container");

@@ -32,25 +32,25 @@ public class FileHandler {
     }
 
     static String downloadFile(URL url, String directory, String filename) throws IOException {
-        HttpURLConnection httpConnection = null;
-        InputStream inputStream = null;
+        HttpURLConnection connection = null;
+        InputStream stream = null;
 
         try {
-            httpConnection = (HttpURLConnection) url.openConnection();
-            httpConnection.setRequestProperty("Accept", "application/octet-stream");
-            inputStream = httpConnection.getInputStream();
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Accept", "application/octet-stream");
+            stream = connection.getInputStream();
 
             File file = new File(directory, filename);
-            FileUtils.copyInputStreamToFile(inputStream, file);
-            LOG.info("Downloaded file '{}' to temporary file {}. Didn't I? {}", url, file, file.exists());
+            FileUtils.copyInputStreamToFile(stream, file);
+            LOG.info("Downloaded file '{}' to temporary file '{}'. Didn't I? {}", url, file, file.exists());
 
             return file.toString();
         } finally {
-            if (inputStream != null) {
-                inputStream.close();
+            if (stream != null) {
+                stream.close();
             }
-            if (httpConnection != null) {
-                httpConnection.disconnect();
+            if (connection != null) {
+                connection.disconnect();
             }
         }
     }
