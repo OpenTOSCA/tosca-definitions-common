@@ -28,6 +28,7 @@ public class DockerContainer {
     public void awaitAvailability() throws InterruptedException {
         long startTime = System.currentTimeMillis();
         long endTime = startTime + 25000;
+        InterruptedException error = null;
         while (System.currentTimeMillis() < endTime) {
             try {
                 // if we can execute pwd without issues ssh is up!
@@ -36,6 +37,7 @@ public class DockerContainer {
                 return;
             } catch (InterruptedException e) {
                 LOG.error("Could not await availability", e);
+                error = e;
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e1) {
@@ -43,7 +45,9 @@ public class DockerContainer {
                 }
             }
         }
-        execCommand("pwd");
+        if (error != null) {
+            throw error;
+        }
     }
 
     public String execCommand(String command) throws InterruptedException {
@@ -72,16 +76,24 @@ public class DockerContainer {
         return "";
     }
 
-    public String replaceHome(String command) throws InterruptedException {
-        // TODO: why has this been contains instead of startsWith?!
-        if (command.startsWith("~")) {
-            String pwd = execCommand("pwd").trim();
-            // TODO: why replaceAll?!
-            String replaced = command.replaceFirst("~", pwd);
-            if (replaced.startsWith("//")) {
-                replaced = replaced.replaceFirst("//", "/");
+    // TODO: replace this with other new function
+    public String replaceHome(String commandString, boolean all) {
+        if (commandString.contains("~")) {
+            try {
+                String pwd = execCommand("pwd").trim();
+                System.out.println("Replaced ~ with user home ('" + pwd + "'): '" + commandString + "'");
+                return all ? commandString.replaceAll("~", pwd) : commandString.replaceFirst("~", pwd);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+        }
+        return commandString;
+    }
 
+    public String replaceHome(String command) throws InterruptedException {
+        if (command.contains("~/")) {
+            String pwd = execCommand("pwd").trim();
+            String replaced = command.replaceAll("~/", pwd);
             LOG.info("Replaced '~' in '{}' with home '{}' which results in '{}'", command, pwd, replaced);
             return replaced;
         }
@@ -92,8 +104,10 @@ public class DockerContainer {
         LOG.info("Uploading file '{}' to '{}'...", source, target);
 
         String folders = target.substring(0, target.lastIndexOf('/'));
+        LOG.info("Creating remote directory '{}'", folders);
         execCommand("mkdir -p " + folders);
 
+        LOG.info("Copy file to container");
         client.copyArchiveToContainerCmd(containerId)
                 .withRemotePath(URLEncoder.encode(folders, StandardCharsets.UTF_8))
                 .withHostResource(source)

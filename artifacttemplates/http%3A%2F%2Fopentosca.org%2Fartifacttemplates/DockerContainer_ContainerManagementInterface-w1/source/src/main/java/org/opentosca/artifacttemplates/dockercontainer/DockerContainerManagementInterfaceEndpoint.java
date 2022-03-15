@@ -27,7 +27,7 @@ public class DockerContainerManagementInterfaceEndpoint {
 
     @PayloadRoot(namespace = DockerContainerConstants.NAMESPACE_URI, localPart = "runScriptRequest")
     public void runScript(@RequestPayload RunScriptRequest request, MessageContext messageContext) {
-        LOG.info("Received runScript request");
+        LOG.info("RunScript request received");
 
         OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
         InvokeResponse invokeResponse = new InvokeResponse();
@@ -36,12 +36,11 @@ public class DockerContainerManagementInterfaceEndpoint {
         try {
             DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
             container.awaitAvailability();
-
             container.ensurePackage("sudo");
-
-            String command = container.replaceHome(request.getScript());
+            String command = container.replaceHome(request.getScript(), true);
             String result = container.execCommand(command);
             invokeResponse.setScriptResult(result);
+            LOG.info("RunScript request successful");
         } catch (InterruptedException e) {
             LOG.error("Could not execute script", e);
             invokeResponse.setError("Could not execute script: " + e.getMessage());
@@ -52,7 +51,7 @@ public class DockerContainerManagementInterfaceEndpoint {
 
     @PayloadRoot(namespace = DockerContainerConstants.NAMESPACE_URI, localPart = "transferFileRequest")
     public void transferFile(@RequestPayload TransferFileRequest request, MessageContext messageContext) {
-        LOG.info("Received transferFile request");
+        LOG.info("TransferFile request received");
 
         OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
         InvokeResponse invokeResponse = new InvokeResponse();
@@ -62,18 +61,25 @@ public class DockerContainerManagementInterfaceEndpoint {
             DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
             container.awaitAvailability();
 
+            // TODO: refactor this
+            String target = request.getTargetAbsolutePath();
+            if (target.startsWith("~")) {
+                target = container.replaceHome(target, false);
+            }
+
             // CASE: Transfer file from URL to container
             URL url = getUrl(request.getSourceURLorLocalPath());
             if (url != null) {
                 LOG.info("Transferring file from URL '{}' to container", request.getSourceURLorLocalPath());
-                String target = container.replaceHome(request.getTargetAbsolutePath());
                 String filename = target.substring(target.lastIndexOf('/') + 1);
                 Path directory = Files.createTempDirectory(filename);
                 String source = downloadFile(url, directory.toString(), filename);
                 container.uploadFile(source, target);
                 container.convertToUnix(target);
                 FileUtils.deleteDirectory(directory.toFile());
+                LOG.info("Deleted temporary directory successful");
                 invokeResponse.setTransferResult("successful");
+                LOG.info("TransferFile request successful");
                 SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
                 return;
             }
@@ -82,11 +88,11 @@ public class DockerContainerManagementInterfaceEndpoint {
             File file = getFile(request.getSourceURLorLocalPath());
             if (file != null) {
                 LOG.info("Transferring local file '{}' to container", request.getSourceURLorLocalPath());
-                String target = container.replaceHome(request.getTargetAbsolutePath());
                 String source = file.toString();
                 container.uploadFile(source, target);
                 container.convertToUnix(target);
                 invokeResponse.setTransferResult("successful");
+                LOG.info("TransferFile request successful");
                 SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
                 return;
             }
@@ -95,6 +101,8 @@ public class DockerContainerManagementInterfaceEndpoint {
             String message = "File " + request.getSourceURLorLocalPath() + " is no valid URL and does not exist on the local file system.";
             LOG.error(message);
             invokeResponse.setError("Could not transfer file: " + message);
+            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
+
         } catch (InterruptedException | IOException e) {
             LOG.error("Could not transfer file", e);
             invokeResponse.setError("Could not transfer file: " + e.getMessage());

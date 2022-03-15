@@ -25,10 +25,10 @@ public class FileHandler {
 
     static File getFile(String path) {
         File file = new File(path);
-        if (!file.exists()) {
-            return null;
+        if (file.exists()) {
+            return file;
         }
-        return file;
+        return null;
     }
 
     static String downloadFile(URL url, String directory, String filename) throws IOException {
@@ -42,7 +42,7 @@ public class FileHandler {
 
             File file = new File(directory, filename);
             FileUtils.copyInputStreamToFile(inputStream, file);
-            LOG.info("Created temporary file {}", file);
+            LOG.info("Downloaded file '{}' to temporary file {}. Didn't I? {}", url, file, file.exists());
 
             return file.toString();
         } finally {
