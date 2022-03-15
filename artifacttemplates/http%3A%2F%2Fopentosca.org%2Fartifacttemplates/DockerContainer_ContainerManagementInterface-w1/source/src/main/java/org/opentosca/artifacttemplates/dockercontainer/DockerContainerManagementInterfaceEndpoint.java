@@ -58,58 +58,61 @@ public class DockerContainerManagementInterfaceEndpoint {
         invokeResponse.setMessageID(openToscaHeaders.messageId());
 
         try {
+            // Connect to container
             DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
             container.awaitAvailability();
 
-            // TODO: refactor this
-            /*
-            String target = request.getTargetAbsolutePath();
-            if (target.startsWith("~")) {
-                target = container.replaceHome(target, false);
-            }
-            */
+            // Source and target paths
+            String source = null;
+            String target = container.replaceHome(request.getTargetAbsolutePath());
 
-            // CASE: Transfer file from URL to container
+            // Use file from URL as source if valid URL
+            Path tempDirectory = null;
             URL url = getUrl(request.getSourceURLorLocalPath());
             if (url != null) {
                 LOG.info("Transferring file from URL '{}' to container", request.getSourceURLorLocalPath());
-                String target = container.replaceHome(request.getTargetAbsolutePath());
                 String filename = target.substring(target.lastIndexOf('/') + 1);
-                Path directory = Files.createTempDirectory(filename);
-                String source = downloadFile(url, directory.toString(), filename);
-                container.uploadFile(source, target);
-                container.convertToUnix(target);
-                // TODO: FileUtils.deleteDirectory(directory.toFile());
-                LOG.info("Deleted temporary directory successful");
-                invokeResponse.setTransferResult("successful");
-                LOG.info("TransferFile request successful");
-                SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
-                return;
+                tempDirectory = Files.createTempDirectory(filename);
+                source = downloadFile(url, tempDirectory.toString(), filename);
             }
 
-            // CASE: Transfer local file to container
+            // Use local file as source if file exists
             File file = getFile(request.getSourceURLorLocalPath());
             if (file != null) {
                 LOG.info("Transferring local file '{}' to container", request.getSourceURLorLocalPath());
-                String target = container.replaceHome(request.getTargetAbsolutePath());
-                String source = file.toString();
-                container.uploadFile(source, target);
-                container.convertToUnix(target);
-                invokeResponse.setTransferResult("successful");
-                LOG.info("TransferFile request successful");
+                source = file.toString();
+            }
+
+            // Abort if no source
+            if (source == null) {
+                String message = "File " + request.getSourceURLorLocalPath() + " is no valid URL and does not exist on the local file system.";
+                LOG.error(message);
+                invokeResponse.setError("Could not transfer file: " + message);
                 SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
                 return;
             }
 
-            // DEFAULT
-            String message = "File " + request.getSourceURLorLocalPath() + " is no valid URL and does not exist on the local file system.";
-            LOG.error(message);
-            invokeResponse.setError("Could not transfer file: " + message);
-            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
+            // Upload source to target on container
+            container.uploadFile(source, target);
+
+            // Convert target on container to unix
+            container.convertToUnix(target);
+
+            // Clean up
+            if (tempDirectory != null) {
+                FileUtils.deleteDirectory(tempDirectory.toFile());
+                LOG.info("Deleted temporary directory successful");
+            }
+
+            // Success
+            invokeResponse.setTransferResult("successful");
+            LOG.info("TransferFile request successful");
         } catch (InterruptedException | IOException e) {
             LOG.error("Could not transfer file", e);
             invokeResponse.setError("Could not transfer file: " + e.getMessage());
-            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
         }
+
+        // Send response
+        SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 }

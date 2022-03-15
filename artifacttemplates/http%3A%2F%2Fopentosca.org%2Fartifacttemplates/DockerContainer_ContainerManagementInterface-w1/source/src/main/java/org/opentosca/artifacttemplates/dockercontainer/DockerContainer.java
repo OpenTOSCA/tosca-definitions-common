@@ -32,8 +32,8 @@ public class DockerContainer {
         InterruptedException error = null;
         while (System.currentTimeMillis() < endTime) {
             try {
-                // if we can execute pwd without issues ssh is up!
-                execCommand("pwd");
+                // if command can be executed without issues ssh is up
+                execCommand("echo container availability check");
                 LOG.info("Container is available");
                 return;
             } catch (InterruptedException e) {
@@ -78,6 +78,7 @@ public class DockerContainer {
     }
 
     // TODO: replace this with other new function
+    // sleep 1 && mkdir -p ~/dir/~/baum
     public String replaceHome(String commandString, boolean all) {
         if (commandString.contains("~")) {
             try {
@@ -93,9 +94,9 @@ public class DockerContainer {
 
     public String replaceHome(String command) throws InterruptedException {
         if (command.contains("~/")) {
-            String pwd = execCommand("realpath ~").trim();
-            String replaced = command.replaceAll("~", pwd);
-            LOG.info("Replaced '~' in '{}' with home '{}' which results in '{}'", command, pwd, replaced);
+            String pwd = execCommand("pwd").trim();
+            String replaced = command.replaceAll("~/", pwd);
+            LOG.info("Replaced '~' in '{}' with '{}' which results in '{}'", command, pwd, replaced);
             return replaced;
         }
         return command;
@@ -104,13 +105,13 @@ public class DockerContainer {
     public void uploadFile(String source, String target) throws InterruptedException {
         LOG.info("Uploading host file '{}' to container at '{} '", source, target);
 
-        String folders = target.substring(0, target.lastIndexOf('/'));
-        LOG.info("Creating directory on the container: '{}'", folders);
-        execCommand("mkdir -p " + folders);
+        String directory = target.substring(0, target.lastIndexOf('/'));
+        LOG.info("Creating directory on the container: '{}'", directory);
+        execCommand("mkdir -p " + directory);
 
         LOG.info("Copy file to container");
         client.copyArchiveToContainerCmd(containerId)
-                .withRemotePath(URLEncoder.encode(folders, StandardCharsets.UTF_8))
+                .withRemotePath(URLEncoder.encode(directory, StandardCharsets.UTF_8))
                 .withHostResource(source)
                 .exec();
 
@@ -164,15 +165,15 @@ public class DockerContainer {
 
     private OutputStream getStringOutputStream() {
         return new OutputStream() {
-            private StringBuilder string = new StringBuilder();
+            private final StringBuilder data = new StringBuilder();
 
             @Override
-            public void write(int x) throws IOException {
-                this.string.append((char) x);
+            public void write(int x) {
+                this.data.append((char) x);
             }
 
             public String toString() {
-                return this.string.toString();
+                return this.data.toString();
             }
         };
     }
