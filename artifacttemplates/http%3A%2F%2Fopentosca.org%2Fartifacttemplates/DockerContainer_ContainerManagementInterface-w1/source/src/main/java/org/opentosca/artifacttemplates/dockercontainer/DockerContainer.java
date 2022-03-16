@@ -2,8 +2,6 @@ package org.opentosca.artifacttemplates.dockercontainer;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
@@ -78,6 +76,17 @@ public class DockerContainer {
         return "";
     }
 
+    /**
+     * This function replaces any "~" in the command with the output of pwd.
+
+     * For example, "sleep 1 && mkdir -p ~/some/path/~/dir && rmdir ~/some/other/path" will be transformed
+     * to "sleep 1 && mkdir -p /some/path/dir && rmdir /some/other/path" if pwd is "/".
+
+     * Note, the example also shows that the second "~" of the mkdir command is also replaced.
+     * This might lead to unexpected behaviour.
+     *
+     * Note, pwd does not necessarily return the home directory.
+     */
     public String replaceHome(String command) throws InterruptedException {
         if (command.contains("~/")) {
             String pwd = execCommand("pwd").trim();
@@ -108,11 +117,11 @@ public class DockerContainer {
                 .withHostResource(source)
                 .exec();
 
-        LOG.info("Successfully uploaded file");
+        LOG.info("Successfully uploaded file to container");
     }
 
     public void convertToUnix(String target) throws InterruptedException {
-        LOG.info("Converting file '{}' to Unix", target);
+        LOG.info("Converting file '{}' to unix on container", target);
 
         if (!target.endsWith(".sh")) {
             LOG.info("Skipping converting file to unix since file '{}' does not end with .sh", target);
@@ -122,17 +131,17 @@ public class DockerContainer {
         ensurePackage("dos2unix");
         execCommand("dos2unix " + target + " " + target);
 
-        LOG.info("Successfully converted file " + target + " to Unix");
+        LOG.info("Successfully converted file '{}' to unix on container", target);
     }
 
     public void ensurePackage(String name) throws InterruptedException {
         String check = execCommand("apt -qq list " + name);
         if (!check.contains("[installed]")) {
-            LOG.info("Installing package {}", name);
+            LOG.info("Installing package '{}' on container", name);
             execCommand("apt update -y && apt install -yq " + name);
-            LOG.info("Installed package {}", name);
+            LOG.info("Installed package '{}' on conatiner", name);
         } else {
-            LOG.info("Package {} is already installed", name);
+            LOG.info("Package '{}' is already installed on container", name);
         }
     }
 
