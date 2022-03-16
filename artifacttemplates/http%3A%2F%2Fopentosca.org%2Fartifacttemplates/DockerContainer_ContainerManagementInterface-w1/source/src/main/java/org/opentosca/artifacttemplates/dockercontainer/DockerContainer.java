@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
+import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.command.ExecStartResultCallback;
@@ -94,7 +95,7 @@ public class DockerContainer {
         return command;
     }
 
-    public void uploadFile(String source, String target) throws InterruptedException {
+    public void uploadFile(String source, String target) throws InterruptedException, NotFoundException {
         LOG.info("Uploading host file '{}' to container at '{} '", source, target);
 
         String directory = target.substring(0, target.lastIndexOf('/'));

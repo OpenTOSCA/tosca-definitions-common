@@ -6,6 +6,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import com.github.dockerjava.api.exception.NotFoundException;
 import org.apache.commons.io.FileUtils;
 import org.opentosca.artifacttemplates.OpenToscaHeaders;
 import org.opentosca.artifacttemplates.SoapUtil;
@@ -107,7 +108,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             // Success
             invokeResponse.setTransferResult("successful");
             LOG.info("TransferFile request successful");
-        } catch (InterruptedException | IOException e) {
+        } catch (Exception e) {
             LOG.error("Could not transfer file", e);
             invokeResponse.setError("Could not transfer file: " + e.getMessage());
         }
