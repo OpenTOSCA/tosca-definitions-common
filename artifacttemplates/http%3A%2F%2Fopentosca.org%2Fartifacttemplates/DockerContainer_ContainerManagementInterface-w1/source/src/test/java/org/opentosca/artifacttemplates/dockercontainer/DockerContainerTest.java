@@ -9,7 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class DockerContainerTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "/", " \t            \t ", "    /    "})
+    // These inputs are used to validate that whitespaces do not break the replacement of ~ with the current directory.
+    @ValueSource(strings = {"", "/", " \t            \t ", "    /    ", "\n\t  /"})
     void replaceHome(String pwdResponse) throws InterruptedException {
         DockerContainer dockerContainer = new DockerContainer("tcp://localhost:2375", null, "2a") {
             @Override
