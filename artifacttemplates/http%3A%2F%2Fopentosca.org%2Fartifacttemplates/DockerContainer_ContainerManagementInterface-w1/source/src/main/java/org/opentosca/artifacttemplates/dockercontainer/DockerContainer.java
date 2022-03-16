@@ -77,25 +77,17 @@ public class DockerContainer {
         return "";
     }
 
-    // TODO: replace this with other new function
-    // sleep 1 && mkdir -p ~/dir/~/baum
-    public String replaceHome(String commandString, boolean all) {
-        if (commandString.contains("~")) {
-            try {
-                String pwd = execCommand("pwd").trim();
-                System.out.println("Replaced ~ with user home ('" + pwd + "'): '" + commandString + "'");
-                return all ? commandString.replaceAll("~", pwd) : commandString.replaceFirst("~", pwd);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return commandString;
-    }
-
     public String replaceHome(String command) throws InterruptedException {
         if (command.contains("~/")) {
             String pwd = execCommand("pwd").trim();
-            String replaced = command.replaceAll("~/", pwd);
+
+            String replaced;
+            if (pwd.endsWith("/")) {
+                replaced = command.replaceAll("~/", pwd);
+            } else {
+                replaced = command.replaceAll("~", pwd);
+            }
+
             LOG.info("Replaced '~' in '{}' with '{}' which results in '{}'", command, pwd, replaced);
             return replaced;
         }
@@ -111,7 +103,7 @@ public class DockerContainer {
 
         LOG.info("Copy file to container");
         client.copyArchiveToContainerCmd(containerId)
-                .withRemotePath(URLEncoder.encode(directory, StandardCharsets.UTF_8))
+                .withRemotePath(directory)
                 .withHostResource(source)
                 .exec();
 
