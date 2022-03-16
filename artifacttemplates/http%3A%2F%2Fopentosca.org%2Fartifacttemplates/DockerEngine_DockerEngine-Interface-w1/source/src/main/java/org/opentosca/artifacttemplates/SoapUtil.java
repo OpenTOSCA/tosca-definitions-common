@@ -24,7 +24,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnectionFactory;
-import org.opentosca.artifacttemplates.dockercontainer.InvokeResponse;
+import org.opentosca.artifacttemplates.dockerengine.InvokeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.context.MessageContext;
