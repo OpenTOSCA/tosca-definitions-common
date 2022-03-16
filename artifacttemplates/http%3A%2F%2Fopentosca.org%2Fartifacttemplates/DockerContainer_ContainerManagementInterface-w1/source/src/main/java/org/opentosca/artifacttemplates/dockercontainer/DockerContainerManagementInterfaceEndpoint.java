@@ -1,12 +1,10 @@
 package org.opentosca.artifacttemplates.dockercontainer;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.github.dockerjava.api.exception.NotFoundException;
 import org.apache.commons.io.FileUtils;
 import org.opentosca.artifacttemplates.OpenToscaHeaders;
 import org.opentosca.artifacttemplates.SoapUtil;
@@ -40,7 +38,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             container.ensurePackage("sudo");
             String command = container.replaceHome(request.getScript());
             String result = container.execCommand(command);
-            invokeResponse.setScriptResult(result);
+            invokeResponse.setScriptResult(SoapUtil.encode(result));
             LOG.info("RunScript request successful");
         } catch (InterruptedException e) {
             LOG.error("Could not execute script", e);

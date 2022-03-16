@@ -3,6 +3,8 @@ package org.opentosca.artifacttemplates;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -136,5 +138,9 @@ public abstract class SoapUtil {
 
         // no header with the given name found
         return null;
+    }
+
+    public static String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 }
