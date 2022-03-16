@@ -139,7 +139,7 @@ public class DockerContainer {
         if (!check.contains("[installed]")) {
             LOG.info("Installing package '{}' on container", name);
             execCommand("apt update -y && apt install -yq " + name);
-            LOG.info("Installed package '{}' on conatiner", name);
+            LOG.info("Installed package '{}' on container", name);
         } else {
             LOG.info("Package '{}' is already installed on container", name);
         }

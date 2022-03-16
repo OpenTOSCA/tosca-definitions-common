@@ -13,7 +13,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = OpenToscaIASpringApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class DockerContainerManagementInterfaceEndpointTest {
+class DockerContainerManagementInterfaceEndpointIntegrationTest {
 
     @LocalServerPort
     private int serverPort;
