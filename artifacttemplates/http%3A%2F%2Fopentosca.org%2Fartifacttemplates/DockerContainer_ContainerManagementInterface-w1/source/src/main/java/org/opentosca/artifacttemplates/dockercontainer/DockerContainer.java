@@ -78,10 +78,10 @@ public class DockerContainer {
 
     /**
      * This function replaces any "~" in the command with the output of pwd.
-
-     * For example, "sleep 1 && mkdir -p ~/some/path/~/dir && rmdir ~/some/other/path" will be transformed
-     * to "sleep 1 && mkdir -p /some/path/dir && rmdir /some/other/path" if pwd is "/".
-
+     *
+     * For example, <code>sleep 1 && mkdir -p ~/some/path/~/dir && rmdir ~/some/other/path</code> will be transformed
+     * to <code>sleep 1 && mkdir -p /some/path/dir && rmdir /some/other/path" if pwd is "/"</code>.
+     *
      * Note, the example also shows that the second "~" of the mkdir command is also replaced.
      * This might lead to unexpected behaviour.
      *

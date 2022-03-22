@@ -26,7 +26,7 @@ public class DockerContainerManagementInterfaceEndpoint {
 
     @PayloadRoot(namespace = DockerContainerConstants.NAMESPACE_URI, localPart = "runScriptRequest")
     public void runScript(@RequestPayload RunScriptRequest request, MessageContext messageContext) {
-        LOG.info("RunScript request received");
+        LOG.info("RunScript request received!");
 
         OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
         InvokeResponse invokeResponse = new InvokeResponse();
@@ -58,7 +58,11 @@ public class DockerContainerManagementInterfaceEndpoint {
 
         try {
             // Connect to container
-            DockerContainer container = new DockerContainer(request.getDockerEngineURL(), request.getDockerEngineCertificate(), request.getContainerID());
+            DockerContainer container = new DockerContainer(
+                    request.getDockerEngineURL(),
+                    request.getDockerEngineCertificate(),
+                    request.getContainerID()
+            );
             container.awaitAvailability();
 
             // Source and target paths
@@ -68,6 +72,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             // Use file from URL as source if valid URL
             Path tempDirectory = null;
             URL url = getUrl(request.getSourceURLorLocalPath());
+
             if (url != null) {
                 LOG.info("Transferring file from URL '{}' to container", request.getSourceURLorLocalPath());
                 String filename = target.substring(target.lastIndexOf('/') + 1);
@@ -107,7 +112,7 @@ public class DockerContainerManagementInterfaceEndpoint {
             invokeResponse.setTransferResult("successful");
             LOG.info("TransferFile request successful");
         } catch (Exception e) {
-            LOG.error("Could not transfer file", e);
+            LOG.error("Could not transfer file...", e);
             invokeResponse.setError("Could not transfer file: " + e.getMessage());
         }
 
