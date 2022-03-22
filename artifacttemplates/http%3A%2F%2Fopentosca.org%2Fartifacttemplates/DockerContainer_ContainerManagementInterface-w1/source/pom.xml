@@ -1,314 +1,167 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.opentosca.nodetypes</groupId>
-    <artifactId>org_opentosca_nodetypes_DockerContainer__ContainerManagementInterface</artifactId>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>org.opentosca.artifacttemplates</groupId>
+    <artifactId>DockerContainer__ContainerManagementInterface</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>Implementation Artifact org_opentosca_nodetypes_DockerContainer__ContainerManagementInterface</name>
+    <name>DockerContainer__ContainerManagementInterface</name>
+    <description>Implementation Artifact for the ContainerManagementInterface at the DockerContainer NodeType</description>
 
     <properties>
-        <run.HttpPort>9090</run.HttpPort>
-        <winery.upload.url>
-            http://localhost:8080/winery/artifacttemplates/http%253A%252F%252Fopentosca.org%252Fnodetypes/DockerContainer_ContainerManagementInterface-AT/files/
-        </winery.upload.url>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.7.6</cxf.version>
-        <highlevelrestapi.version>0.1.6</highlevelrestapi.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
-        <!-- LIBRARIES ADDED FOR IMPLEMENTATION ARTIFACT IMPLEMENTATION -->
-
+        <!-- general IA dependencies -->
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <!-- NOTE: "The Commons HttpClient project is now end of life, and is
-                no longer being developed." See http://hc.apache.org/httpclient-3.x/. New
-                project: http://hc.apache.org/httpcomponents-client-ga/ -->
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-            <exclusions>
-                <!-- provided by jcl-over-slf4j to enable logging via logback -->
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-ssh</artifactId>
-            <version>1.5.2</version>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.25.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.0</version>
-        </dependency>
-
-        <!-- END - LIBRARIES ADDED FOR IMPLEMENTATION ARTIFACT IMPLEMENTATION -->
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>3.0.7.RELEASE</version>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>3.0.7.RELEASE</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>3.0.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-simple</artifactId>
-            <version>${cxf.version}</version>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>3.0.2</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http</artifactId>
-            <version>${cxf.version}</version>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <version>3.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+            <version>3.0.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.soap</groupId>
+            <artifactId>jakarta.xml.soap-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <!-- can only be updated, if org.springframework.ws:spring-ws-core also uses jakarta.xml.soap instead of javax -->
+            <version>1.5.3</version>
+        </dependency>
+        <!-- END general IA dependencies -->
+
+        <!-- IA-specific dependencies -->
         <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java</artifactId>
-            <version>3.1.5</version>
+            <version>3.2.13</version>
         </dependency>
         <dependency>
-            <groupId>jakarta.ws.rs</groupId>
-            <artifactId>jakarta.ws.rs-api</artifactId>
-            <version>2.1.6</version>
-            <scope>compile</scope>
+            <groupId>net.lingala.zip4j</groupId>
+            <artifactId>zip4j</artifactId>
+            <version>2.9.1</version>
         </dependency>
+        <!-- END IA-specific dependencies -->
     </dependencies>
+
     <build>
-        <finalName>org_opentosca_nodetypes_DockerContainer__ContainerManagementInterface</finalName>
+        <finalName>org_opentosca_artifactTemplates_DockerContainer__ContainerManagementInterface</finalName>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <downloadSources>false</downloadSources>
-                    <downloadJavadocs>true</downloadJavadocs>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-java2ws-plugin</artifactId>
-                <version>${cxf.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                        <version>${cxf.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-rt-frontend-simple</artifactId>
-                        <version>${cxf.version}</version>
-                    </dependency>
-                </dependencies>
+                <artifactId>cxf-xjc-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <extensions>
+                        <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:3.3.1</extension>
+                    </extensions>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>process-classes</id>
-                        <phase>process-classes</phase>
-                        <configuration>
-                            <className>
-                                org.opentosca.nodetypes.org_opentosca_nodetypes_DockerContainer__ContainerManagementInterface
-                            </className>
-                            <outputFile>
-                                ${basedir}/src/main/webapp/wsdl/org_opentosca_nodetypes_DockerContainer__ContainerManagementInterface.wsdl
-                            </outputFile>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>java2ws</goal>
+                            <goal>xsdtojava</goal>
                         </goals>
+                        <configuration>
+                            <sourceRoot>${basedir}/target/generated-sources/src/main/java</sourceRoot>
+                            <xsdOptions>
+                                <xsdOption>
+                                    <xsd>src/main/resources/containerManagementInterface.xsd</xsd>
+                                    <packagename>org.opentosca.artifacttemplates.dockercontainer</packagename>
+                                </xsdOption>
+                            </xsdOptions>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-
+            <!-- Move the built war file to the ArtifactTemplate's files folder -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-                </configuration>
-            </plugin>
-
-            <!-- Inspired by: http://giallone.blogspot.de/2013/02/post-file-to-web-page-as-part-of-maven.html -->
-            <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.4</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.gmaven.runtime</groupId>
-                        <artifactId>gmaven-runtime-1.7</artifactId>
-                        <version>1.2</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpmime</artifactId>
-                        <version>4.2.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpcore</artifactId>
-                        <version>4.2.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpclient</artifactId>
-                        <version>4.2.1</version>
-                    </dependency>
-                </dependencies>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
-                        <id>upload2winery</id>
-                        <!-- In this mvn phase... -->
-                        <phase>deploy</phase>
-                        <!-- ...run the execute goal of this plugin -->
+                        <id>copy-resource-one</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>execute</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <providerSelection>1.7</providerSelection>
-                            <source>
-                                import org.apache.http.impl.client.DefaultHttpClient
-                                import org.apache.http.client.methods.HttpPost
-                                import
-
-                                org.apache.http.entity.mime.MultipartEntity
-                                import
-
-                                org.apache.http.entity.mime.content.FileBody
-
-                                // Get WAR file
-                                def
-                                        name = "target/${project.build.finalName}.war"
-                                println "Archive
-                                file:
-                                $name "
-                                def f = new File(name)
-
-                                // POST file
-                                DefaultHttpClient
-                                httpclient = new DefaultHttpClient()
-                                println "Upload URL:
-                                $ { winery.upload.url }
-                                "
-                                def post = new
-                                HttpPost("${winery.upload.url}")
-                                def entity = new
-                                MultipartEntity()
-                                def fileBody = new FileBody(f)
-                                entity.addPart("files[]", fileBody)
-                                post.setEntity(entity)
-
-                                //
-                                Process response
-                                def response = httpclient.execute(post)
-                                def
-                                        status = response.getStatusLine()
-                                if (!(status ==~ /.*Created.*/)
-                                )
-                                    fail("IA upload to Winery FAILED, please upload manually. (HTTP
-                                            status
-                                            code: $status)
-                                " )
-                                else
-                                println "IA upload finished
-                                sucessfully(HTTP status code $status)
-                                "
-                            </source>
+                            <outputDirectory>${basedir}/../files/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/target/</directory>
+                                    <includes>
+                                        <include>${project.build.finalName}.war</include>
+                                    </includes>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.1</version>
-                    <configuration>
-                        <!-- http port -->
-                        <port>${run.HttpPort}</port>
-                        <!-- application path always starts with / -->
-                        <path>/</path>
-                        <!-- if you want to use test dependencies rather than only runtime -->
-                        <useTestClasspath>false</useTestClasspath>
-                    </configuration>
-                </plugin>
-
-                <!-- Disable default install phase, because we don't install into maven
-                    repo but into Winery (during deploy phase). -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>default-install</id>
-                            <phase>none</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!-- Disable default deploy phase, because we don't deploy into remote
-                    maven repo but into remote Winery. -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>default-deploy</id>
-                            <phase>none</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
     </build>
 </project>
