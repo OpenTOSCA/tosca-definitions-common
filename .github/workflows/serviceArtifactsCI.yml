@@ -28,6 +28,8 @@ jobs:
         artifactTemplates:
           - name: DockerEngine-Interface
             path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerEngine_DockerEngine-Interface-w1
+          - name: DockerContainer-ContainerManagementInterface
+            path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerContainer_ContainerManagementInterface-w1
           - name: OpenStack-CloudProviderInterface
             path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/OpenStack_17-Victoria-CloudProviderInterfaceIA-w1
     runs-on: ubuntu-latest

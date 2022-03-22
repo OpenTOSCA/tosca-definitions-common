@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.annotation.Resource;
 import javax.xml.namespace.QName;
-import javax.xml.ws.WebServiceContext;
 
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
+import org.openstack4j.api.client.CloudProvider;
 import org.openstack4j.api.client.IOSClientBuilder.V3;
 import org.openstack4j.api.types.Facing;
 import org.openstack4j.core.transport.Config;
@@ -58,9 +57,6 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
                     DiskFormat.QCOW2
             )
     );
-
-    @Resource
-    private WebServiceContext context;
 
     @PayloadRoot(namespace = OpenStackConstants.NAMESPACE_URI, localPart = "createVMRequest")
     public void createVM(@RequestPayload CreateVMRequest request, MessageContext messageContext) {
@@ -115,12 +111,7 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
         logger.info("Received security groups {}", securityGroup);
 
         // Create OpenStack client
-        OSClient<?> osClient = authenticate(
-                request.getHypervisorEndpoint(),
-                request.getHypervisorUserName(),
-                request.getHypervisorUserPassword(),
-                request.getHypervisorTenantID()
-        );
+        OSClient<?> osClient = authenticate(request);
 
         if (osClient == null) {
             response.setError("Could not connect to OpenStack Instance at " + request.getHypervisorEndpoint());
@@ -343,11 +334,7 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
         response.setMessageID(openToscaHeaders.messageId());
 
         // Create OpenStack client
-        OSClient<?> osClient = authenticate(
-                request.getHypervisorEndpoint(),
-                request.getHypervisorUserName(),
-                request.getHypervisorUserPassword(),
-                request.getHypervisorTenantID());
+        OSClient<?> osClient = authenticate(request);
         logger.info("Successfully authenticated at {}", request.getHypervisorEndpoint());
 
         if (osClient == null) {
@@ -394,36 +381,49 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
     /**
      * Creates an OpenStack client from the input data
      *
-     * @param identificationEndpoint - The endpoint of the OpenStack Identity service
-     * @param hypervisorUserName     - OpenStack user name
-     * @param hypervisorUserPassword - OpenStack user password
-     * @param projectId              - the id of the project to use
+     * @param openStackRequest - the request object
      * @return Authenticated OpenStack Client
      */
-    private OSClient<?> authenticate(String identificationEndpoint, String hypervisorUserName, String hypervisorUserPassword,
-                                     String projectId) {
-        Config config = newConfig().withSSLVerificationDisabled();
+    private OSClient<?> authenticate(OpenStackRequest openStackRequest) {
+        Config config = newConfig()
+                .withSSLVerificationDisabled();
 
         // Authenticate with OpenStack
-        String endpoint = identificationEndpoint.endsWith("/v3") ? "" : ":5000/v3";
-        if (identificationEndpoint.startsWith("http")) {
-            endpoint = identificationEndpoint + endpoint;
+        String endpoint = openStackRequest.getHypervisorEndpoint().endsWith("/v3") ? "" : ":5000/v3";
+        if (openStackRequest.getHypervisorEndpoint().startsWith("http")) {
+            endpoint = openStackRequest.getHypervisorEndpoint() + endpoint;
         } else {
-            endpoint = "http://" + identificationEndpoint + endpoint;
+            endpoint = "http://" + openStackRequest.getHypervisorEndpoint() + endpoint;
         }
 
-        // v3 auth
-        logger.info("Connecting to \"{}\"...", endpoint);
-        V3 creds = OSFactory.builderV3()
-                .withConfig(config)
-                .perspective(Facing.PUBLIC)
-                .endpoint(endpoint)
-                .credentials(hypervisorUserName, hypervisorUserPassword, Identifier.byName("Default"))
-                .scopeToProject(Identifier.byId(projectId));
-        try {
-            return creds.authenticate();
-        } catch (Exception e) {
-            logger.error("Error while authenticating at {}", endpoint, e);
+        if (openStackRequest.getHypervisorUserName() != null && !openStackRequest.getHypervisorUserName().isBlank()
+                && openStackRequest.getHypervisorUserPassword() != null && !openStackRequest.getHypervisorUserPassword().isBlank()) {
+            logger.info("Connecting to \"{}\" using username and password...", endpoint);
+            OSFactory.enableHttpLoggingFilter(true);
+            V3 creds = OSFactory.builderV3()
+                    .withConfig(config)
+                    .perspective(Facing.PUBLIC)
+                    .endpoint(endpoint)
+                    .credentials(openStackRequest.getHypervisorUserName(), openStackRequest.getHypervisorUserPassword(), Identifier.byName("Default"))
+                    .scopeToProject(Identifier.byId(openStackRequest.hypervisorTenantID));
+            try {
+                return creds.authenticate();
+            } catch (Exception e) {
+                logger.error("Error while authenticating at {}", endpoint, e);
+            }
+        } else if (openStackRequest.getHypervisorTenantID() != null && !openStackRequest.getHypervisorTenantID().isBlank()) {
+            logger.info("Connecting to \"{}\" using API token...", endpoint);
+            V3 creds = OSFactory.builderV3()
+                    .withConfig(config)
+                    .endpoint(endpoint)
+                    .scopeToDomain(Identifier.byName("Default"))
+                    .token(openStackRequest.hypervisorApiToken)
+                    .scopeToProject(Identifier.byId(openStackRequest.hypervisorTenantID));
+            try {
+                return creds.authenticate();
+            } catch (Exception e) {
+                logger.error("Error while authenticating at {}", endpoint, e);
+            }
         }
 
         return null;
