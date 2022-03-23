@@ -8,7 +8,8 @@
             <xs:element form="qualified" minOccurs="0" name="HypervisorTenantID" type="xs:string"/>
             <xs:element form="qualified" minOccurs="0" name="HypervisorUserName" type="xs:string"/>
             <xs:element form="qualified" minOccurs="0" name="HypervisorUserPassword" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="HypervisorApiToken" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="HypervisorApplicationID" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="HypervisorApplicationSecret" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

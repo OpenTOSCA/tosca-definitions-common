@@ -21,6 +21,13 @@
         <java.version>17</java.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- general IA dependencies -->
         <dependency>
@@ -90,10 +97,20 @@
         <!-- END general IA dependencies -->
 
         <!-- LIBRARIES ADDED FOR IMPLEMENTATION ARTIFACT IMPLEMENTATION -->
+        <!--
+            Unfortunately, the current implementation of OpenStack4J does not support authentication using the
+            application_credential method. Thus, we use the fixed version by Lukas for now.
+        -->
         <dependency>
-            <groupId>com.github.openstack4j.core</groupId>
-            <artifactId>openstack4j</artifactId>
-            <version>3.10</version>
+            <groupId>com.github.lharzenetter.openstack4j</groupId>
+            <artifactId>openstack4j-core</artifactId>
+            <version>0437cd269d</version>
+        </dependency>
+        <!-- Because Apache has nice debugging logs, we use it explicitly -->
+        <dependency>
+            <groupId>com.github.lharzenetter.openstack4j</groupId>
+            <artifactId>openstack4j-httpclient</artifactId>
+            <version>0437cd269d</version>
         </dependency>
     </dependencies>
 
@@ -125,7 +142,7 @@
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>src/main/resources/cloudProviderInterface.xsd</xsd>
-                                    <packagename>org.opentosca.artifacttemplates.openstack</packagename>
+                                    <packagename>org.opentosca.artifacttemplates.openstack.model</packagename>
                                 </xsdOption>
                             </xsdOptions>
                         </configuration>

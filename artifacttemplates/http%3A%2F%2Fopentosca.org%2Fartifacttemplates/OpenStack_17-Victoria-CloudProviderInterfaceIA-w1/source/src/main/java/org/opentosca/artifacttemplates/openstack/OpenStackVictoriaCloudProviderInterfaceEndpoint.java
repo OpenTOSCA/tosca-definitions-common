@@ -10,8 +10,6 @@ import javax.xml.namespace.QName;
 
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
-import org.openstack4j.api.client.CloudProvider;
-import org.openstack4j.api.client.IOSClientBuilder.V3;
 import org.openstack4j.api.types.Facing;
 import org.openstack4j.core.transport.Config;
 import org.openstack4j.model.common.ActionResponse;
@@ -31,6 +29,10 @@ import org.openstack4j.model.image.v2.DiskFormat;
 import org.openstack4j.openstack.OSFactory;
 import org.opentosca.artifacttemplates.OpenToscaHeaders;
 import org.opentosca.artifacttemplates.SoapUtil;
+import org.opentosca.artifacttemplates.openstack.model.CreateVMRequest;
+import org.opentosca.artifacttemplates.openstack.model.InvokeResponse;
+import org.opentosca.artifacttemplates.openstack.model.OpenStackRequest;
+import org.opentosca.artifacttemplates.openstack.model.TerminateVMRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.context.MessageContext;
@@ -211,7 +213,7 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
 
         // Build the server
         ServerCreateBuilder serverCreateBuilder = Builders.server()
-                .name("OTIA" + System.currentTimeMillis())
+                .name("OpenTOSCA-" + System.currentTimeMillis())
                 .flavor(flavor)
                 .image(image)
                 .keypairName(request.getVMKeyPairName());
@@ -297,7 +299,8 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
                         break;
                     }
                 } catch (Exception e) {
-                    logger.warn("Unable to allocate FloatingIP from pool {}. Trying next pool.", poolName, e);
+                    logger.warn("Unable to allocate FloatingIP from pool {}. Error was '{}'. Trying next pool.", poolName, e.getMessage());
+                    logger.debug("Unable to allocate FloatingIP", e);
                 }
             }
         }
@@ -306,22 +309,18 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
         if (floatingIp == null) {
             logger.error("Unable to find and allocate a FloatingIP. Machine will be started without floating IP and, therefore, might not be accessible from the outside.");
             // If not, we are setting the server's internal IP as floating IP,
-            // so it is returned to the user, even if it might not be accesible.
+            // so it is returned to the user, even if it might not be accessible.
             floatingIp = serversInternalIP;
         } else {
             // Assign Floating IP
             osClient.compute().floatingIps().addFloatingIP(server, floatingIp);
         }
 
-        // Output Parameter 'VMInstanceId' (optional)
-        // Do NOT delete the next line of code. Set "" as value if you want to
-        // return nothing or an empty result!
+        // Output Parameters
         response.setVMInstanceID(server.getId());
-
-        // Output Parameter 'VMIP' (optional)
-        // Do NOT delete the next line of code. Set "" as value if you want to
-        // return nothing or an empty result!
         response.setVMIP(floatingIp);
+
+        logger.info("Successfully started VM with internal IP {} and public IP {}", serversInternalIP, floatingIp);
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
     }
@@ -388,7 +387,7 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
         Config config = newConfig()
                 .withSSLVerificationDisabled();
 
-        // Authenticate with OpenStack
+        // Authenticate with OpenStack and explicitly using v3
         String endpoint = openStackRequest.getHypervisorEndpoint().endsWith("/v3") ? "" : ":5000/v3";
         if (openStackRequest.getHypervisorEndpoint().startsWith("http")) {
             endpoint = openStackRequest.getHypervisorEndpoint() + endpoint;
@@ -396,31 +395,36 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
             endpoint = "http://" + openStackRequest.getHypervisorEndpoint() + endpoint;
         }
 
-        if (openStackRequest.getHypervisorUserName() != null && !openStackRequest.getHypervisorUserName().isBlank()
-                && openStackRequest.getHypervisorUserPassword() != null && !openStackRequest.getHypervisorUserPassword().isBlank()) {
-            logger.info("Connecting to \"{}\" using username and password...", endpoint);
-            OSFactory.enableHttpLoggingFilter(true);
-            V3 creds = OSFactory.builderV3()
-                    .withConfig(config)
-                    .perspective(Facing.PUBLIC)
-                    .endpoint(endpoint)
-                    .credentials(openStackRequest.getHypervisorUserName(), openStackRequest.getHypervisorUserPassword(), Identifier.byName("Default"))
-                    .scopeToProject(Identifier.byId(openStackRequest.hypervisorTenantID));
+        // We prefer the application_credential authentication method over the username/password.
+        if (openStackRequest.getHypervisorApplicationID() != null && !openStackRequest.getHypervisorApplicationID().isBlank()
+                && openStackRequest.getHypervisorApplicationSecret() != null && !openStackRequest.getHypervisorApplicationSecret().isBlank()) {
+            logger.info("Connecting to \"{}\" using the application credentials...", endpoint);
+
             try {
-                return creds.authenticate();
+                return OSFactory.builderV3()
+                        .withConfig(config)
+                        .endpoint(endpoint)
+                        .applicationCredentials(openStackRequest.getHypervisorApplicationID(), openStackRequest.getHypervisorApplicationSecret())
+                        .authenticate();
             } catch (Exception e) {
                 logger.error("Error while authenticating at {}", endpoint, e);
             }
-        } else if (openStackRequest.getHypervisorTenantID() != null && !openStackRequest.getHypervisorTenantID().isBlank()) {
-            logger.info("Connecting to \"{}\" using API token...", endpoint);
-            V3 creds = OSFactory.builderV3()
-                    .withConfig(config)
-                    .endpoint(endpoint)
-                    .scopeToDomain(Identifier.byName("Default"))
-                    .token(openStackRequest.hypervisorApiToken)
-                    .scopeToProject(Identifier.byId(openStackRequest.hypervisorTenantID));
+        } else if (openStackRequest.getHypervisorUserName() != null && !openStackRequest.getHypervisorUserName().isBlank()
+                && openStackRequest.getHypervisorUserPassword() != null && !openStackRequest.getHypervisorUserPassword().isBlank()) {
+            logger.info("Connecting to \"{}\" using username and password...", endpoint);
+            logger.warn("""
+                    This method is not recommended as your password is used. Instead use the application credentials!
+                    More information can be found here https://docs.openstack.org/keystone/queens/user/application_credentials.html
+                    """);
+
             try {
-                return creds.authenticate();
+                return OSFactory.builderV3()
+                        .withConfig(config)
+                        .perspective(Facing.PUBLIC)
+                        .endpoint(endpoint)
+                        .credentials(openStackRequest.getHypervisorUserName(), openStackRequest.getHypervisorUserPassword(), Identifier.byName("Default"))
+                        .scopeToProject(Identifier.byId(openStackRequest.getHypervisorTenantID()))
+                        .authenticate();
             } catch (Exception e) {
                 logger.error("Error while authenticating at {}", endpoint, e);
             }
