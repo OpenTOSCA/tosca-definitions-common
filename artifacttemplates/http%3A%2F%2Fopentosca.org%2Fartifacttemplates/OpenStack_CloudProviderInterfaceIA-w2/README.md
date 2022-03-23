@@ -1,4 +1,6 @@
-# OpenStack Train Cloud-Provider-Interface IA [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# OpenStack Cloud-Provider-Interface IA [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+This version supports both, authentication using application credentials as well as username and password.
 
 ## Haftungsausschluss
 

@@ -14,7 +14,7 @@
     <artifactId>OpenStack_Victoria-CloudProviderInterfaceIA</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>OpenStack_Victoria-CloudProviderInterfaceIA_w1</name>
+    <name>OpenStack_CloudProviderInterfaceIA_w2</name>
     <description>Implementation Artifact for the CloudProvider Interface at the OpenStack NodeType</description>
 
     <properties>
@@ -115,7 +115,7 @@
     </dependencies>
 
     <build>
-        <finalName>org_opentosca_artifactTemplates_OpenStack__CloudProviderInterface</finalName>
+        <finalName>OpenStack_CloudProviderInterface</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -6,7 +6,7 @@ public abstract class OpenStackConstants {
     public static final String NAMESPACE_URI = "http://artifacttemplates.opentosca.org";
 
     // port type to use for the SOAP service
-    public static final String PORT_TYPE_NAME = "org_opentosca_artifactTemplates_OpenStackVictoria_CloudProviderInterfacePort";
+    public static final String PORT_TYPE_NAME = "org_opentosca_artifactTemplates_OpenStack_CloudProviderInterfacePort";
 
     // name of the XML Schema file to use as basis for the WSDL generation
     public static final String XSD_NAME = "cloudProviderInterface.xsd";
