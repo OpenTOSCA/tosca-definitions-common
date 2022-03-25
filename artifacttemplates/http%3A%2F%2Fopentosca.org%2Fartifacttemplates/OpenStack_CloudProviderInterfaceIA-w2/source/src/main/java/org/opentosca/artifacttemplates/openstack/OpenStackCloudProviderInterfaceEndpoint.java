@@ -43,9 +43,9 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import static org.openstack4j.core.transport.Config.newConfig;
 
 @Endpoint
-public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
+public class OpenStackCloudProviderInterfaceEndpoint {
 
-    private final static Logger logger = LoggerFactory.getLogger(OpenStackVictoriaCloudProviderInterfaceEndpoint.class);
+    private final static Logger logger = LoggerFactory.getLogger(OpenStackCloudProviderInterfaceEndpoint.class);
 
     private final static List<SupportedArtifactType> SUPPORTED_ARTIFACT_TYPE_TYPES = Arrays.asList(
             new SupportedArtifactType(
@@ -383,7 +383,7 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
      * @param openStackRequest - the request object
      * @return Authenticated OpenStack Client
      */
-    private OSClient<?> authenticate(OpenStackRequest openStackRequest) {
+    OSClient<?> authenticate(OpenStackRequest openStackRequest) {
         Config config = newConfig()
                 .withSSLVerificationDisabled();
 
@@ -392,7 +392,7 @@ public class OpenStackVictoriaCloudProviderInterfaceEndpoint {
         if (openStackRequest.getHypervisorEndpoint().startsWith("http")) {
             endpoint = openStackRequest.getHypervisorEndpoint() + endpoint;
         } else {
-            endpoint = "http://" + openStackRequest.getHypervisorEndpoint() + endpoint;
+            endpoint = "https://" + openStackRequest.getHypervisorEndpoint() + endpoint;
         }
 
         // We prefer the application_credential authentication method over the username/password.

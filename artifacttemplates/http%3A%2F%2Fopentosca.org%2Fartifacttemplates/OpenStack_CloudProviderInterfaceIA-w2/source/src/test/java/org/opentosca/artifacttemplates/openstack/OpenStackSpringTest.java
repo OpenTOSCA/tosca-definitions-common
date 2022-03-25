@@ -5,16 +5,19 @@ import java.io.IOException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockserver.integration.ClientAndServer;
 import org.opentosca.artifacttemplates.OpenToscaIASpringApplication;
-import org.opentosca.artifacttemplates.openstack.OpenStackConstants;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 
 @SpringBootTest(classes = OpenToscaIASpringApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class OpenStackVictoriaCloudProviderInterfaceEndpointTest {
+class OpenStackSpringTest {
 
     @LocalServerPort
     private int serverPort;

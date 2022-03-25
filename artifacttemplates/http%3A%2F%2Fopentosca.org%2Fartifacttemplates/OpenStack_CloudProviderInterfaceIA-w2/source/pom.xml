@@ -112,6 +112,15 @@
             <artifactId>openstack4j-httpclient</artifactId>
             <version>0437cd269d</version>
         </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-netty</artifactId>
+            <version>5.13.0</version>
+            <scope>test</scope>
+            <classifier>shaded</classifier>
+        </dependency>
     </dependencies>
 
     <build>
