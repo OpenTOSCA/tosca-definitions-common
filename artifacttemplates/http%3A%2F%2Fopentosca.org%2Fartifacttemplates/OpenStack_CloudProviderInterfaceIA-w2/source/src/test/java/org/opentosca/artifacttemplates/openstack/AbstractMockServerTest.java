@@ -13,7 +13,7 @@ import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 public abstract class AbstractMockServerTest {
 
     protected static ClientAndServer mockServer;
-    protected static int mockServerPort = 1008;
+    protected static int mockServerPort = 45008;
 
     @BeforeAll
     static void before() {
