@@ -1,11 +1,15 @@
-# OpenStack 15 Train [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
+# OpenStack 22 Victoria [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 
 ## Properties
 
-- `OpenStackIdentityEndpoint`
-- `OpenStackProjectId`
-- `OpenStackUserName`
-- `OpenStackUserPassword`
+- `HypervisorEndpoint`
+- `HypervisorTenantID`
+- `HypervisorApplicationID`
+- `HypervisorApplicationSecret`
+
+**NOTE**: This version enforces the usage of [application credentials](https://docs.openstack.org/keystone/queens/user/application_credentials.html)
+          in order to authenticate at the OpenStack hypervisor. Therefore, you must create application credentials
+          in your account and use the ID and the secret in the topology instead of your username and password.
 
 ## Haftungsausschluss
 
@@ -14,7 +18,7 @@ Diese Software enthält möglicherweise Fehler und funktioniert möglicherweise,
 Anwendungsfällen, nicht richtig.
 Insbesondere beim Produktiveinsatz muss 1. die Funktionsfähigkeit geprüft und 2. die Einhaltung sämtlicher Lizenzen geprüft werden.
 Die Haftung für entgangenen Gewinn, Produktionsausfall, Betriebsunterbrechung, entgangene Nutzungen, Verlust von Daten
-und Informationen, Finanzierungsaufwendungen sowie sonstige Vermägens- und Folgeschäden ist, außer in Fällen von grober
+und Informationen, Finanzierungsaufwendungen sowie sonstige Vermögens- und Folgeschäden ist, außer in Fällen von grober
 Fahrlässigkeit, Vorsatz und Personenschäden ausgeschlossen.
 
 ## Disclaimer of Warranty

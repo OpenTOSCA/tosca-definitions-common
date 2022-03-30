@@ -1,4 +1,4 @@
-package org.opentosca.artifacttemplates;
+package org.opentosca.artifacttemplates.dockerengine;
 
 import java.util.Objects;
 
@@ -42,9 +42,12 @@ public class DockerClientHandler {
         for (final Image availImage : client.listImagesCmd().exec()) {
             // if there are 'none' images at the Docker Engine, e.g., from a local build, this results in null as availImage
             if (Objects.nonNull(availImage)) {
-                for (final String tag : availImage.getRepoTags()) {
-                    if (tag.startsWith(image)) {
-                        return availImage.getId();
+                String[] repoTags = availImage.getRepoTags();
+                if (Objects.nonNull(repoTags)) {
+                    for (final String tag : repoTags) {
+                        if (tag.startsWith(image)) {
+                            return availImage.getId();
+                        }
                     }
                 }
             }

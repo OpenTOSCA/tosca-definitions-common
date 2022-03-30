@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.opentosca.artifacttemplates</groupId>
-    <artifactId>DockerEngine__InterfaceDockerEngine</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+
+    <groupId>org.opentosca.NodeTypes</groupId>
+    <artifactId>OpenStack_Victoria-CloudProviderInterfaceIA</artifactId>
     <packaging>war</packaging>
-    <name>DockerEngine_InterfaceDockerEngine</name>
-    <description>Implementation Artifact for the InterfaceDockerEngine at the DockerEngine NodeType</description>
+    <version>1.0-SNAPSHOT</version>
+    <name>OpenStack_CloudProviderInterfaceIA_w2</name>
+    <description>Implementation Artifact for the CloudProvider Interface at the OpenStack NodeType</description>
 
     <properties>
         <java.version>17</java.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- general IA dependencies -->
@@ -87,22 +96,35 @@
         </dependency>
         <!-- END general IA dependencies -->
 
-        <!-- IA-specific dependencies -->
+        <!-- LIBRARIES ADDED FOR IMPLEMENTATION ARTIFACT IMPLEMENTATION -->
+        <!--
+            Unfortunately, the current implementation of OpenStack4J does not support authentication using the
+            application_credential method. Thus, we use the fixed version by Lukas for now.
+        -->
         <dependency>
-            <groupId>com.github.docker-java</groupId>
-            <artifactId>docker-java</artifactId>
-            <version>3.2.13</version>
+            <groupId>com.github.lharzenetter.openstack4j</groupId>
+            <artifactId>openstack4j-core</artifactId>
+            <version>0437cd269d</version>
         </dependency>
+        <!-- Because Apache has nice debugging logs, we use it explicitly -->
         <dependency>
-            <groupId>net.lingala.zip4j</groupId>
-            <artifactId>zip4j</artifactId>
-            <version>2.9.1</version>
+            <groupId>com.github.lharzenetter.openstack4j</groupId>
+            <artifactId>openstack4j-httpclient</artifactId>
+            <version>0437cd269d</version>
         </dependency>
-        <!-- END IA-specific dependencies -->
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-netty</artifactId>
+            <version>5.13.0</version>
+            <scope>test</scope>
+            <classifier>shaded</classifier>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>org_opentosca_artifactTemplates_DockerEngine__InterfaceDockerEngine</finalName>
+        <finalName>OpenStack_CloudProviderInterface</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -128,8 +150,8 @@
                             <sourceRoot>${basedir}/target/generated-sources/src/main/java</sourceRoot>
                             <xsdOptions>
                                 <xsdOption>
-                                    <xsd>src/main/resources/dockerEngineInterface.xsd</xsd>
-                                    <packagename>org.opentosca.artifacttemplates.dockerengine</packagename>
+                                    <xsd>src/main/resources/cloudProviderInterface.xsd</xsd>
+                                    <packagename>org.opentosca.artifacttemplates.openstack.model</packagename>
                                 </xsdOption>
                             </xsdOptions>
                         </configuration>
@@ -164,4 +186,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

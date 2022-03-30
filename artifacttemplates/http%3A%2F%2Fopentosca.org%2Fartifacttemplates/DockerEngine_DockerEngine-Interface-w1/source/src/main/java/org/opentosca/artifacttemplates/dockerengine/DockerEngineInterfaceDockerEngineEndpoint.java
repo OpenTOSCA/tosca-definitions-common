@@ -1,4 +1,4 @@
-package org.opentosca.artifacttemplates;
+package org.opentosca.artifacttemplates.dockerengine;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -15,22 +15,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.opentosca.artifacttemplates.dockerengine.InvokeResponse;
-import org.opentosca.artifacttemplates.dockerengine.RemoveContainerRequest;
-import org.opentosca.artifacttemplates.dockerengine.StartContainerRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.ws.context.MessageContext;
-import org.springframework.ws.server.endpoint.annotation.Endpoint;
-import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-import org.springframework.ws.server.endpoint.annotation.RequestPayload;
-import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,38 +34,41 @@ import com.github.dockerjava.api.model.Volume;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.google.common.io.Files;
-
 import net.lingala.zip4j.ZipFile;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.opentosca.artifacttemplates.OpenToscaHeaders;
+import org.opentosca.artifacttemplates.SoapUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 
 @Endpoint
 public class DockerEngineInterfaceDockerEngineEndpoint {
 
     private static final Logger LOG = LoggerFactory.getLogger(DockerEngineInterfaceDockerEngineEndpoint.class);
 
-    @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "startContainerRequest")
+    @PayloadRoot(namespace = DockerEngineConstants.NAMESPACE_URI, localPart = "startContainerRequest")
     public void startContainer(@RequestPayload StartContainerRequest request, MessageContext messageContext) {
         LOG.info("Received startContainer request!");
 
-        // retrieve the SOAP headers, e.g., to get the message ID
-        Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
-        Node replyToNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
-        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
-            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
-            return;
-        }
-        String messageId = messageIdNode.getTextContent();
-        String replyTo = replyToNode.getFirstChild().getTextContent();
-        LOG.info("Retrieved message ID: {}", messageId);
-        LOG.info("ReplyTo address: {}", replyTo);
+        OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
+
+        InvokeResponse invokeResponse = new InvokeResponse();
+        invokeResponse.setMessageID(openToscaHeaders.messageId());
 
         // create connection to the docker engine
         if (Objects.isNull(request.getDockerEngineURL())) {
             LOG.error("Docker Engine URL not defined in SOAP request!");
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(messageId);
             invokeResponse.setError("Docker Engine URL must be defined to start a container!");
 
-            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
+            SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
             return;
         }
         DefaultDockerClientConfig config = DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate());
@@ -231,7 +218,25 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
 
                     final String[] portMapKV = portMapping.split(",");
                     if (portMapKV.length > 0 && Arrays.stream(portMapKV).noneMatch(String::isEmpty)) {
-                        final ExposedPort tempPort = ExposedPort.tcp(Integer.parseInt(portMapKV[0]));
+                        // exposed port has the pattern <port>/<protocol>, e.g., 9999/udp
+                        String[] portSplit = portMapKV[0].split("/");
+                        String port;
+                        String protocol;
+                        if (portSplit.length == 2) {
+                            port = portSplit[0];
+                            protocol = portSplit[1];
+                        } else {
+                            port = portMapKV[0];
+                            protocol = "tcp";
+                        }
+
+                        ExposedPort tempPort;
+                        switch (protocol) {
+                            case "udp" -> tempPort = ExposedPort.udp(Integer.parseInt(port));
+                            case "sctp" -> tempPort = ExposedPort.sctp(Integer.parseInt(port));
+                            default -> tempPort = ExposedPort.tcp(Integer.parseInt(port));
+                        }
+
                         Integer externalPort = null;
 
                         boolean randomPort = false;
@@ -243,7 +248,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                         exposedPorts.add(tempPort);
 
                         if (!randomPort) {
-                            LOG.info("Creating PortBinding {}:{}", tempPort, externalPort);
+                            LOG.info("Creating PortBinding {}:{}/{}", tempPort.getPort(), externalPort, protocol);
                             portBindings.bind(tempPort, Ports.Binding.bindPort(externalPort));
                         } else {
                             // map to random port
@@ -389,39 +394,26 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
             }
 
             // create response and send back
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(messageId);
             invokeResponse.setContainerPorts(portMapping.toString());
             invokeResponse.setContainerID(container.getId());
             invokeResponse.setContainerIP(ipAddress);
             invokeResponse.setContainerName(containerName);
-
-            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         } catch (final Exception e) {
             LOG.error("Error while closing docker client.", e);
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(messageId);
             invokeResponse.setError(e.getMessage());
-
-            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         }
+
+        SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 
-    @PayloadRoot(namespace = Constants.NAMESPACE_URI, localPart = "removeContainerRequest")
+    @PayloadRoot(namespace = DockerEngineConstants.NAMESPACE_URI, localPart = "removeContainerRequest")
     public void removeContainer(@RequestPayload RemoveContainerRequest request, MessageContext messageContext) {
         LOG.info("Received removeContainer request!");
 
-        // retrieve the SOAP headers, e.g., to get the message ID
-        Node messageIdNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.MESSAGE_ID_HEADER);
-        Node replyToNode = SoapUtil.getHeaderFieldByName(messageContext, Constants.REPLY_TO_HEADER);
-        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
-            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
-            return;
-        }
-        String messageId = messageIdNode.getTextContent();
-        String replyTo = replyToNode.getFirstChild().getTextContent();
-        LOG.info("Retrieved message ID: {}", messageId);
-        LOG.info("ReplyTo address: {}", replyTo);
+        OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
+
+        InvokeResponse invokeResponse = new InvokeResponse();
+        invokeResponse.setMessageID(openToscaHeaders.messageId());
 
         try (final DockerClient dockerClient = DockerClientBuilder
                 .getInstance(DockerClientHandler.getConfig(request.getDockerEngineURL(), request.getDockerEngineCertificate()))
@@ -437,18 +429,12 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
             }
 
             // create response and send back
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(messageId);
             invokeResponse.setResult("Stopped and Removed container " + request.getContainerID());
-
-            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         } catch (final IOException e) {
             LOG.error("Error closing the Docker client", e);
-            InvokeResponse invokeResponse = new InvokeResponse();
-            invokeResponse.setMessageID(messageId);
             invokeResponse.setError(e.getMessage());
-
-            SoapUtil.sendSoapResponse(invokeResponse, replyTo);
         }
+
+        SoapUtil.sendSoapResponse(invokeResponse, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 }
