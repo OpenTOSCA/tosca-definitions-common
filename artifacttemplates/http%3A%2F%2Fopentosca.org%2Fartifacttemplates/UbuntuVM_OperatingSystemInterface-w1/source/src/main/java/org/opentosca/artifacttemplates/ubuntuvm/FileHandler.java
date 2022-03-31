@@ -1,4 +1,4 @@
-package artifacttemplates.ubuntuvm;
+package org.opentosca.artifacttemplates.ubuntuvm;
 
 import java.io.File;
 import java.io.IOException;

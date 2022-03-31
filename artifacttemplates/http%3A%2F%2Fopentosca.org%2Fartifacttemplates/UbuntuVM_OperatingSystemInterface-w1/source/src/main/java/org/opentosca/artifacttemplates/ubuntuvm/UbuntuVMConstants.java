@@ -1,4 +1,4 @@
-package artifacttemplates.ubuntuvm;
+package org.opentosca.artifacttemplates.ubuntuvm;
 public abstract class UbuntuVMConstants {
 
     // Namespace under which the SOAP service operates

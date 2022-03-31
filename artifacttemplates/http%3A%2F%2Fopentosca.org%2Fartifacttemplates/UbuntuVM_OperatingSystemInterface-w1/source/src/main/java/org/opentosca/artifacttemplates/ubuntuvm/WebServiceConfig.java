@@ -1,4 +1,4 @@
-package artifacttemplates.ubuntuvm;
+package org.opentosca.artifacttemplates.ubuntuvm;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -24,18 +24,18 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new ServletRegistrationBean<>(servlet, "/*");
     }
 
-    @Bean(name = DockerContainerConstants.PORT_TYPE_NAME)
+    @Bean(name = UbuntuVMConstants.PORT_TYPE_NAME)
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema dockerInterfaceSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName(DockerContainerConstants.PORT_TYPE_NAME);
+        wsdl11Definition.setPortTypeName(UbuntuVMConstants.PORT_TYPE_NAME);
         wsdl11Definition.setLocationUri("/");
-        wsdl11Definition.setTargetNamespace(DockerContainerConstants.NAMESPACE_URI);
+        wsdl11Definition.setTargetNamespace(UbuntuVMConstants.NAMESPACE_URI);
         wsdl11Definition.setSchema(dockerInterfaceSchema);
         return wsdl11Definition;
     }
 
     @Bean
     public XsdSchema containerManagementInterfaceSchema() {
-        return new SimpleXsdSchema(new ClassPathResource(DockerContainerConstants.XSD_NAME));
+        return new SimpleXsdSchema(new ClassPathResource(UbuntuVMConstants.XSD_NAME));
     }
 }

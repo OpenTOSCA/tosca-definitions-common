@@ -2,7 +2,7 @@
            xmlns="http://artifacttemplates.opentosca.org"
            targetNamespace="http://artifacttemplates.opentosca.org">
 
-    <xs:element name="InstallPackageRequest">
+    <xs:element name="installPackageRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
@@ -14,19 +14,19 @@
     </xs:element>
 
 
-    <xs:element name="TransferFileRequest">
+    <xs:element name="transferFileRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
                 <xs:element form="qualified" minOccurs="0" name="VMUserName" type="xs:string"/>
                 <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
                 <xs:element form="qualified" minOccurs="0" name="TargetAbsolutePath" type="xs:string"/>
-                <xs:element form="qualified" minOccurs="0" name="SourceURLorLocalPath	" type="xs:string"/>
+                <xs:element form="qualified" minOccurs="0" name="SourceURLorLocalPath" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="RunScriptRequest">
+    <xs:element name="runScriptRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
@@ -37,7 +37,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="WaitForAvailabilityRequest">
+    <xs:element name="waitForAvailabilityRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
@@ -47,7 +47,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="TestPortBindingRequest">
+    <xs:element name="testPortBindingRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element form="qualified" minOccurs="0" name="Port" type="xs:string"/>
@@ -55,7 +55,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="InvokeResponse">
+    <xs:element name="invokeResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="MessageID" type="xs:string"/>

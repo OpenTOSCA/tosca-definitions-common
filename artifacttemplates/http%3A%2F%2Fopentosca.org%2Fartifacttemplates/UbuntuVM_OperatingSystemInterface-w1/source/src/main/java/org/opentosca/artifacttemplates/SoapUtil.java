@@ -1,4 +1,4 @@
-package artifacttemplates;
+package org.opentosca.artifacttemplates;
 
 import java.io.StringWriter;
 import java.net.MalformedURLException;
