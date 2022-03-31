@@ -54,7 +54,6 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
 
     @PayloadRoot(namespace = UbuntuVMConstants.NAMESPACE_URI, localPart = "transferFileRequest")
     public void transferFile(@RequestPayload TransferFileRequest request, MessageContext messageContext) {
-        // TODO: transferFile
         LOG.info("TransferFile request received");
 
         OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
