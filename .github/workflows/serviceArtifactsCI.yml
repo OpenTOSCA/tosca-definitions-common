@@ -32,6 +32,8 @@ jobs:
             path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/DockerContainer_ContainerManagementInterface-w1
           - name: OpenStack-CloudProviderInterface
             path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/OpenStack_CloudProviderInterfaceIA-w2
+          - name: UbuntuVM-OperatingSystemInterface
+            path: artifacttemplates/http%3A%2F%2Fopentosca.org%2Fartifacttemplates/Ubuntu-VM_OperatingSystemInterface-w1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

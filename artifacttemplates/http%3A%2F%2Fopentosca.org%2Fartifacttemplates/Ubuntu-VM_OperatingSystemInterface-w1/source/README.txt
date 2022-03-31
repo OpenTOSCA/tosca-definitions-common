@@ -4,7 +4,7 @@ GENERATED IMPLEMENTATION ARTIFACT SKELETON FOR org_opentosca_NodeTypes_Ubuntu-14
 Interface Name: org_opentosca_NodeTypes_Ubuntu-14_04-VM__OperatingSystemInterface
 Namespace: http://NodeTypes.opentosca.org/
 Java Package: org.opentosca.NodeTypes
-URL: http://192.168.209.137:8080/winery/artifacttemplates/http%253A%252F%252Fopentosca.org%252FNodeTypes/Ubuntu-VM_14.04-OperatingSystemInterface-w1/files/../
+URL: http://192.168.209.137:8080/winery/artifacttemplates/http%253A%252F%252Fopentosca.org%252FNodeTypes/UbuntuVM_14.04-OperatingSystemInterface-w1/files/../
 ###########################################################################
 
 ##### Preconditions
