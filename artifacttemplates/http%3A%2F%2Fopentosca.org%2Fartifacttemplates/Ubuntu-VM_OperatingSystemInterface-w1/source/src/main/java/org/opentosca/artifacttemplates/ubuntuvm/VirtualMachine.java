@@ -22,10 +22,39 @@ public class VirtualMachine {
         return user + "@" + host + ":" + port;
     }
 
+    private void sleep() {
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            LOG.error("Could not sleep on VM '{}'", this, e);
+        }
+    }
+
     public void awaitAvailability() throws Exception {
-        // TODO: testMode
-        // TODO: isSSHServiceUp
-        // TODO: isSSHLoginPossible
+        LOG.info("Checking if VM '{}' is available", this);
+        if (host.equals("TESTMODE")) {
+            sleep();
+            return;
+        }
+        
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + 1200000;
+        Exception error = null;
+        while (System.currentTimeMillis() < endTime) {
+            try {
+                // if command can be executed without issues ssh is up
+                execCommand("echo VM availability check");
+                LOG.info("VM '{}' is available", this);
+                return;
+            } catch (Exception e) {
+                LOG.error("Could not check if VM '{}' is available", this, e);
+                error = e;
+                sleep();
+            }
+        }
+        if (error != null) {
+            throw error;
+        }
 
     }
 
@@ -44,7 +73,7 @@ public class VirtualMachine {
                 replaced = command.replaceAll("~", pwd);
             }
 
-            LOG.info("Replaced '~' in '{}' with '{}' which results in '{}' on vm '{}'", command, pwd, replaced, this);
+            LOG.info("Replaced '~' in '{}' with '{}' which results in '{}' on VM '{}'", command, pwd, replaced, this);
             return replaced;
         }
         return command;
@@ -55,7 +84,7 @@ public class VirtualMachine {
     }
 
     public void convertToUnix(String target) throws Exception {
-        LOG.info("Converting file '{}' to unix on vm '{}'", target, this);
+        LOG.info("Converting file '{}' to unix on VM '{}'", target, this);
 
         if (!target.endsWith(".sh")) {
             LOG.info("Skipping converting file to unix since file '{}' does not end with .sh", target);
@@ -65,7 +94,7 @@ public class VirtualMachine {
         installPackages("dos2unix");
         execCommand("dos2unix " + target + " " + target);
 
-        LOG.info("Successfully converted file '{}' to unix on vm '{}'", target, this);
+        LOG.info("Successfully converted file '{}' to unix on VM '{}'", target, this);
     }
 
     public boolean installPackages(String packages) throws Exception {

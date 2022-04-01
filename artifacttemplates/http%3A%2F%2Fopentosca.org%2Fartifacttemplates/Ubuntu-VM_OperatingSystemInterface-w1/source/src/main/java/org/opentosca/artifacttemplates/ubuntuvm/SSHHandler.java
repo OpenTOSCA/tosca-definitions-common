@@ -1,7 +1,10 @@
 package org.opentosca.artifacttemplates.ubuntuvm;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
