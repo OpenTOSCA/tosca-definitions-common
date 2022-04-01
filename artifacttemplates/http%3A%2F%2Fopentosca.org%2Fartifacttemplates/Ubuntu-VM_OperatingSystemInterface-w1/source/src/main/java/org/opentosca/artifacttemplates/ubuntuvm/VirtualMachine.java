@@ -17,6 +17,11 @@ public class VirtualMachine {
         this.key = key;
     }
 
+    @Override
+    public String toString() {
+        return user + "@" + host + ":" + port;
+    }
+
     public void awaitAvailability() throws Exception {
         // TODO: testMode
         // TODO: isSSHServiceUp
@@ -25,7 +30,7 @@ public class VirtualMachine {
     }
 
     public String execCommand(String command) throws Exception {
-        return SSHHandler.execCommand(host, port, user, key, command);
+        return SSHHandler.execCommand(toString(), host, port, user, key, command);
     }
 
     public String replaceHome(String command) throws Exception {
@@ -39,18 +44,18 @@ public class VirtualMachine {
                 replaced = command.replaceAll("~", pwd);
             }
 
-            LOG.info("Replaced '~' in '{}' with '{}' which results in '{}'", command, pwd, replaced);
+            LOG.info("Replaced '~' in '{}' with '{}' which results in '{}' on vm '{}'", command, pwd, replaced, this);
             return replaced;
         }
         return command;
     }
 
     public void uploadFile(String source, String target) throws Exception {
-        SSHHandler.uploadFile(host, port, user, key, source, target);
+        SSHHandler.uploadFile(toString(), host, port, user, key, source, target);
     }
 
     public void convertToUnix(String target) throws Exception {
-        LOG.info("Converting file '{}' to unix on vm", target);
+        LOG.info("Converting file '{}' to unix on vm '{}'", target, this);
 
         if (!target.endsWith(".sh")) {
             LOG.info("Skipping converting file to unix since file '{}' does not end with .sh", target);
@@ -60,7 +65,7 @@ public class VirtualMachine {
         installPackages("dos2unix");
         execCommand("dos2unix " + target + " " + target);
 
-        LOG.info("Successfully converted file '{}' to unix on vm", target);
+        LOG.info("Successfully converted file '{}' to unix on vm '{}'", target, this);
     }
 
     public boolean installPackages(String packages) throws Exception {

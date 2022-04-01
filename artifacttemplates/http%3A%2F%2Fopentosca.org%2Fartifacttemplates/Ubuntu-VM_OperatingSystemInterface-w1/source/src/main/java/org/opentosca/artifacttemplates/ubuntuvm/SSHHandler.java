@@ -14,14 +14,18 @@ import org.slf4j.LoggerFactory;
 public class SSHHandler {
     private static final Logger LOG = LoggerFactory.getLogger(FileHandler.class);
 
-    public static void uploadFile(String host, int port, String user, String key, String source, String target) throws Exception {
+    public static void uploadFile(String name, String host, int port, String user, String key, String source, String target) throws Exception {
         ChannelSftp channel = null;
         Session session = null;
         try {
-            session = createSession(host, port, user, key);
+            LOG.info("Uploading file {} to '{}/{}'", source, name, target);
+
+            session = createSession(name, host, port, user, key);
             channel = (ChannelSftp) session.openChannel("sftp");
             channel.connect();
             channel.put(source, target);
+
+            LOG.info("Successfully uploaded file '{}' to '{}/{}'", source, name, target);
         } finally {
             if (channel != null) {
                 channel.disconnect();
@@ -33,12 +37,12 @@ public class SSHHandler {
         }
     }
 
-    public static String execCommand(String host, int port, String user, String key, String command) throws Exception {
+    public static String execCommand(String name, String host, int port, String user, String key, String command) throws Exception {
         ChannelExec channel = null;
         Session session = null;
         try {
-            LOG.info("Executing command: '{}'", command);
-            session = createSession(host, port, user, key);
+            LOG.info("Executing command '{}' on vm '{}'", command, name);
+            session = createSession(name, host, port, user, key);
             channel = (ChannelExec) session.openChannel("exec");
             channel.setCommand(command);
 
@@ -79,7 +83,7 @@ public class SSHHandler {
                 LOG.info(outputBuffer.toString());
             }
 
-            LOG.info("Command '{}' exited with code '{}'", command, channel.getExitStatus());
+            LOG.info("Command '{}' exited with code '{}' on vm '{}'", command, channel.getExitStatus(), name);
 
             return outputBuffer.toString().trim();
         } catch (Exception e) {
@@ -95,12 +99,14 @@ public class SSHHandler {
         }
     }
 
-    private static Session createSession(String host, int port, String user, String key) {
+    private static Session createSession(String name, String host, int port, String user, String key) {
         try {
+            LOG.info("Creating session on vm '{}'", name);
+
             JSch jsch = new JSch();
             File file = File.createTempFile("key", "tmp", FileUtils.getTempDirectory());
             FileUtils.write(file, key, "UTF-8");
-            LOG.info("Tmp key file created: {}", file.exists());
+            LOG.info("Created temporary key '{}'", file);
 
             jsch.addIdentity(file.getAbsolutePath());
 
@@ -109,11 +115,11 @@ public class SSHHandler {
             session.connect();
 
             FileUtils.forceDelete(file);
-            LOG.info("tmp key file deleted: {}", file.exists());
+            LOG.info("Deleted temporary key '{}'", file);
 
             return session;
         } catch (Exception e) {
-            LOG.error("Failed to connect to {} using user {}.", host, user, e);
+            LOG.error("Failed to connect to vm '{}'.", name, e);
             throw new RuntimeException(e);
         }
     }
