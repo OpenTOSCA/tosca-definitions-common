@@ -6,29 +6,29 @@ import org.slf4j.LoggerFactory;
 public class VirtualMachine {
     private static final Logger LOG = LoggerFactory.getLogger(VirtualMachine.class);
 
-    private final String hostname;
+    private final String host;
+    private final int port = 22;
     private final String user;
-    private final String credentials;
+    private final String key;
 
-    public VirtualMachine(String hostname, String user, String credentials) {
-        this.hostname = hostname;
+    public VirtualMachine(String host, String user, String key) {
+        this.host = host;
         this.user = user;
-        this.credentials = credentials;
+        this.key = key;
     }
 
-    public void awaitAvailability() throws InterruptedException {
+    public void awaitAvailability() throws Exception {
         // TODO: testMode
         // TODO: isSSHServiceUp
         // TODO: isSSHLoginPossible
 
     }
 
-    public String execCommand(String command) throws InterruptedException {
-        // TODO: execCommand
-        return "".trim();
+    public String execCommand(String command) throws Exception {
+        return SSHHandler.execCommand(host, port, user, key, command);
     }
 
-    public String replaceHome(String command) throws InterruptedException {
+    public String replaceHome(String command) throws Exception {
         if (command.contains("~/")) {
             String pwd = execCommand("pwd").trim();
 
@@ -45,11 +45,11 @@ public class VirtualMachine {
         return command;
     }
 
-    public void uploadFile(String source, String target) throws InterruptedException {
-        // TODO: upload file
+    public void uploadFile(String source, String target) throws Exception {
+        SSHHandler.uploadFile(host, port, user, key, source, target);
     }
 
-    public void convertToUnix(String target) throws InterruptedException {
+    public void convertToUnix(String target) throws Exception {
         LOG.info("Converting file '{}' to unix on vm", target);
 
         if (!target.endsWith(".sh")) {
@@ -63,7 +63,7 @@ public class VirtualMachine {
         LOG.info("Successfully converted file '{}' to unix on vm", target);
     }
 
-    public boolean installPackages(String packages) throws InterruptedException {
+    public boolean installPackages(String packages) throws Exception {
         String command = "(sudo apt-get update && sudo apt-get -y install " + packages + ") || (sudo yum update && sudo yum -y install " + packages + ")";
         String output = execCommand(command);
         return output.endsWith("Complete!") || output.endsWith("Nothing to do");

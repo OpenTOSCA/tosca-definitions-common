@@ -38,7 +38,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
             VM.awaitAvailability();
             success = VM.installPackages(request.getPackageNames());
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             LOG.error("Could not install packages", e);
             response.setError("Could not install packages: " + e.getMessage());
         }
@@ -134,7 +134,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             String result = VM.execCommand(command);
             response.setScriptResult(SoapUtil.encode(result));
             LOG.info("RunScript request successful");
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             LOG.error("Could not execute script", e);
             response.setError("Could not execute script: " + e.getMessage());
         }
@@ -155,7 +155,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             VM.awaitAvailability();
             LOG.info("WaitForAvailability request successful");
             response.setWaitResult("Success");
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             LOG.error("Could not wait for availability", e);
             response.setError("Could not wait for availability: " + e.getMessage());
             response.setWaitResult("Error");
