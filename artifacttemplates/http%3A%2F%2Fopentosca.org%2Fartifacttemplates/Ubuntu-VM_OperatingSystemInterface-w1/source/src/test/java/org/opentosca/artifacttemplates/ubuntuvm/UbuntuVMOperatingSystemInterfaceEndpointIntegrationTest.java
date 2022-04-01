@@ -1,3 +1,5 @@
+package org.opentosca.artifacttemplates.ubuntuvm;
+
 import java.io.IOException;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -25,6 +27,6 @@ class UbuntuVMOperatingSystemInterfaceEndpointIntegrationTest {
     }
 
     private String getBasePath() {
-        return "http://localhost:" + serverPort + "/" + DockerContainerConstants.PORT_TYPE_NAME;
+        return "http://localhost:" + serverPort + "/" + UbuntuVMConstants.PORT_TYPE_NAME;
     }
 }

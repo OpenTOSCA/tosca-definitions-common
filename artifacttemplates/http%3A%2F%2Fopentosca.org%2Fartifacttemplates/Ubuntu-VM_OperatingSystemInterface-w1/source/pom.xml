@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.opentosca.artifacttemplates</groupId>
-    <artifactId>UbuntuVM_OperatingSystemInterface</artifactId>
+    <artifactId>Ubuntu-VM_OperatingSystemInterface</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>UbuntuVM_OperatingSystemInterface</name>
+    <name>Ubuntu-VM_OperatingSystemInterface</name>
     <description>Implementation Artifact for the OperatingSystemInterface at the UbuntuVM NodeType</description>
 
     <properties>
@@ -96,6 +96,12 @@
         </dependency> -->
 
         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
@@ -127,7 +133,7 @@
     </dependencies>
 
     <build>
-        <finalName>org_opentosca_artifactTemplates_UbuntuVM_OperatingSystemInterface</finalName>
+        <finalName>org_opentosca_artifactTemplates_Ubuntu-VM_OperatingSystemInterface</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
