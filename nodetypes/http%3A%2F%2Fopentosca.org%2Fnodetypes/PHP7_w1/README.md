@@ -1,1 +1,2 @@
-PHP7 Module to be used e.g. by an Apache Web Server
+### PHP7 Module
+PHP7 module to be used by, e.g, an apache web server which than can be used by its apps
