@@ -1,0 +1,1 @@
+PHP7 Module to be used e.g. by an Apache Web Server
