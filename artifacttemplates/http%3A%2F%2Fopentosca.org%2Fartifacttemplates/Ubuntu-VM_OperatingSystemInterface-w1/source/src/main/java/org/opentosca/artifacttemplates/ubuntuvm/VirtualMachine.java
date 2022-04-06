@@ -182,7 +182,7 @@ public class VirtualMachine {
 
         jsch.addIdentity(file.getAbsolutePath());
 
-        Session session = jsch.getSession(host, user, port);
+        Session session = jsch.getSession(user, host, port);
         session.setConfig("StrictHostKeyChecking", "no");
         session.connect();
 
