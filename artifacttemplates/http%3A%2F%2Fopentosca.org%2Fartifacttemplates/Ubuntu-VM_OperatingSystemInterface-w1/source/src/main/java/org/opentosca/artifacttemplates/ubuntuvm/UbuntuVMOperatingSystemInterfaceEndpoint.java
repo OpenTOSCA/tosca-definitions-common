@@ -34,13 +34,15 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
 
         boolean success = false;
 
+        VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
-            VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
-            VM.awaitAvailability();
+            VM.connect();
             success = VM.installPackages(request.getPackageNames());
         } catch (Exception e) {
             LOG.error("Could not install packages", e);
             response.setError("Could not install packages: " + e.getMessage());
+        } finally {
+            VM.disconnect();
         }
 
         if (success) {
@@ -60,9 +62,10 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
+        VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
-            VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
-            VM.awaitAvailability();
+            // Connect to VM
+            VM.connect();
 
             // Source and target paths
             String source = null;
@@ -113,6 +116,8 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         } catch (Exception e) {
             LOG.error("Could not transfer file...", e);
             response.setError("Could not transfer file: " + e.getMessage());
+        } finally {
+            VM.disconnect();
         }
 
         // Send response
@@ -127,9 +132,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
+        VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
-            VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
-            VM.awaitAvailability();
+            VM.connect();
             VM.installPackages("sudo");
             String command = VM.replaceHome(request.getScript());
             String result = VM.execCommand(command);
@@ -138,6 +143,8 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         } catch (Exception e) {
             LOG.error("Could not execute script", e);
             response.setError("Could not execute script: " + e.getMessage());
+        } finally {
+            VM.disconnect();
         }
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
@@ -151,15 +158,17 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
+        VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
-            VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
-            VM.awaitAvailability();
+            VM.connect();
             LOG.info("WaitForAvailability request successful");
             response.setWaitResult("Success");
         } catch (Exception e) {
             LOG.error("Could not wait for availability", e);
             response.setError("Could not wait for availability: " + e.getMessage());
             response.setWaitResult("Error");
+        } finally {
+            VM.disconnect();
         }
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());

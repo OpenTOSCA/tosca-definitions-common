@@ -18,6 +18,7 @@ public class VirtualMachine {
     private final int port = 22;
     private final String user;
     private final String key;
+    private Session session = null;
 
     public VirtualMachine(String host, String user, String key) {
         this.host = host;
@@ -25,19 +26,34 @@ public class VirtualMachine {
         this.key = key;
     }
 
-    public void awaitAvailability() throws Exception {
-        LOG.info("Checking if VM '{}' is available", this);
+    public void connect() throws Exception {
+        LOG.info("Creating session on VM '{}'", this);
+
         if (host.equals("TESTMODE")) {
+            LOG.warn("TESTMODE enabled on '{}'", this);
             sleep();
             return;
         }
 
+        JSch jsch = new JSch();
+        File file = File.createTempFile("key", "tmp", FileUtils.getTempDirectory());
+        FileUtils.write(file, key, "UTF-8");
+        LOG.info("Created temporary key '{}'", file);
+
+        jsch.addIdentity(file.getAbsolutePath());
+        this.session = jsch.getSession(user, host, port);
+        session.setConfig("StrictHostKeyChecking", "no");
+
+        LOG.info("Checking if VM '{}' is available", this);
         long startTime = System.currentTimeMillis();
         long endTime = startTime + 1200000;
         Exception error = null;
         while (System.currentTimeMillis() < endTime) {
             try {
-                // if command can be executed without issues ssh is up
+                if (!session.isConnected()) {
+                    LOG.info("Connecting to '{}'", this);
+                    session.connect();
+                }
                 execCommand("echo VM availability check");
                 LOG.info("VM '{}' is available", this);
                 return;
@@ -50,14 +66,26 @@ public class VirtualMachine {
         if (error != null) {
             throw error;
         }
+
+        FileUtils.forceDelete(file);
+        LOG.info("Deleted temporary key '{}'", file);
+    }
+
+    public void disconnect() {
+        LOG.info("Disconnecting from VM '{}'", this);
+        try {
+            if (session != null) {
+                session.disconnect();
+            }
+        } catch (Exception e) {
+            LOG.warn("Error when disconnecting from VM '{}'", this, e);
+        }
     }
 
     public String execCommand(String command) throws Exception {
         ChannelExec channel = null;
-        Session session = null;
         try {
-            LOG.info("Executing command '{}' on vm '{}'", command, this);
-            session = createSession();
+            LOG.info("Executing command '{}' on VM '{}'", command, this);
             channel = (ChannelExec) session.openChannel("exec");
             channel.setCommand(command);
 
@@ -98,27 +126,21 @@ public class VirtualMachine {
                 LOG.info(outputBuffer.toString());
             }
 
-            LOG.info("Command '{}' exited with code '{}' on vm '{}'", command, channel.getExitStatus(), this);
+            LOG.info("Command '{}' exited with code '{}' on VM '{}'", command, channel.getExitStatus(), this);
 
             return outputBuffer.toString().trim();
         } finally {
             if (channel != null) {
                 channel.disconnect();
             }
-
-            if (session != null) {
-                session.disconnect();
-            }
         }
     }
 
     public void uploadFile(String source, String target) throws Exception {
         ChannelSftp channel = null;
-        Session session = null;
         try {
             LOG.info("Uploading file {} to '{}/{}'", source, this, target);
 
-            session = createSession();
             channel = (ChannelSftp) session.openChannel("sftp");
             channel.connect();
             channel.put(source, target);
@@ -127,10 +149,6 @@ public class VirtualMachine {
         } finally {
             if (channel != null) {
                 channel.disconnect();
-            }
-
-            if (session != null) {
-                session.disconnect();
             }
         }
     }
@@ -170,27 +188,6 @@ public class VirtualMachine {
         String command = "(sudo apt-get update && sudo apt-get -y install " + packages + ") || (sudo yum update && sudo yum -y install " + packages + ")";
         String output = execCommand(command);
         return output.endsWith("Complete!") || output.endsWith("Nothing to do");
-    }
-
-    // TODO: create only once
-    private Session createSession() throws Exception {
-        LOG.info("Creating session on vm '{}'", this);
-
-        JSch jsch = new JSch();
-        File file = File.createTempFile("key", "tmp", FileUtils.getTempDirectory());
-        FileUtils.write(file, key, "UTF-8");
-        LOG.info("Created temporary key '{}'", file);
-
-        jsch.addIdentity(file.getAbsolutePath());
-
-        Session session = jsch.getSession(user, host, port);
-        session.setConfig("StrictHostKeyChecking", "no");
-        session.connect();
-
-        FileUtils.forceDelete(file);
-        LOG.info("Deleted temporary key '{}'", file);
-
-        return session;
     }
 
     private void sleep() {
