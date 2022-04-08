@@ -42,7 +42,7 @@ public class VirtualMachine {
                 LOG.info("VM '{}' is available", this);
                 return;
             } catch (Exception e) {
-                LOG.error("Could not check if VM '{}' is available", this, e);
+                LOG.warn("Could not check if VM '{}' is available since '{}'", this, e.getMessage());
                 error = e;
                 sleep();
             }
@@ -172,6 +172,7 @@ public class VirtualMachine {
         return output.endsWith("Complete!") || output.endsWith("Nothing to do");
     }
 
+    // TODO: create only once
     private Session createSession() throws Exception {
         LOG.info("Creating session on vm '{}'", this);
 
