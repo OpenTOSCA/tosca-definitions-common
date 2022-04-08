@@ -3,7 +3,7 @@
     <ArtifactTemplate xmlns:artifactTypes="http://opentosca.org/artifacttypes" name="OpenStack_CloudProviderInterfaceIA-w2" type="artifactTypes:WAR-Java17" id="OpenStack_CloudProviderInterfaceIA-w2">
         <Properties>
             <WSProperties xmlns="http://www.uni-stuttgart.de/opentosca">
-                <ServiceEndpoint>/org_opentosca_artifactTemplates_OpenStackVictoria_CloudProviderInterfacePort</ServiceEndpoint>
+                <ServiceEndpoint>/org_opentosca_artifactTemplates_OpenStack_CloudProviderInterfacePort</ServiceEndpoint>
                 <PortType>{http://artifacttemplates.opentosca.org}org_opentosca_artifactTemplates_OpenStack_CloudProviderInterfacePort</PortType>
                 <InvocationType>SOAP/HTTP</InvocationType>
             </WSProperties>
