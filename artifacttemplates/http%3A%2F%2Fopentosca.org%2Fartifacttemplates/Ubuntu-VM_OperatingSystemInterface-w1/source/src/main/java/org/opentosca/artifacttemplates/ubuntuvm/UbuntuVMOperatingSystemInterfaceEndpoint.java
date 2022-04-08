@@ -135,7 +135,6 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
             VM.connect();
-            VM.installPackages("sudo");
             String command = VM.replaceHome(request.getScript());
             String result = VM.execCommand(command);
             response.setScriptResult(SoapUtil.encode(result));
