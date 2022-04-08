@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockserver.matchers.MatchType;
 import org.mockserver.model.HttpStatusCode;
 import org.openstack4j.api.OSClient;
+import org.opentosca.artifacttemplates.AbstractMockServerTest;
 import org.opentosca.artifacttemplates.openstack.model.TerminateVMRequest;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
