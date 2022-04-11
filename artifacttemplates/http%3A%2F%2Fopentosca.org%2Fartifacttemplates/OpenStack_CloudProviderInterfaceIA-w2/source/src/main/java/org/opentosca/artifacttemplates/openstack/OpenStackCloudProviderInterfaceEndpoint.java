@@ -74,18 +74,18 @@ public class OpenStackCloudProviderInterfaceEndpoint {
         String isoLocation = null;
         SupportedArtifactType supportedArtifactType = null;
 
-        if (openToscaHeaders.deploymentArtifactsMap().isEmpty()) {
+        if (openToscaHeaders.deploymentArtifacts().isEmpty()) {
             logger.info("Did not receive any attached DeploymentArtifacts!");
         } else {
             Optional<SupportedArtifactType> optional = SUPPORTED_ARTIFACT_TYPE_TYPES.stream()
                     .filter(artifactType ->
-                            openToscaHeaders.deploymentArtifactsMap().containsKey(artifactType.artifactType)
+                            openToscaHeaders.deploymentArtifacts().containsKey(artifactType.artifactType)
                     ).findFirst();
 
             if (optional.isPresent()) {
                 supportedArtifactType = optional.get();
                 logger.info("Found supported Artifact Type {}", supportedArtifactType);
-                Map<String, String> deploymentArtifactLocations = openToscaHeaders.deploymentArtifactsMap()
+                Map<String, String> deploymentArtifactLocations = openToscaHeaders.deploymentArtifacts()
                         .get(supportedArtifactType.artifactType);
 
                 for (Map.Entry<String, String> deploymentArtifactLocation : deploymentArtifactLocations.entrySet()) {
