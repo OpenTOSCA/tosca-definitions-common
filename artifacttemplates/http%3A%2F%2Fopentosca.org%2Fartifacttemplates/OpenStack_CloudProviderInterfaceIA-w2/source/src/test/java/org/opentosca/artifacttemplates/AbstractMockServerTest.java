@@ -1,4 +1,4 @@
-package org.opentosca.artifacttemplates.openstack;
+package org.opentosca.artifacttemplates;
 
 import java.io.IOException;
 import java.util.Objects;

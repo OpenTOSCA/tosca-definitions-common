@@ -3,6 +3,8 @@ package org.opentosca.artifacttemplates;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -92,15 +94,12 @@ public abstract class SoapUtil {
 
         String messageId = messageIdNode.getTextContent();
         String replyTo = replyToNode.getFirstChild().getTextContent();
-        LOG.info("Retrieved message ID: {}", messageId);
-        LOG.info("ReplyTo address: {}", replyTo);
-
         // region *** additional header elements ***
 
         /* Just for reference, the DEPLOYMENT_ARTIFACTS_STRING element contains something like this:
          * {
-         *     "{http://opentosca.org/artifacttypes}SQLArtifact": {
-         *         "myTinyToDo.sql": "http://172.17.0.1:1337/csars/.../MyTinyToDo_DB-DA-w1/files/mytinytodo.sql"
+         *     "{http://opentosca.org/artifacttypes}CloudImage": {
+         *         "focal-server-cloudimg-amd64.img": "http://[ip]:1337/csars/.../files/focal-server-cloudimg-amd64.img"
          *     }
          * }
          */
@@ -110,13 +109,13 @@ public abstract class SoapUtil {
         if (deploymentArtifactsNode != null) {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, String> artifactTypesMap = objectMapper.readValue(deploymentArtifactsNode.getTextContent(), Map.class);
+                Map<String, Map<String, String>> artifactTypesMap = objectMapper.readValue(deploymentArtifactsNode.getTextContent(), Map.class);
 
                 if (!artifactTypesMap.isEmpty()) {
-                    for (Map.Entry<String, String> entry : artifactTypesMap.entrySet()) {
+                    for (Map.Entry<String, Map<String, String>> entry : artifactTypesMap.entrySet()) {
                         deploymentArtifactsMap.put(
                                 QName.valueOf(entry.getKey()),
-                                objectMapper.readValue(entry.getValue(), Map.class)
+                                entry.getValue()
                         );
                     }
                 }
@@ -127,11 +126,14 @@ public abstract class SoapUtil {
 
         // endregion
 
-        return new OpenToscaHeaders(
+        OpenToscaHeaders openToscaHeaders = new OpenToscaHeaders(
                 messageId,
                 replyTo,
                 deploymentArtifactsMap
         );
+        LOG.info("Got headers:\n{}", openToscaHeaders);
+
+        return openToscaHeaders;
     }
 
     /**
@@ -180,5 +182,9 @@ public abstract class SoapUtil {
 
         // no header with the given name found
         return null;
+    }
+
+    public static String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 }
