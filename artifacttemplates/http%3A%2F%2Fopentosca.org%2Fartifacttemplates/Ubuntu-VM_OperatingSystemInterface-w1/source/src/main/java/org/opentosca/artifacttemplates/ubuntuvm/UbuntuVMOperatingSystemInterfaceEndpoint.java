@@ -34,15 +34,15 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
 
         boolean success = false;
 
-        VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
-            VM.connect();
-            success = VM.installPackages(request.getPackageNames());
+            vm.connect();
+            success = vm.installPackages(request.getPackageNames());
         } catch (Exception e) {
             LOG.error("Could not install packages", e);
             response.setError("Could not install packages: " + e.getMessage());
         } finally {
-            VM.disconnect();
+            vm.disconnect();
         }
 
         if (success) {
@@ -62,14 +62,14 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
             // Connect to VM
-            VM.connect();
+            vm.connect();
 
             // Source and target paths
             String source = null;
-            String target = VM.replaceHome(request.getTargetAbsolutePath());
+            String target = vm.replaceHome(request.getTargetAbsolutePath());
 
             // Use file from URL as source if valid URL
             Path tempDirectory = null;
@@ -99,10 +99,10 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             }
 
             // Upload source to target on VM
-            VM.uploadFile(source, target);
+            vm.uploadFile(source, target);
 
             // Convert target on VM to unix
-            VM.convertToUnix(target);
+            vm.convertToUnix(target);
 
             // Clean up
             if (tempDirectory != null) {
@@ -117,7 +117,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             LOG.error("Could not transfer file...", e);
             response.setError("Could not transfer file: " + e.getMessage());
         } finally {
-            VM.disconnect();
+            vm.disconnect();
         }
 
         // Send response
@@ -132,18 +132,18 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
-            VM.connect();
-            String command = VM.replaceHome(request.getScript());
-            String result = VM.execCommand(command);
+            vm.connect();
+            String command = vm.replaceHome(request.getScript());
+            String result = vm.execCommand(command);
             response.setScriptResult(SoapUtil.encode(result));
             LOG.info("RunScript request successful");
         } catch (Exception e) {
             LOG.error("Could not execute script", e);
             response.setError("Could not execute script: " + e.getMessage());
         } finally {
-            VM.disconnect();
+            vm.disconnect();
         }
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
@@ -157,9 +157,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine VM = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
         try {
-            VM.connect();
+            vm.connect();
             LOG.info("WaitForAvailability request successful");
             response.setWaitResult("Success");
         } catch (Exception e) {
@@ -167,7 +167,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             response.setError("Could not wait for availability: " + e.getMessage());
             response.setWaitResult("Error");
         } finally {
-            VM.disconnect();
+            vm.disconnect();
         }
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());

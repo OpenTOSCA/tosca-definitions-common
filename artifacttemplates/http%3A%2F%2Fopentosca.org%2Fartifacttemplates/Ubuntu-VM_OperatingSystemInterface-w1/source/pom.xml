@@ -89,12 +89,6 @@
         <!-- END general IA dependencies -->
 
         <!-- IA-specific dependencies -->
-        <!-- <dependency>
-            <groupId>org.vngx</groupId>
-            <artifactId>vngx-jsch</artifactId>
-            <version>0.10</version>
-        </dependency> -->
-
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -105,22 +99,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
-        </dependency>
-
-        <dependency>
-            <!-- NOTE: "The Commons HttpClient project is now end of life, and is
-                no longer being developed." See http://hc.apache.org/httpclient-3.x/. New
-                project: http://hc.apache.org/httpcomponents-client-ga/ -->
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-            <exclusions>
-                <!-- provided by jcl-over-slf4j to enable logging via logback -->
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
