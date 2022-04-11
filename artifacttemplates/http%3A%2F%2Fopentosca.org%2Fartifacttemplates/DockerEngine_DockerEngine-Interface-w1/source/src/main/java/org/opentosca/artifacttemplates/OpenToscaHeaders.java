@@ -12,9 +12,9 @@ public record OpenToscaHeaders(String messageId,
     @Override
     public String toString() {
         String daString = deploymentArtifacts.entrySet().stream()
-                .map(entry -> "\n    " + entry.getKey() + " --> {"
+                .map(entry -> "\n    " + entry.getKey() + " = {"
                         + entry.getValue().entrySet().stream()
-                        .map(values -> "\n      " + values.getKey() + ": " + values.getValue())
+                        .map(values -> "\n      '" + values.getKey() + "': '" + values.getValue() + "'")
                         .collect(Collectors.joining(","))
                 ).collect(Collectors.joining(","));
 
