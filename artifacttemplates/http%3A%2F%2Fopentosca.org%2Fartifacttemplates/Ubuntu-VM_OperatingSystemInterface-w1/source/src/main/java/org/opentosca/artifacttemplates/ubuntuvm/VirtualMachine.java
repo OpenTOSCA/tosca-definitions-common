@@ -29,12 +29,6 @@ public class VirtualMachine {
     public void connect() throws Exception {
         LOG.info("Creating session on VM '{}'", this);
 
-        if (host.equals("TESTMODE")) {
-            LOG.warn("TESTMODE enabled on '{}'", this);
-            sleep();
-            return;
-        }
-
         JSch jsch = new JSch();
         File file = File.createTempFile("key", "tmp", FileUtils.getTempDirectory());
         FileUtils.write(file, key, "UTF-8");

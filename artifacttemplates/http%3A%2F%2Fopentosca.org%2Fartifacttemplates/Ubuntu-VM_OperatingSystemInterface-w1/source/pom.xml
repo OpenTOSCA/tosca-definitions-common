@@ -18,6 +18,7 @@
     <properties>
         <java.version>17</java.version>
         <cxf.version>2.7.6</cxf.version>
+        <powermock.version>2.0.9</powermock.version>
     </properties>
 
     <dependencies>
@@ -108,11 +109,38 @@
         </dependency>
         <!-- END IA-specific dependencies -->
 
+        <!-- Test-specific dependencies -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.8.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- END Test-specific dependencies -->
+
     </dependencies>
 
     <build>
         <finalName>org_opentosca_artifactTemplates_Ubuntu-VM_OperatingSystemInterface</finalName>
         <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED</argLine>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
