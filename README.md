@@ -120,6 +120,8 @@ echo "Got value for the port: $Port"
 
 ⚠️The input parameters are case-sensitive! Thus, check that the case matches the input parameters definition in the script.
 
+⚠️Ensure that the script is using LF line endings! Otherwise, the execution will throw an `unable to exectue` error.
+
 ## Haftungsausschluss
 
 Dies ist ein Forschungsprototyp und enthält insbesondere Beiträge von Studenten.

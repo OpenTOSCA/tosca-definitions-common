@@ -1,0 +1,36 @@
+{
+  "token": {
+    "methods": [
+      "application_credential"
+    ],
+    "user": {
+      "domain": {
+        "id": "default",
+        "name": "Default"
+      },
+      "id": "46e0852bb227442e8052e335e471db45",
+      "name": "%s",
+      "password_expires_at": null
+    },
+    "audit_ids": [
+      "E5xhAcWbRa2Jg4I_fVRiYA"
+    ],
+    "expires_at": "2099-03-25T14:24:29.000000Z",
+    "issued_at": "2022-03-25T13:24:29.000000Z",
+    "project": {
+      "domain": {
+        "id": "default",
+        "name": "Default"
+      },
+      "id": "%s",
+      "name": "example project"
+    },
+    "is_domain": false,
+    "roles": [
+      {
+        "id": "2b0f6e9874f04cb5a316bf5d2a4a4f7d",
+        "name": "user"
+      }
+    ]
+  }
+}

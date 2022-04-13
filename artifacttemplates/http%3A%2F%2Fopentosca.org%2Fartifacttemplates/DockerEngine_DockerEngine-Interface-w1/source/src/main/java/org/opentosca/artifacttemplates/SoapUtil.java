@@ -3,7 +3,12 @@ package org.opentosca.artifacttemplates;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -23,8 +28,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnectionFactory;
-import org.opentosca.artifacttemplates.dockerengine.InvokeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.context.MessageContext;
@@ -34,6 +40,15 @@ import org.w3c.dom.Node;
 
 public abstract class SoapUtil {
 
+    // name of the header containing the message ID to send results to the OpenTOSCA Container
+    public static final String MESSAGE_ID_HEADER = "MessageID";
+
+    // name of the header containing the return address to send results to the OpenTOSCA Container
+    public static final String REPLY_TO_HEADER = "ReplyTo";
+
+    // name of the header containing deployment artifacts
+    public static final String DEPLOYMENT_ARTIFACTS_STRING = "DEPLOYMENT_ARTIFACTS_STRING";
+
     private static final Logger LOG = LoggerFactory.getLogger(SoapUtil.class);
 
     /**
@@ -42,17 +57,17 @@ public abstract class SoapUtil {
      * @param invokeResponse the response object to add as SOAP body
      * @param replyTo        the address to send the reply to
      */
-    public static void sendSoapResponse(InvokeResponse invokeResponse, String replyTo) {
+    public static <T> void sendSoapResponse(T invokeResponse, Class<T> invokeResponseClass, String replyTo) {
         try {
             SOAPConnection connection = new HttpSOAPConnectionFactory().createConnection();
             MessageFactory factory = MessageFactory.newInstance();
             SOAPMessage message = factory.createMessage();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             Document doc = dbf.newDocumentBuilder().newDocument();
-            JAXBContext.newInstance(InvokeResponse.class)
+            JAXBContext.newInstance(invokeResponseClass)
                     .createMarshaller()
                     .marshal(
-                            new JAXBElement<>(new QName("", "invokeResponse"), InvokeResponse.class, invokeResponse),
+                            new JAXBElement<>(new QName("", "invokeResponse"), invokeResponseClass, invokeResponse),
                             doc
                     );
             // Log must be done before adding, because the doc seems to be empty afterwards
@@ -66,6 +81,59 @@ public abstract class SoapUtil {
         } catch (SOAPException | ParserConfigurationException | JAXBException | MalformedURLException e) {
             LOG.error("Failed to send SOAP response to address: {}", replyTo, e);
         }
+    }
+
+    public static OpenToscaHeaders parseHeaders(MessageContext messageContext) {
+        // Retrieve the always required SOAP headers, e.g., the messageID and replyTo headers.
+        Node messageIdNode = getHeaderFieldByName(messageContext, MESSAGE_ID_HEADER);
+        Node replyToNode = getHeaderFieldByName(messageContext, REPLY_TO_HEADER);
+        if (Objects.isNull(messageIdNode) || Objects.isNull(replyToNode)) {
+            LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
+            throw new IllegalArgumentException("Required header fields are not set!");
+        }
+
+        String messageId = messageIdNode.getTextContent();
+        String replyTo = replyToNode.getFirstChild().getTextContent();
+        // region *** additional header elements ***
+
+        /* Just for reference, the DEPLOYMENT_ARTIFACTS_STRING element contains something like this:
+         * {
+         *     "{http://opentosca.org/artifacttypes}CloudImage": {
+         *         "focal-server-cloudimg-amd64.img": "http://[ip]:1337/csars/.../files/focal-server-cloudimg-amd64.img"
+         *     }
+         * }
+         */
+        Node deploymentArtifactsNode = getHeaderFieldByName(messageContext, DEPLOYMENT_ARTIFACTS_STRING);
+        Map<QName, Map<String, String>> deploymentArtifactsMap = new HashMap<>();
+
+        if (deploymentArtifactsNode != null) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, Map<String, String>> artifactTypesMap = objectMapper.readValue(deploymentArtifactsNode.getTextContent(), Map.class);
+
+                if (!artifactTypesMap.isEmpty()) {
+                    for (Map.Entry<String, Map<String, String>> entry : artifactTypesMap.entrySet()) {
+                        deploymentArtifactsMap.put(
+                                QName.valueOf(entry.getKey()),
+                                entry.getValue()
+                        );
+                    }
+                }
+            } catch (JsonProcessingException e) {
+                LOG.error("Cannot parse attached deployment artifacts!", e);
+            }
+        }
+
+        // endregion
+
+        OpenToscaHeaders openToscaHeaders = new OpenToscaHeaders(
+                messageId,
+                replyTo,
+                deploymentArtifactsMap
+        );
+        LOG.info("Got headers:\n{}", openToscaHeaders);
+
+        return openToscaHeaders;
     }
 
     /**
@@ -108,11 +176,15 @@ public abstract class SoapUtil {
                     return header.getFirstChild();
                 }
             }
-        } catch (javax.xml.soap.SOAPException e) {
+        } catch (SOAPException e) {
             LOG.error("Error while parsing SOAP header!", e);
         }
 
         // no header with the given name found
         return null;
+    }
+
+    public static String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 }

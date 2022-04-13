@@ -1,4 +1,4 @@
-package org.opentosca.artifacttemplates;
+package org.opentosca.artifacttemplates.dockerengine;
 
 import java.io.File;
 import java.io.FileInputStream;

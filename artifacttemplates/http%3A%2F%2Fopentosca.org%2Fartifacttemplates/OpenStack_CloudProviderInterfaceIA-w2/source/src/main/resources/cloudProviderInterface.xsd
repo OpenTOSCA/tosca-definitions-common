@@ -1,0 +1,65 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://artifacttemplates.opentosca.org"
+           targetNamespace="http://artifacttemplates.opentosca.org">
+
+    <xs:complexType name="OpenStackRequest" abstract="true">
+        <xs:sequence>
+            <xs:element form="qualified" minOccurs="0" name="HypervisorEndpoint" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="HypervisorTenantID" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="HypervisorUserName" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="HypervisorUserPassword" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="HypervisorApplicationID" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="HypervisorApplicationSecret" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="terminateVMRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="OpenStackRequest">
+                    <xs:sequence>
+                        <xs:element form="qualified" minOccurs="0" name="VMInstanceID" type="xs:string"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createVMRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="OpenStackRequest">
+                    <xs:sequence>
+                        <xs:element form="qualified" minOccurs="0" name="VMType" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMImageID" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMKeyPairName" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMUserName" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMUserPassword" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMPublicKey" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMSecurityGroup" type="xs:string"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="invokeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="MessageID" type="xs:string"/>
+                <xs:element minOccurs="0" name="Error" type="xs:string"/>
+                <xs:choice>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="VMInstanceID" type="xs:string"/>
+                        <xs:element minOccurs="0" name="VMIP" type="xs:string"/>
+                    </xs:sequence>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="Result" type="xs:string"/>
+                    </xs:sequence>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
