@@ -1,5 +1,6 @@
 package org.opentosca.artifacttemplates.ubuntuvm;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Objects;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
 import org.apache.sshd.common.util.ValidateUtils;
@@ -29,12 +31,16 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.opentosca.artifacttemplates.OpenToscaHeaders;
 import org.opentosca.artifacttemplates.SoapUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 
 @ExtendWith(MockitoExtension.class)
 abstract public class AbstractRequestTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractRequestTest.class);
 
     static SshServer sshd;
     static Path tmp;
@@ -43,6 +49,7 @@ abstract public class AbstractRequestTest {
     static String host = "127.0.0.1";
     static int port;
     static String key;
+    static String pwd = "/";
 
     static String messageId = "messageId";
     static String replyTo = "replyTo";
@@ -53,6 +60,12 @@ abstract public class AbstractRequestTest {
 
     static InvokeResponse getResponse() {
         return responseCapture.getValue();
+    }
+
+    static File getRemoteFile(String path) {
+        path = String.valueOf(Paths.get(tmp.toFile().toString(), path));
+        LOG.info("Get remote file at '{}'", path);
+        return FileHandler.getFile(path);
     }
 
     @BeforeAll
@@ -69,17 +82,20 @@ abstract public class AbstractRequestTest {
         soapUtil.when(() -> SoapUtil.sendSoapResponse(responseCapture.capture(), any(), any())).then(invocationOnMock -> null);
 
         // Read private key
+        LOG.info("Reading private key");
         key = IOUtils.toString(
                 Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("key")),
                 StandardCharsets.UTF_8
         );
 
         // Create virtual filesystem
-        tmp = Files.createTempDirectory("abstract-request-test");
+        tmp = Files.createTempDirectory("vfs");
+        LOG.info("Creating virtual filesystem at '{}'", tmp.toFile());
         VirtualFileSystemFactory fs = new VirtualFileSystemFactory();
         fs.setDefaultHomeDir(tmp);
 
         // Start SSH server
+        LOG.info("Starting SSH server");
         sshd = SshServer.setUpDefaultServer();
         sshd.setHost(host);
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
@@ -94,12 +110,17 @@ abstract public class AbstractRequestTest {
 
     @AfterAll
     static void afterAll() throws Exception {
+        LOG.info("Deleting virtual filesystem at '{}'", tmp.toFile());
+        FileUtils.deleteDirectory(tmp.toFile());
+
+        LOG.info("Stopping SSH server");
         sshd.stop();
+
+        LOG.info("Releasing SoapUtils mock");
         soapUtil.close();
-        // TODO: delete tmp dir
     }
 
-    public class HandledCommand implements Command, Runnable {
+    public abstract class AbstractCommand implements Command, Runnable {
 
         protected InputStream in;
         protected OutputStream out;
@@ -111,7 +132,8 @@ abstract public class AbstractRequestTest {
         private final String returnValue;
         private final int exitValue;
 
-        public HandledCommand(String command, String output, int code) {
+        public AbstractCommand(String command, String output, int code) {
+            LOG.info("Received command '{}' and will return '{}' with code '{}'", command, output, code);
             this.command = ValidateUtils.checkNotNullAndNotEmpty(command, "Received command: " + command);
             this.returnValue = output;
             this.exitValue = code;
@@ -194,7 +216,7 @@ abstract public class AbstractRequestTest {
                 return false;
             }
 
-            return Objects.equals(this.getCommand(), ((HandledCommand) obj).getCommand());
+            return Objects.equals(this.getCommand(), ((AbstractCommand) obj).getCommand());
         }
 
         @Override
@@ -216,19 +238,19 @@ abstract public class AbstractRequestTest {
         }
     }
 
-    public class SucceedingCommand extends HandledCommand {
+    public class SucceedingCommand extends AbstractCommand {
         public SucceedingCommand(String command, String output) {
             super(command, output, 0);
         }
     }
 
-    public class FailingCommand extends HandledCommand {
+    public class FailingCommand extends AbstractCommand {
         public FailingCommand(String command, String output) {
             super(command, output, 1);
         }
     }
 
-    public class UnexpectedCommand extends HandledCommand {
+    public class UnexpectedCommand extends AbstractCommand {
         public UnexpectedCommand(String command) {
             super(command, "Unknown command", 1);
         }

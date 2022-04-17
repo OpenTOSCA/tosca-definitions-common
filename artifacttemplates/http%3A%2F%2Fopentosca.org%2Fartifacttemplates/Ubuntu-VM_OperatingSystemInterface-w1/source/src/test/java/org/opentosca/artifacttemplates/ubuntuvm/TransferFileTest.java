@@ -1,20 +1,22 @@
 
 package org.opentosca.artifacttemplates.ubuntuvm;
 
-import java.net.URISyntaxException;
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TransferFileTest extends AbstractRequestTest {
 
     @Test
-    public void shouldSucceed() throws URISyntaxException {
-        String source = Paths.get(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("file.txt")).toURI()).toFile().getAbsolutePath();
-        String target = "~/target.txt";
+    public void shouldSucceed() throws Exception {
+        File source = Paths.get(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("file")).toURI()).toFile();
+        String target = "~/target";
 
         // Set SSH commands
         sshd.setCommandFactory((channel, command) -> {
@@ -23,7 +25,7 @@ public class TransferFileTest extends AbstractRequestTest {
             }
 
             if (command.equals("pwd")) {
-                return new SucceedingCommand(command, "/");
+                return new SucceedingCommand(command, pwd);
             }
 
             return new UnexpectedCommand(command);
@@ -35,7 +37,7 @@ public class TransferFileTest extends AbstractRequestTest {
         request.setVMPort(sshd.getPort());
         request.setVMUserName(user);
         request.setVMPrivateKey(key);
-        request.setSourceURLorLocalPath(source);
+        request.setSourceURLorLocalPath(source.getAbsolutePath());
         request.setTargetAbsolutePath(target);
 
         // Send request
@@ -45,6 +47,7 @@ public class TransferFileTest extends AbstractRequestTest {
         // Assert response
         assertEquals("successful", getResponse().getTransferResult());
 
-        // TODO: check that written file has correct content
+        // Assert copied file
+        assertTrue(FileUtils.contentEquals(source, getRemoteFile("/target")));
     }
 }
