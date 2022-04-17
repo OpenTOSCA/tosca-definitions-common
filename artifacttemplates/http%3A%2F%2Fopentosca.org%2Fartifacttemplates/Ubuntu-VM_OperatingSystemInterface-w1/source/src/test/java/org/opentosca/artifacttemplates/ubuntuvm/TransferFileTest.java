@@ -25,7 +25,7 @@ public class TransferFileTest extends AbstractRequestTest {
             }
 
             if (command.equals("pwd")) {
-                return new SucceedingCommand(command, pwd);
+                return new SucceedingCommand(command, "/");
             }
 
             return new UnexpectedCommand(command);

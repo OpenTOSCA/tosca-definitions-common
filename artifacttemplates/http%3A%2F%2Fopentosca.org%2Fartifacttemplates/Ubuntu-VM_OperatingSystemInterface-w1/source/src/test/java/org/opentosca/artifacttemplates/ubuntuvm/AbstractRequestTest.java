@@ -49,7 +49,6 @@ abstract public class AbstractRequestTest {
     static String host = "127.0.0.1";
     static int port;
     static String key;
-    static String pwd = "/";
 
     static String messageId = "messageId";
     static String replyTo = "replyTo";
