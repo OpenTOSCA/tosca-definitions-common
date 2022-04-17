@@ -4,32 +4,39 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class WaitForAvailabilityTest extends AbstractRequestTest {
+public class RunScriptTest extends AbstractRequestTest {
 
     @Test
     public void shouldSucceed() {
+        String input = "input";
+        String output = "output";
+
         // Set SSH commands
         sshd.setCommandFactory((channel, command) -> {
             if (command.equals("echo VM availability check")) {
                 return new ExpectedCommand(command, "VM availability check", 0);
             }
 
+            if (command.equals(input)) {
+                return new ExpectedCommand(command, output, 0);
+            }
+
             return new UnexpectedCommand(command);
         });
 
         // Create request
-        WaitForAvailabilityRequest request = new WaitForAvailabilityRequest();
-        request.setVMIP(host);
-        request.setVMPort(port);
+        RunScriptRequest request = new RunScriptRequest();
+        request.setVMIP(sshd.getHost());
+        request.setVMPort(sshd.getPort());
         request.setVMUserName(user);
         request.setVMPrivateKey(key);
+        request.setScript(input);
 
         // Send request
         UbuntuVMOperatingSystemInterfaceEndpoint endpoint = new UbuntuVMOperatingSystemInterfaceEndpoint();
-        endpoint.waitForAvailabilityRequest(request, null);
+        endpoint.runScript(request, null);
 
         // Assert response
-        assertEquals("Success", getResponse().getWaitResult());
+        assertEquals(output, getResponse().getScriptResult());
     }
-
 }

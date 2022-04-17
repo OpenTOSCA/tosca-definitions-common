@@ -5,6 +5,7 @@
     <xs:complexType name="OperatingSystemRequest" abstract="true">
         <xs:sequence>
             <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="VMPort" type="xs:int" default="22"/>
             <xs:element form="qualified" minOccurs="0" name="VMUserName" type="xs:string"/>
             <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
         </xs:sequence>

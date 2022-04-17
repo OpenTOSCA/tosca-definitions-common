@@ -15,13 +15,14 @@ public class VirtualMachine {
     private static final Logger LOG = LoggerFactory.getLogger(VirtualMachine.class);
 
     private final String host;
-    private final int port = 22;
+    private final int port;
     private final String user;
     private final String key;
     private Session session = null;
 
-    public VirtualMachine(String host, String user, String key) {
+    public VirtualMachine(String host, int port, String user, String key) {
         this.host = host;
+        this.port = port;
         this.user = user;
         this.key = key;
     }

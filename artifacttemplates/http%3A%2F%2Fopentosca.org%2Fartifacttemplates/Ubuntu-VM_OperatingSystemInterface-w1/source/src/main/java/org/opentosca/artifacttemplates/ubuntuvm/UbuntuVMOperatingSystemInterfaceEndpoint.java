@@ -34,7 +34,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
 
         boolean success = false;
 
-        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
         try {
             vm.connect();
             success = vm.installPackages(request.getPackageNames());
@@ -62,7 +62,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
         try {
             // Connect to VM
             vm.connect();
@@ -132,7 +132,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
         try {
             vm.connect();
             String command = vm.replaceHome(request.getScript());
@@ -157,7 +157,7 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
         try {
             vm.connect();
             LOG.info("WaitForAvailability request successful");
