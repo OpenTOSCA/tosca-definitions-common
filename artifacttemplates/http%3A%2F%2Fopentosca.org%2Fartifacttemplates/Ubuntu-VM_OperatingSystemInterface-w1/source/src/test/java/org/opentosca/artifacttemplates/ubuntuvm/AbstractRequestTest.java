@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
 import org.apache.sshd.common.util.ValidateUtils;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
@@ -17,6 +20,7 @@ import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.config.keys.AuthorizedKeysAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.apache.sshd.sftp.server.SftpSubsystemFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +37,9 @@ import static org.mockito.Mockito.mockStatic;
 abstract public class AbstractRequestTest {
 
     static SshServer sshd;
-    static String user = "user";
+    static Path tmp;
+
+    static String user = "root";
     static String host = "127.0.0.1";
     static int port;
     static String key;
@@ -68,11 +74,18 @@ abstract public class AbstractRequestTest {
                 StandardCharsets.UTF_8
         );
 
+        // Create virtual filesystem
+        tmp = Files.createTempDirectory("abstract-request-test");
+        VirtualFileSystemFactory fs = new VirtualFileSystemFactory();
+        fs.setDefaultHomeDir(tmp);
+
         // Start SSH server
         sshd = SshServer.setUpDefaultServer();
         sshd.setHost(host);
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
         sshd.setPublickeyAuthenticator(new AuthorizedKeysAuthenticator(Paths.get(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("key.pub")).toURI())));
+        sshd.setFileSystemFactory(fs);
+        sshd.setSubsystemFactories(Collections.singletonList(new SftpSubsystemFactory()));
         sshd.start();
 
         // Store random allocated port
@@ -83,6 +96,7 @@ abstract public class AbstractRequestTest {
     static void afterAll() throws Exception {
         sshd.stop();
         soapUtil.close();
+        // TODO: delete tmp dir
     }
 
     public class HandledCommand implements Command, Runnable {

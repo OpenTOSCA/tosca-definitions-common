@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
@@ -18,7 +17,7 @@ public class FileHandler {
     static URL getUrl(String url) {
         try {
             return new URL(url);
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             return null;
         }
     }
