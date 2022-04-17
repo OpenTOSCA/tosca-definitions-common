@@ -85,7 +85,7 @@ abstract public class AbstractRequestTest {
         soapUtil.close();
     }
 
-    public class ExpectedCommand implements Command, Runnable {
+    public class HandledCommand implements Command, Runnable {
 
         protected InputStream in;
         protected OutputStream out;
@@ -97,7 +97,7 @@ abstract public class AbstractRequestTest {
         private final String returnValue;
         private final int exitValue;
 
-        public ExpectedCommand(String command, String output, int code) {
+        public HandledCommand(String command, String output, int code) {
             this.command = ValidateUtils.checkNotNullAndNotEmpty(command, "Received command: " + command);
             this.returnValue = output;
             this.exitValue = code;
@@ -180,7 +180,7 @@ abstract public class AbstractRequestTest {
                 return false;
             }
 
-            return Objects.equals(this.getCommand(), ((ExpectedCommand) obj).getCommand());
+            return Objects.equals(this.getCommand(), ((HandledCommand) obj).getCommand());
         }
 
         @Override
@@ -202,7 +202,19 @@ abstract public class AbstractRequestTest {
         }
     }
 
-    public class UnexpectedCommand extends ExpectedCommand {
+    public class SucceedingCommand extends HandledCommand {
+        public SucceedingCommand(String command, String output) {
+            super(command, output, 0);
+        }
+    }
+
+    public class FailingCommand extends HandledCommand {
+        public FailingCommand(String command, String output) {
+            super(command, output, 1);
+        }
+    }
+
+    public class UnexpectedCommand extends HandledCommand {
         public UnexpectedCommand(String command) {
             super(command, "Unknown command", 1);
         }

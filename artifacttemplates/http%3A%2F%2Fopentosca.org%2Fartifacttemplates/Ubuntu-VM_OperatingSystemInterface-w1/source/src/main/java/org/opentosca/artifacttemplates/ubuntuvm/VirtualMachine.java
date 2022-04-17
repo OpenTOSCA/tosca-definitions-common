@@ -179,10 +179,11 @@ public class VirtualMachine {
         LOG.info("Successfully converted file '{}' to unix on VM '{}'", target, this);
     }
 
-    public boolean installPackages(String packages) throws Exception {
+    public void installPackages(String packages) throws Exception {
         String command = "(sudo apt-get update && sudo apt-get -y install " + packages + ") || (sudo yum update && sudo yum -y install " + packages + ")";
         String output = execCommand(command);
-        return output.endsWith("Complete!") || output.endsWith("Nothing to do");
+        boolean success = output.endsWith("Complete!") || output.endsWith("Nothing to do");
+        if (!success) throw new Exception("Could not install packages!");
     }
 
     private void sleep() {

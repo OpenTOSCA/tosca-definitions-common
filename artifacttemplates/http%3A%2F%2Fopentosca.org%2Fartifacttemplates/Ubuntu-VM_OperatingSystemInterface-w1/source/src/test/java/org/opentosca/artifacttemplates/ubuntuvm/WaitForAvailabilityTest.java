@@ -11,7 +11,7 @@ public class WaitForAvailabilityTest extends AbstractRequestTest {
         // Set SSH commands
         sshd.setCommandFactory((channel, command) -> {
             if (command.equals("echo VM availability check")) {
-                return new ExpectedCommand(command, "VM availability check", 0);
+                return new SucceedingCommand(command, "VM availability check");
             }
 
             return new UnexpectedCommand(command);

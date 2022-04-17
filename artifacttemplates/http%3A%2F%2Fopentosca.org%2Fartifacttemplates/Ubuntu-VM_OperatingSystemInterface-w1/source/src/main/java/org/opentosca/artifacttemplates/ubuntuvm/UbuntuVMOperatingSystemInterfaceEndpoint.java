@@ -32,25 +32,20 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        boolean success = false;
-
         VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
         try {
             vm.connect();
-            success = vm.installPackages(request.getPackageNames());
+            vm.installPackages(request.getPackageNames());
+            response.setInstallResult("1");
+            LOG.info("InstallPackages request successful");
         } catch (Exception e) {
             LOG.error("Could not install packages", e);
+            response.setInstallResult("0");
             response.setError("Could not install packages: " + e.getMessage());
         } finally {
             vm.disconnect();
         }
 
-        if (success) {
-            LOG.info("InstallPackages request successful");
-            response.setInstallResult("1");
-        } else {
-            response.setInstallResult("0");
-        }
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 
