@@ -1,0 +1,82 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://artifacttemplates.opentosca.org"
+           targetNamespace="http://artifacttemplates.opentosca.org">
+
+    <xs:complexType name="OperatingSystemRequest" abstract="true">
+        <xs:sequence>
+            <xs:element form="qualified" minOccurs="0" name="VMIP" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="VMPort" type="xs:string" default="22"/>
+            <xs:element form="qualified" minOccurs="0" name="VMUserName" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="installPackageRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="OperatingSystemRequest">
+                    <xs:sequence>
+                        <xs:element form="qualified" minOccurs="0" name="PackageNames" type="xs:string"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="transferFileRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="OperatingSystemRequest">
+                    <xs:sequence>
+                        <xs:element form="qualified" minOccurs="0" name="TargetAbsolutePath" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="SourceURLorLocalPath" type="xs:string"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="runScriptRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="OperatingSystemRequest">
+                    <xs:sequence>
+                        <xs:element form="qualified" minOccurs="0" name="Script" type="xs:string"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="waitForAvailabilityRequest">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="OperatingSystemRequest"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="testPortBindingRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element form="qualified" minOccurs="0" name="Port" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="invokeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="MessageID" type="xs:string"/>
+                <xs:element minOccurs="0" name="Error" type="xs:string"/>
+                <xs:element minOccurs="0" name="InstallResult" type="xs:string"/>
+                <xs:element minOccurs="0" name="ScriptResult" type="xs:string"/>
+                <xs:element minOccurs="0" name="TransferResult" type="xs:string"/>
+                <xs:element minOccurs="0" name="WaitResult" type="xs:string"/>
+                <xs:element minOccurs="0" name="Result" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
