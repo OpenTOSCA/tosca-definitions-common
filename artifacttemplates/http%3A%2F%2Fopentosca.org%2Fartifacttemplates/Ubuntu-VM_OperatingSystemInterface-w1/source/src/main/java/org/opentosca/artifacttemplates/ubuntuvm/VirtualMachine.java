@@ -123,6 +123,10 @@ public class VirtualMachine {
 
             LOG.info("Command '{}' exited with code '{}' on VM '{}'", command, channel.getExitStatus(), this);
 
+            if (channel.getExitStatus() != 0) {
+                throw new Exception("Command exited on VM with code " + channel.getExitStatus());
+            }
+
             return outputBuffer.toString().trim();
         } finally {
             if (channel != null) {
@@ -150,8 +154,7 @@ public class VirtualMachine {
 
     public String replaceHome(String command) throws Exception {
         if (command.contains("~/")) {
-            String pwd = execCommand("pwd").trim();
-
+            String pwd = execCommand("pwd");
             String replaced;
             if (pwd.endsWith("/")) {
                 replaced = command.replaceAll("~/", pwd);
@@ -181,8 +184,8 @@ public class VirtualMachine {
 
     public void installPackages(String packages) throws Exception {
         String command = "(sudo apt-get update && sudo apt-get -y install " + packages + ") || (sudo yum update && sudo yum -y install " + packages + ")";
-        String output = execCommand(command);
-        boolean success = output.endsWith("Complete!") || output.endsWith("Nothing to do");
+        String result = execCommand(command);
+        boolean success = result.endsWith("Complete!") || result.endsWith("Nothing to do");
         if (!success) throw new Exception("Could not install packages!");
     }
 
@@ -190,7 +193,7 @@ public class VirtualMachine {
         try {
             Thread.sleep(2500);
         } catch (InterruptedException e) {
-            LOG.error("Could not sleep on VM '{}'", this, e);
+            LOG.error("Could not sleep while managing VM '{}'", this, e);
         }
     }
 
