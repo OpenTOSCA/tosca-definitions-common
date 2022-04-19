@@ -3,6 +3,7 @@ package org.opentosca.artifacttemplates.ubuntuvm;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InstallPackagesTest extends AbstractRequestTest {
 
@@ -72,5 +73,6 @@ public class InstallPackagesTest extends AbstractRequestTest {
 
         // Assert response
         assertEquals("0", getResponse().getInstallResult());
+        assertTrue(getResponse().getError().contains("Command exited on VM with code 1"));
     }
 }

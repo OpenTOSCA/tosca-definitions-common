@@ -20,7 +20,9 @@ public class VirtualMachine {
     private final String key;
     private Session session = null;
 
-    public VirtualMachine(String host, int port, String user, String key) {
+    public VirtualMachine(String host, Integer port, String user, String key) {
+        if (port == null) port = 22;
+
         this.host = host;
         this.port = port;
         this.user = user;
@@ -183,10 +185,9 @@ public class VirtualMachine {
     }
 
     public void installPackages(String packages) throws Exception {
-        String command = "(sudo apt-get update && sudo apt-get -y install " + packages + ") || (sudo yum update && sudo yum -y install " + packages + ")";
-        String result = execCommand(command);
-        boolean success = result.endsWith("Complete!") || result.endsWith("Nothing to do");
-        if (!success) throw new Exception("Could not install packages!");
+        LOG.info("Installing packages '{}' on VM '{}'", packages, this);
+        execCommand("(sudo apt-get update && sudo apt-get -y install " + packages + ") || (sudo yum update && sudo yum -y install " + packages + ")");
+        LOG.info("Successfully installed packages '{}' on VM '{}'", packages, this);
     }
 
     private void sleep() {
