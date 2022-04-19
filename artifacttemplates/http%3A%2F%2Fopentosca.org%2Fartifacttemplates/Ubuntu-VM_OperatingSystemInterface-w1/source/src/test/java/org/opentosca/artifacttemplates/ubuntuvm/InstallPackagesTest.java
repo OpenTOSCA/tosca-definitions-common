@@ -27,8 +27,8 @@ public class InstallPackagesTest extends AbstractRequestTest {
 
         // Create request
         InstallPackageRequest request = new InstallPackageRequest();
-        request.setVMIP(sshd.getHost());
-        request.setVMPort(sshd.getPort());
+        request.setVMIP(host);
+        request.setVMPort(port);
         request.setVMUserName(user);
         request.setVMPrivateKey(key);
         request.setPackageNames(packages);
@@ -61,8 +61,8 @@ public class InstallPackagesTest extends AbstractRequestTest {
 
         // Create request
         InstallPackageRequest request = new InstallPackageRequest();
-        request.setVMIP(sshd.getHost());
-        request.setVMPort(sshd.getPort());
+        request.setVMIP(host);
+        request.setVMPort(port);
         request.setVMUserName(user);
         request.setVMPrivateKey(key);
         request.setPackageNames(packages);

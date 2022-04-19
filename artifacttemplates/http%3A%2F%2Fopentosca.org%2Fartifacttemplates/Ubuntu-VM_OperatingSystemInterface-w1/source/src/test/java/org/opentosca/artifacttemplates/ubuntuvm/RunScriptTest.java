@@ -27,8 +27,8 @@ public class RunScriptTest extends AbstractRequestTest {
 
         // Create request
         RunScriptRequest request = new RunScriptRequest();
-        request.setVMIP(sshd.getHost());
-        request.setVMPort(sshd.getPort());
+        request.setVMIP(host);
+        request.setVMPort(port);
         request.setVMUserName(user);
         request.setVMPrivateKey(key);
         request.setScript(input);
@@ -54,8 +54,8 @@ public class RunScriptTest extends AbstractRequestTest {
 
         // Create request
         RunScriptRequest request = new RunScriptRequest();
-        request.setVMIP(sshd.getHost());
-        request.setVMPort(sshd.getPort());
+        request.setVMIP(host);
+        request.setVMPort(port);
         request.setVMUserName(user);
         request.setVMPrivateKey(key);
         request.setScript("unexpected command");

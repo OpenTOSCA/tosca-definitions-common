@@ -20,11 +20,11 @@ public class VirtualMachine {
     private final String key;
     private Session session = null;
 
-    public VirtualMachine(String host, Integer port, String user, String key) {
-        if (port == null) port = 22;
+    public VirtualMachine(String host, String port, String user, String key) {
+        if (port == null  || port.isBlank()) port = "22";
 
         this.host = host;
-        this.port = port;
+        this.port = Integer.parseInt(port);
         this.user = user;
         this.key = key;
     }

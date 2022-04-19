@@ -47,7 +47,7 @@ abstract public class AbstractRequestTest {
 
     static String user = "root";
     static String host = "127.0.0.1";
-    static int port;
+    static String port;
     static String key;
 
     static String messageId = "messageId";
@@ -104,7 +104,7 @@ abstract public class AbstractRequestTest {
         sshd.start();
 
         // Store random allocated port
-        port = sshd.getPort();
+        port = String.valueOf(sshd.getPort());
     }
 
     @AfterAll

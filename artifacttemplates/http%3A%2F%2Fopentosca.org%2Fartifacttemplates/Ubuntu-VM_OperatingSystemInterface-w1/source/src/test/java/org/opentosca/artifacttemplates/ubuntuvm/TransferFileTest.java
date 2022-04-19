@@ -33,8 +33,8 @@ public class TransferFileTest extends AbstractRequestTest {
 
         // Create request
         TransferFileRequest request = new TransferFileRequest();
-        request.setVMIP(sshd.getHost());
-        request.setVMPort(sshd.getPort());
+        request.setVMIP(host);
+        request.setVMPort(port);
         request.setVMUserName(user);
         request.setVMPrivateKey(key);
         request.setSourceURLorLocalPath(source.getAbsolutePath());
