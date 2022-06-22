@@ -15,4 +15,4 @@ jobs:
     container: opentosca/winery-cli:latest
     steps:
       - uses: actions/checkout@v2
-      - run: winery -cd --path $GITHUB_WORKSPACE
+      - run: winery-cli -cd --path $GITHUB_WORKSPACE
