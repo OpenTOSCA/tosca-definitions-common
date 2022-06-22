@@ -353,6 +353,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                         .withBinds(new Bind(hostVolPath, volume))
                         .withVolumes(volume)
                         .withDevices(devices)
+                        .withExtraHosts("host.docker.internal:host-gateway")
                         .withCmd("-v")
                         .withPrivileged(privileged)
                         .exec();
@@ -365,6 +366,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                         .withTty(true)
                         .withLinks(links)
                         .withDevices(devices)
+                        .withExtraHosts("host.docker.internal:host-gateway")
                         .withPrivileged(privileged)
                         .exec();
             }
