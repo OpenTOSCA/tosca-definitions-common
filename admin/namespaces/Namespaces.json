@@ -5,7 +5,7 @@
     "readableName" : "",
     "generatedNamespace" : false,
     "patternCollection" : false,
-    "repositoryId" : "CommonTOSCADefinitions",
+    "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   },
   "http://opentosca.org/capabilitytypes" : {
@@ -14,7 +14,7 @@
     "readableName" : "",
     "generatedNamespace" : false,
     "patternCollection" : false,
-    "repositoryId" : "CommonTOSCADefinitions",
+    "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   },
   "http://opentosca.org/artifacttemplates" : {
@@ -23,7 +23,7 @@
     "readableName" : "",
     "generatedNamespace" : false,
     "patternCollection" : false,
-    "repositoryId" : "CommonTOSCADefinitions",
+    "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   },
   "http://opentosca.org/policytypes" : {
@@ -32,7 +32,7 @@
     "readableName" : "",
     "generatedNamespace" : false,
     "patternCollection" : false,
-    "repositoryId" : "CommonTOSCADefinitions",
+    "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   },
   "http://opentosca.org/nodetypes" : {
@@ -41,7 +41,7 @@
     "readableName" : "",
     "generatedNamespace" : false,
     "patternCollection" : false,
-    "repositoryId" : "CommonTOSCADefinitions",
+    "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   },
   "http://www.uni-stuttgart.de/opentosca" : {
@@ -50,7 +50,7 @@
     "readableName" : "",
     "generatedNamespace" : false,
     "patternCollection" : false,
-    "repositoryId" : "CommonTOSCADefinitions",
+    "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   },
   "http://opentosca.org/requirementtypes" : {
@@ -59,7 +59,7 @@
     "readableName" : "",
     "generatedNamespace" : false,
     "patternCollection" : false,
-    "repositoryId" : "CommonTOSCADefinitions",
+    "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   }
 }
