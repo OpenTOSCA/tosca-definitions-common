@@ -3,7 +3,7 @@
 sudo -E bash -c "echo '127.0.0.1' $(cat /etc/hostname) >> /etc/hosts"
 sudo groupadd tomcat > ~/tomcat_install.log
 sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat >> ~/tomcat_install.log
-wget http://ftp-stud.hs-esslingen.de/pub/Mirrors/ftp.apache.org/dist/tomcat/tomcat-9/v9.0.48/bin/apache-tomcat-9.0.48.tar.gz
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.64/bin/apache-tomcat-9.0.64.tar.gz
 sudo mkdir /opt/tomcat >> ~/tomcat_install.log
 sudo tar xf apache-tomcat-9*.tar.gz -C /opt/tomcat --strip-components=1 >> ~/tomcat_install.log
 
