@@ -16,4 +16,4 @@ sudo chown -R tomcat work/ temp/ logs/ >> ~/tomcat_install.log
 sudo chown -R tomcat:tomcat /opt/tomcat/
 
 sudo echo "CATALINA_HOME=/opt/tomcat" >> /etc/environment
-sudo echo "CATALINA_BASE=/opt/tomcat >> /etc/environment
+sudo echo "CATALINA_BASE=/opt/tomcat" >> /etc/environment
