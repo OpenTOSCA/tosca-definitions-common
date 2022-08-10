@@ -27,11 +27,5 @@ GRANT ALL PRIVILEGES ON *.* TO '$rootuser'@'%' IDENTIFIED BY '$rootpassword' WIT
 FLUSH PRIVILEGES;
 _EOF_
 
-# mysql -uroot -p$rootpassword -e "rename user 'root' to '$rootuser';"
-
-#set port
-# sudo sed -i -e "/port	/c\port=$DBMSPort" $mySqlConfig;
-
-
 #configure iptables
 sudo iptables -A INPUT -p tcp -m tcp --dport $DBMSPort -j ACCEPT
