@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/driverinjection/artifacttemplates" id="driverInjectionArtifactTemplates-Abstract-Java11Driver">
+    <ArtifactTemplate xmlns:driverInjectionArtifactTypes="http://opentosca.org/driverinjection/artifacttypes" name="Abstract-Java11Driver_w1-wip1" type="driverInjectionArtifactTypes:Java11Driver" id="Abstract-Java11Driver">
+        <Properties>
+            <Java11Driver xmlns="http://opentosca.org/driverinjection/artifacttypes">
+                <Driver/>
+            </Java11Driver>
+        </Properties>
+    </ArtifactTemplate>
+</Definitions>

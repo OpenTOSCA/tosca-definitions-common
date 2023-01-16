@@ -52,6 +52,14 @@
     "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   },
+  "http://opentosca.org/patternsolutions/nodetypeimplementations" : {
+    "namespace" : "http://opentosca.org/patternsolutions/nodetypeimplementations",
+    "prefix" : "otntyiIgeneral",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
   "http://www.uni-stuttgart.de/opentosca" : {
     "namespace" : "http://www.uni-stuttgart.de/opentosca",
     "prefix" : "opentosca",
@@ -68,6 +76,22 @@
     "generatedNamespace" : false,
     "patternCollection" : false,
     "repositoryId" : "OpenTOSCA-CommonDefinitions",
+    "secureCollection" : false
+  },
+  "http://opentosca.org/patternsolutions/artifacttemplates" : {
+    "namespace" : "http://opentosca.org/patternsolutions/artifacttemplates",
+    "prefix" : "otateIgeneral",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
+  "http://opentosca.org/driverinjection/artifacttemplates" : {
+    "namespace" : "http://opentosca.org/driverinjection/artifacttemplates",
+    "prefix" : "driverInjectionArtifactTemplates",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
     "secureCollection" : false
   }
 }

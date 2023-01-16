@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/driverinjection/artifacttemplates" id="driverInjectionArtifactTemplates-Abstract-Python3-8Driver">
+    <ArtifactTemplate xmlns:driverInjectionArtifactTypes="http://opentosca.org/driverinjection/artifacttypes" name="Abstract-Python3-8Driver" type="driverInjectionArtifactTypes:Python3-8Driver" id="Abstract-Python3-8Driver">
+        <Properties>
+            <Python3-8Driver xmlns="http://opentosca.org/driverinjection/artifacttypes">
+                <Driver/>
+            </Python3-8Driver>
+        </Properties>
+    </ArtifactTemplate>
+</Definitions>

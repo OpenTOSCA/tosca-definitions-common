@@ -7,5 +7,11 @@
                 <Operation name="install"/>
             </Interface>
         </Interfaces>
+        <CapabilityDefinitions>
+            <CapabilityDefinition xmlns:capabilityTypes="http://opentosca.org/capabilitytypes" name="Java11Runtime" capabilityType="capabilityTypes:Java11Runtime" lowerBound="1" upperBound="UNBOUNDED"/>
+        </CapabilityDefinitions>
+        <RequirementDefinitions>
+            <RequirementDefinition xmlns:rtyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/requirementtypes" name="ReqOperatingSystem" requirementType="rtyIgeneral:OperatingSystem" lowerBound="1" upperBound="1"/>
+        </RequirementDefinitions>
     </NodeType>
 </Definitions>

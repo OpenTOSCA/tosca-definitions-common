@@ -39,6 +39,9 @@
         <RequirementDefinitions>
             <RequirementDefinition xmlns:requirementTypes="http://opentosca.org/requirementtypes" name="ReqDockerRuntime" requirementType="requirementTypes:DockerRuntime" lowerBound="1" upperBound="1"/>
         </RequirementDefinitions>
+        <CapabilityDefinitions>
+            <CapabilityDefinition xmlns:ctyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/capabilitytypes" name="ProvideOperatingSystem" capabilityType="ctyIgeneral:OperatingSystem" lowerBound="1" upperBound="1"/>
+        </CapabilityDefinitions>
         <Interfaces>
             <Interface name="ContainerManagementInterface">
                 <Operation name="runScript">

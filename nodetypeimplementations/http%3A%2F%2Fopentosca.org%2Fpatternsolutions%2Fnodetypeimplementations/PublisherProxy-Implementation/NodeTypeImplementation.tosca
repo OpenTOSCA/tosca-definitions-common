@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/patternsolutions/nodetypeimplementations" id="otntyiIgeneral-PublisherProxy-Implementation">
+    <NodeTypeImplementation xmlns:patternSolutionNodeTypes="http://opentosca.org/patternsolutions/nodetypes" targetNamespace="http://opentosca.org/patternsolutions/nodetypeimplementations" name="PublisherProxy-Implementation" abstract="no" final="no" nodeType="patternSolutionNodeTypes:PublisherProxy">
+        <ImplementationArtifacts>
+            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/patternsolutions/artifacttemplates" name="PublisherProxy_Install_IA" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:PublisherProxy_Install_IA"/>
+            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/patternsolutions/artifacttemplates" name="SubscriberProxy_Start_IA" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="start" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:PublisherProxy_Start_IA"/>
+            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/patternsolutions/artifacttemplates" name="PublisherProxy_ConnectsTo_IA" interfaceName="http://opentosca.org/interfaces/connections" operationName="connectTo" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:PublisherProxy_ConnectsTo_IA"/>
+        </ImplementationArtifacts>
+    </NodeTypeImplementation>
+</Definitions>
