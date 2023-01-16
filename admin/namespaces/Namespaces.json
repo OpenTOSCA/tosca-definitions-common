@@ -1,4 +1,28 @@
 {
+  "http://opentosca.org/patternsolutions/artifacttemplates" : {
+    "namespace" : "http://opentosca.org/patternsolutions/artifacttemplates",
+    "prefix" : "otateIgeneral",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
+  "http://opentosca.org/patternsolutions/nodetypes" : {
+    "namespace" : "http://opentosca.org/patternsolutions/nodetypes",
+    "prefix" : "http://opentoscaorg/patternsolutions/nodetypes",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
+  "http://opentosca.org/driverinjection/artifacttemplates" : {
+    "namespace" : "http://opentosca.org/driverinjection/artifacttemplates",
+    "prefix" : "driverInjectionArtifactTemplates",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
   "http://opentosca.org/nodetypeimplementations" : {
     "namespace" : "http://opentosca.org/nodetypeimplementations",
     "prefix" : "nodeTypeImplementations",
@@ -76,22 +100,6 @@
     "generatedNamespace" : false,
     "patternCollection" : false,
     "repositoryId" : "OpenTOSCA-CommonDefinitions",
-    "secureCollection" : false
-  },
-  "http://opentosca.org/patternsolutions/artifacttemplates" : {
-    "namespace" : "http://opentosca.org/patternsolutions/artifacttemplates",
-    "prefix" : "otateIgeneral",
-    "readableName" : "",
-    "generatedNamespace" : false,
-    "patternCollection" : false,
-    "secureCollection" : false
-  },
-  "http://opentosca.org/driverinjection/artifacttemplates" : {
-    "namespace" : "http://opentosca.org/driverinjection/artifacttemplates",
-    "prefix" : "driverInjectionArtifactTemplates",
-    "readableName" : "",
-    "generatedNamespace" : false,
-    "patternCollection" : false,
     "secureCollection" : false
   }
 }
