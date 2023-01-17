@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/patternsolutions/artifacttemplates" id="otateIgeneral-PublisherProxy_Stop_IA">
-    <ArtifactTemplate xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" name="PublisherProxy_Stop_IA" type="ToscaBaseTypes:ScriptArtifact" id="PublisherProxy_Stop_IA">
-        <ArtifactReferences>
-            <ArtifactReference reference="artifacttemplates/http%253A%252F%252Fopentosca.org%252Fpatternsolutions%252Fartifacttemplates/PublisherProxy_Stop_IA/files/stop.sh"/>
-        </ArtifactReferences>
-    </ArtifactTemplate>
-</Definitions>
