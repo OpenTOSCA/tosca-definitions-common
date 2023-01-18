@@ -34,5 +34,6 @@ done
 cd $HOMEDIR/publisherProxy
 sudo pip3 install -r requirements.txt
 
+echo "requestReplyTopic:" > $HOMEDIR/driver-manager.yml
 
 sleep 5

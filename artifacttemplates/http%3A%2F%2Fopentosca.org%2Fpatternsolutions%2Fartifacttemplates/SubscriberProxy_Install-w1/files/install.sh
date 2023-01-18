@@ -22,4 +22,7 @@ for i in "${FILES[@]}"; do
     fi
   fi
 done
+
+echo "requestReplyTopic:" > $HOMEDIR/driver-manager.yml
+
 sleep 5

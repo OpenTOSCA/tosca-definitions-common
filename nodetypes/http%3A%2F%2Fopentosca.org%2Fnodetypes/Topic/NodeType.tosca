@@ -3,7 +3,7 @@
     <NodeType name="Topic" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" ns0:bordercolor="#d3dd0f">
         <ns0:PropertiesDefinition elementname="TopicProperties" namespace="http://opentosca.org/properties">
             <ns0:properties>
-                <ns0:key>Name</ns0:key>
+                <ns0:key>TopicName</ns0:key>
                 <ns0:type>xsd:string</ns0:type>
             </ns0:properties>
         </ns0:PropertiesDefinition>
