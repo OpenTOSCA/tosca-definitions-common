@@ -9,7 +9,7 @@
   },
   "http://opentosca.org/patternsolutions/nodetypes" : {
     "namespace" : "http://opentosca.org/patternsolutions/nodetypes",
-    "prefix" : "http://opentoscaorg/patternsolutions/nodetypes",
+    "prefix" : "patternSolutionNodeTypes",
     "readableName" : "",
     "generatedNamespace" : false,
     "patternCollection" : false,
