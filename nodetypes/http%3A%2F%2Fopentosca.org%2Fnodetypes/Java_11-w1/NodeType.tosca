@@ -2,6 +2,12 @@
 <Definitions targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-Java_11-w1" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" >
     <NodeType name="Java_11-w1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes">
         <DerivedFrom typeRef="ToscaNormativeNodeTypes:SoftwareComponent" xmlns:ToscaNormativeNodeTypes="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes"/>
+        <RequirementDefinitions>
+            <RequirementDefinition xmlns:rtyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/requirementtypes" name="ReqOperatingSystem" requirementType="rtyIgeneral:OperatingSystem" lowerBound="1" upperBound="1"/>
+        </RequirementDefinitions>
+        <CapabilityDefinitions>
+            <CapabilityDefinition xmlns:capabilityTypes="http://opentosca.org/capabilitytypes" name="Java11Runtime" capabilityType="capabilityTypes:Java11Runtime" lowerBound="1" upperBound="UNBOUNDED"/>
+        </CapabilityDefinitions>
         <Interfaces>
             <Interface name="http://opentosca.org/interfaces/lifecycle">
                 <Operation name="install"/>

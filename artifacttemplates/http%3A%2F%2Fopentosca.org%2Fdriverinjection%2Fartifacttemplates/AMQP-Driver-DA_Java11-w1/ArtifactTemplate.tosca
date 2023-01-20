@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/driverinjection/artifacttemplates" id="driverInjectionArtifactTemplates-AMQP-Driver-DA_Java11-w1">
+    <ArtifactTemplate xmlns:driverInjectionArtifactTypes="http://opentosca.org/driverinjection/artifacttypes" name="AMQP-Driver-DA_Java11-w1" type="driverInjectionArtifactTypes:AMQP-Driver_Java11-w1" id="AMQP-Driver-DA_Java11-w1">
+        <Properties>
+            <Properties xmlns="http://www.example.org">
+                <Driver>org.opentosca.driver.amqp.AmqpDriver</Driver>
+            </Properties>
+        </Properties>
+    </ArtifactTemplate>
+</Definitions>

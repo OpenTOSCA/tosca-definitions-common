@@ -1,4 +1,28 @@
 {
+  "http://opentosca.org/patternsolutions/artifacttemplates" : {
+    "namespace" : "http://opentosca.org/patternsolutions/artifacttemplates",
+    "prefix" : "otateIgeneral",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
+  "http://opentosca.org/patternsolutions/nodetypes" : {
+    "namespace" : "http://opentosca.org/patternsolutions/nodetypes",
+    "prefix" : "patternSolutionNodeTypes",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
+  "http://opentosca.org/driverinjection/artifacttemplates" : {
+    "namespace" : "http://opentosca.org/driverinjection/artifacttemplates",
+    "prefix" : "driverInjectionArtifactTemplates",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
   "http://opentosca.org/nodetypeimplementations" : {
     "namespace" : "http://opentosca.org/nodetypeimplementations",
     "prefix" : "nodeTypeImplementations",
@@ -35,6 +59,14 @@
     "repositoryId" : "OpenTOSCA-CommonDefinitions",
     "secureCollection" : false
   },
+  "http://opentosca.org/nodetypes/propertiesdefinition/winery" : {
+    "namespace" : "http://opentosca.org/nodetypes/propertiesdefinition/winery",
+    "prefix" : "otntypdInodetypes",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
+    "secureCollection" : false
+  },
   "http://opentosca.org/nodetypes" : {
     "namespace" : "http://opentosca.org/nodetypes",
     "prefix" : "nodeTypes",
@@ -42,6 +74,14 @@
     "generatedNamespace" : false,
     "patternCollection" : false,
     "repositoryId" : "OpenTOSCA-CommonDefinitions",
+    "secureCollection" : false
+  },
+  "http://opentosca.org/patternsolutions/nodetypeimplementations" : {
+    "namespace" : "http://opentosca.org/patternsolutions/nodetypeimplementations",
+    "prefix" : "otntyiIgeneral",
+    "readableName" : "",
+    "generatedNamespace" : false,
+    "patternCollection" : false,
     "secureCollection" : false
   },
   "http://www.uni-stuttgart.de/opentosca" : {
