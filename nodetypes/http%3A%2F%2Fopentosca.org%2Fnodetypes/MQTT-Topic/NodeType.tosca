@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="nodetypes-MQTT-Topic">
+    <NodeType name="MQTT-Topic" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes">
+        <winery:PropertiesDefinition elementname="MQTT-Topic" namespace="http://opentosca.org/nodetypes">
+            <winery:properties>
+                <winery:constraint>
+                    <winery:key>greater_or_equal</winery:key>
+                    <winery:value>0</winery:value>
+                </winery:constraint>
+                <winery:constraint>
+                    <winery:key>less_or_equal</winery:key>
+                    <winery:value>2</winery:value>
+                </winery:constraint>
+                <winery:defaultValue>0</winery:defaultValue>
+                <winery:key>QoS</winery:key>
+                <winery:pattern>[0-2]</winery:pattern>
+                <winery:type>xsd:integer</winery:type>
+            </winery:properties>
+        </winery:PropertiesDefinition>
+        <DerivedFrom xmlns:nodeTypes="http://opentosca.org/nodetypes" typeRef="nodeTypes:Topic"/>
+    </NodeType>
+</Definitions>

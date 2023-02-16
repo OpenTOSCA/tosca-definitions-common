@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/patternsolutions/nodetypeimplementations" id="otntyiIgeneral-PublisherProxy-Implementation">
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ns0="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/patternsolutions/nodetypeimplementations" id="otntyiIgeneral-PublisherProxy-Implementation">
     <NodeTypeImplementation xmlns:patternSolutionNodeTypes="http://opentosca.org/patternsolutions/nodetypes" targetNamespace="http://opentosca.org/patternsolutions/nodetypeimplementations" name="PublisherProxy-Implementation" abstract="no" final="no" nodeType="patternSolutionNodeTypes:PublisherProxy">
         <ImplementationArtifacts>
             <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/patternsolutions/artifacttemplates" name="PublisherProxy_Install-w1" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:PublisherProxy_Install-w1"/>
             <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/patternsolutions/artifacttemplates" name="SubscriberProxy_Start-w1" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="start" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:PublisherProxy_Start-w1"/>
             <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/patternsolutions/artifacttemplates" name="PublisherProxy_ConnectsTo-w1" interfaceName="http://opentosca.org/interfaces/connections" operationName="connectTo" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:PublisherProxy_ConnectsTo-w1"/>
         </ImplementationArtifacts>
+        <DeploymentArtifacts>
+            <DeploymentArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/patternsolutions/artifacttemplates" name="DA" artifactType="ToscaBaseTypes:ArchiveArtifact" artifactRef="otateIgeneral:PublisherProxy_DA-w1"/>
+        </DeploymentArtifacts>
     </NodeTypeImplementation>
 </Definitions>
