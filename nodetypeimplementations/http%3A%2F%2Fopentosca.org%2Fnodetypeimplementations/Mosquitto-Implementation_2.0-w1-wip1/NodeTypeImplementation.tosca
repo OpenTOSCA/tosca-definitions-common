@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypeimplementations" id="ntyiIgeneral-Mosquitto-Implementation_2.0-w1-wip1">
+    <NodeTypeImplementation xmlns:otntyIgeneral="http://opentosca.org/nodetypes" targetNamespace="http://opentosca.org/nodetypeimplementations" name="Mosquitto-Implementation_2.0-w1-wip1" abstract="no" final="no" nodeType="otntyIgeneral:Mosquitto_2.0-w2-wip1">
+        <ImplementationArtifacts>
+            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/artifacttemplates" name="Install" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="install" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:Mosquitto_2.0-install-w1-wip1"/>
+            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/artifacttemplates" name="Configure" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="configure" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:Mosquitto_2.0-configure-w1-wip1"/>
+            <ImplementationArtifact xmlns:ToscaBaseTypes="http://docs.oasis-open.org/tosca/ns/2011/12/ToscaBaseTypes" xmlns:otateIgeneral="http://opentosca.org/artifacttemplates" name="Start" interfaceName="http://opentosca.org/interfaces/lifecycle" operationName="start" artifactType="ToscaBaseTypes:ScriptArtifact" artifactRef="otateIgeneral:Mosquitto_2.0-start-w1-wip1"/>
+        </ImplementationArtifacts>
+    </NodeTypeImplementation>
+</Definitions>
