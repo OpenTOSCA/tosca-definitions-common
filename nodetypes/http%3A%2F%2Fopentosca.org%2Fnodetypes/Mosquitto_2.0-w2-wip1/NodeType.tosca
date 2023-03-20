@@ -17,5 +17,16 @@
         <CapabilityDefinitions>
             <CapabilityDefinition xmlns:capabilityTypes="http://opentosca.org/capabilitytypes" name="ProvideTopic" capabilityType="capabilityTypes:ProvideTopic" lowerBound="1" upperBound="1"/>
         </CapabilityDefinitions>
+        <Interfaces>
+            <Interface name="http://opentosca.org/interfaces/lifecycle">
+                <Operation name="install"/>
+                <Operation name="configure">
+                    <InputParameters>
+                        <InputParameter name="Port" type="string" required="no"/>
+                    </InputParameters>
+                </Operation>
+                <Operation name="start"/>
+            </Interface>
+        </Interfaces>
     </NodeType>
 </Definitions>
