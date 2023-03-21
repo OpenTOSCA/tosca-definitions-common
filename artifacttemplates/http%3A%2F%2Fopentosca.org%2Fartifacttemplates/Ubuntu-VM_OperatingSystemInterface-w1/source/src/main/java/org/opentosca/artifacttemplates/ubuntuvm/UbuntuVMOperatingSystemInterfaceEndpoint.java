@@ -32,8 +32,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = null;
         try {
+            vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
             vm.connect();
             vm.installPackages(request.getPackageNames());
             response.setInstallResult("1");
@@ -43,7 +44,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             response.setInstallResult("0");
             response.setError("Could not install packages: " + e.getMessage());
         } finally {
-            vm.disconnect();
+            if (vm != null) {
+                vm.disconnect();
+            }
         }
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
@@ -57,8 +60,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = null;
         try {
+            vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
             // Connect to VM
             vm.connect();
 
@@ -112,7 +116,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             LOG.error("Could not transfer file...", e);
             response.setError("Could not transfer file: " + e.getMessage());
         } finally {
-            vm.disconnect();
+            if (vm != null) {
+                vm.disconnect();
+            }
         }
 
         // Send response
@@ -127,8 +133,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = null;
         try {
+            vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
             vm.connect();
             String command = vm.replaceHome(request.getScript());
             String result = vm.execCommand(command);
@@ -138,7 +145,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             LOG.error("Could not execute script", e);
             response.setError("Could not execute script: " + e.getMessage());
         } finally {
-            vm.disconnect();
+            if (vm != null) {
+                vm.disconnect();
+            }
         }
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
@@ -152,8 +161,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
 
-        VirtualMachine vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
+        VirtualMachine vm = null;
         try {
+            vm = new VirtualMachine(request.getVMIP(), request.getVMPort(), request.getVMUserName(), request.getVMPrivateKey());
             vm.connect();
             LOG.info("WaitForAvailability request successful");
             response.setWaitResult("Success");
@@ -162,7 +172,9 @@ public class UbuntuVMOperatingSystemInterfaceEndpoint {
             response.setError("Could not wait for availability: " + e.getMessage());
             response.setWaitResult("Error");
         } finally {
-            vm.disconnect();
+            if (vm != null) {
+                vm.disconnect();
+            }
         }
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());

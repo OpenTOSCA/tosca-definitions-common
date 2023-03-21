@@ -2,6 +2,9 @@ package org.opentosca.artifacttemplates.ubuntuvm;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
@@ -20,10 +23,14 @@ public class VirtualMachine {
     private final String key;
     private Session session = null;
 
-    public VirtualMachine(String host, String port, String user, String key) {
-        if (port == null  || port.isBlank()) port = "22";
+    public VirtualMachine(String host, String port, String user, String key) throws UnknownHostException {
+        if (port == null || port.isBlank()) port = "22";
 
-        this.host = host;
+        InetAddress address = InetAddress.getByName(host);
+        this.host = address instanceof Inet6Address
+                ? "[" + address.getHostAddress() + "]"
+                : address.getHostAddress();
+
         this.port = Integer.parseInt(port);
         this.user = user;
         this.key = key;
@@ -45,6 +52,9 @@ public class VirtualMachine {
         long startTime = System.currentTimeMillis();
         long endTime = startTime + 1200000;
         Exception error = null;
+
+        LOG.info("Got system setting: {}", System.getProperty("java.net.preferIPv4Stack"));
+
         while (System.currentTimeMillis() < endTime) {
             try {
                 if (!session.isConnected()) {
@@ -56,6 +66,7 @@ public class VirtualMachine {
                 return;
             } catch (Exception e) {
                 LOG.warn("Could not check if VM '{}' is available since '{}'", this, e.getMessage());
+                LOG.warn("Error is:", e);
                 error = e;
                 sleep();
             }
