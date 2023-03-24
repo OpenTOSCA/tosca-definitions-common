@@ -1,14 +1,15 @@
 package org.opentosca.artifacttemplates.dockercontainer;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
 import com.github.dockerjava.api.exception.NotFoundException;
+import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientBuilder;
-import com.github.dockerjava.core.command.ExecStartResultCallback;
+import com.github.dockerjava.core.DockerClientImpl;
+import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,24 +54,20 @@ public class DockerContainer {
     public String execCommand(String command) throws InterruptedException {
         LOG.info("Executing command on container: {}", command);
 
-        try (OutputStream stream = getStringOutputStream()) {
-            ExecCreateCmdResponse execCreateCmdResponse = client.execCreateCmd(containerId)
-                    .withTty(true)
-                    .withAttachStdout(true)
-                    .withCmd("/bin/bash", "-c", command)
-                    .exec();
+        ExecCreateCmdResponse execCreateCmdResponse = client.execCreateCmd(containerId)
+                .withTty(true)
+                .withAttachStdout(true)
+                .withCmd("/bin/bash", "-c", command)
+                .exec();
 
-            client.execStartCmd(execCreateCmdResponse.getId())
-                    .withTty(true)
-                    .withDetach(false)
-                    .exec(new ExecStartResultCallback(stream, System.err))
-                    .awaitCompletion();
-
-            String result = stream.toString();
-            LOG.info("Execution log:\n {}", result);
-            return result;
+        try (AttachContainerCallback callback = client.execStartCmd(execCreateCmdResponse.getId())
+                .withTty(true)
+                .withDetach(false)
+                .exec(new AttachContainerCallback())) {
+            callback.awaitCompletion();
+            return callback.builder.toString();
         } catch (IOException e) {
-            LOG.error("Could not execute command", e);
+            LOG.error("Error while executing...", e);
         }
 
         return "";
@@ -78,13 +75,14 @@ public class DockerContainer {
 
     /**
      * This function replaces any "~" in the command with the output of pwd.
-     *
+     * <p>
      * For example, <code>sleep 1 && mkdir -p ~/some/path/~/dir && rmdir ~/some/other/path</code> will be transformed
-     * to <code>sleep 1 && mkdir -p /some/path/dir && rmdir /some/other/path" if pwd is "/"</code>.
-     *
-     * Note, the example also shows that the second "~" of the mkdir command is also replaced.
-     * This might lead to unexpected behaviour.
-     *
+     * to
+     * <code>sleep 1 && mkdir -p /some/path/dir && rmdir /some/other/path" if pwd is "/"</code>.
+     * <p>
+     * Note, the example also shows that the second "~" of the mkdir command is also replaced. This might lead to
+     * unexpected behaviour.
+     * <p>
      * Note, pwd does not necessarily return the home directory.
      */
     public String replaceHome(String command) throws InterruptedException {
@@ -146,37 +144,37 @@ public class DockerContainer {
     }
 
     private DockerClient getClient(String dockerEngineURL, String dockerEngineCertificate) {
-        return DockerClientBuilder
-                .getInstance(getConfig(dockerEngineURL, dockerEngineCertificate))
-                .build();
-    }
-
-    private DefaultDockerClientConfig getConfig(String dockerEngineURL, String dockerEngineCertificate) {
-        DefaultDockerClientConfig.Builder config = DefaultDockerClientConfig
-                .createDefaultConfigBuilder()
+        DefaultDockerClientConfig.Builder configBuilder = DefaultDockerClientConfig.createDefaultConfigBuilder()
                 .withDockerHost(dockerEngineURL)
-                .withApiVersion("1.21");
+                .withDockerTlsVerify(false);
 
-        if (dockerEngineCertificate == null) {
-            config.withDockerTlsVerify(false);
-        } else {
-            config.withDockerCertPath(dockerEngineCertificate);
+        if (dockerEngineCertificate != null && !dockerEngineCertificate.isBlank()) {
+            // TODO Save the file first to temp
+            configBuilder.withDockerCertPath(dockerEngineCertificate);
         }
-        return config.build();
+
+        DefaultDockerClientConfig config = configBuilder.build();
+
+        ApacheDockerHttpClient httpClient = new ApacheDockerHttpClient.Builder()
+                .dockerHost(config.getDockerHost())
+                .sslConfig(config.getSSLConfig())
+                .build();
+
+        return DockerClientImpl.getInstance(config, httpClient);
     }
 
-    private OutputStream getStringOutputStream() {
-        return new OutputStream() {
-            private final StringBuilder data = new StringBuilder();
+    public static class AttachContainerCallback extends ResultCallback.Adapter<Frame> {
 
-            @Override
-            public void write(int x) {
-                this.data.append((char) x);
-            }
+        StringBuilder builder = new StringBuilder();
 
-            public String toString() {
-                return this.data.toString();
-            }
-        };
+        @Override
+        public void onNext(Frame frame) {
+            String result = new String(frame.getPayload());
+            System.out.println(result);
+
+            builder.append(result);
+
+            super.onNext(frame);
+        }
     }
 }
