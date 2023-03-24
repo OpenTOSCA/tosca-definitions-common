@@ -1,0 +1,25 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %-50.50logger{43}:%-4line{4} : %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- code under our direct control -->
+    <logger name="org.opentosca" level="INFO"/>
+    <logger name="org.opentosca.artifacttemplates" level="INFO"/>
+
+    <!-- Reducing logging noise  -->
+    <logger name="org" level="WARN"/>
+    <logger name="org.apache.hc" level="WARN"/>
+    <!-- logging in- and outbound SOAP messages -->
+    <logger name="org.apache.cxf.services" level="INFO"/>
+    <logger name="org.springframework" level="INFO"/>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="file"/>-->
+    </root>
+</configuration>
