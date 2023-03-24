@@ -170,8 +170,9 @@ public class DockerContainer {
         @Override
         public void onNext(Frame frame) {
             String result = new String(frame.getPayload());
-            System.out.println(result);
 
+            // There are linebreaks, we just print everything. Otherwise, works might get ripped apart.
+            System.out.print(result);
             builder.append(result);
 
             super.onNext(frame);
