@@ -1,6 +1,6 @@
-# MySQL-DBMS in version 5.7 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)  
+# MySQL-DBMS [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)  
 
-> This Node Type installs MySQL-DBMS in version 5.7.
+> This Node Type is an abstract type to define MySQL properties that are version unspecific.
 
 ## Properties
 

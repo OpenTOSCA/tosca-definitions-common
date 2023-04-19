@@ -86,7 +86,7 @@
                     </OutputParameters>
                 </Operation>
             </Interface>
-            <Interface name="http://opentosca.org/interfaces/tests">
+            <Interface name="http://opentosca.org/interfaces/test">
                 <Operation name="testPortBinding">
                     <InputParameters>
                         <InputParameter name="Port" type="xsd:string" required="yes"/>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ns0="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-MongoDB_w1-wip1">
+    <NodeType name="MongoDB_w1-wip1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" ns0:bordercolor="#1b785d">
+        <DerivedFrom xmlns:ntyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes" typeRef="ntyIgeneral:Database"/>
+    </NodeType>
+</Definitions>
