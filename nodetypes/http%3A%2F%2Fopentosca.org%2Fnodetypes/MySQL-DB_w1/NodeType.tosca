@@ -41,19 +41,6 @@
                     </InputParameters>
                 </Operation>
             </Interface>
-            <Interface name="http://opentosca.org/interfaces/test">
-                <Operation name="testConnection">
-                    <InputParameters>
-                        <InputParameter name="DBName" type="xsd:string" required="yes"/>
-                        <InputParameter name="DBUser" type="xsd:string" required="yes"/>
-                        <InputParameter name="DBPassword" type="xsd:string" required="yes"/>
-                        <InputParameter name="DBMSPort" type="xsd:string" required="yes"/>
-                    </InputParameters>
-                    <OutputParameters>
-                        <OutputParameter name="Result" type="xsd:string" required="yes"/>
-                    </OutputParameters>
-                </Operation>
-            </Interface>
         </Interfaces>
     </NodeType>
 </Definitions>
