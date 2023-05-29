@@ -34,6 +34,10 @@
                 <ns0:key>PrivilegedMode</ns0:key>
                 <ns0:type>xsd:string</ns0:type>
             </ns0:properties>
+            <ns0:properties>
+                <ns0:key>Commands</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
         </ns0:PropertiesDefinition>
         <DerivedFrom xmlns:ntyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes" typeRef="ntyIgeneral:ContainerApplication"/>
         <RequirementDefinitions>

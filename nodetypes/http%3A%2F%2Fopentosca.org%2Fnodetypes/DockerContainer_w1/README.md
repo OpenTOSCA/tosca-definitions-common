@@ -60,6 +60,10 @@ This property specifies an image id on a docker image repository such as Dockerh
 
 This property specifies the location inside a container where a single volume can be mounted. Either files form the local host of the hosting DockerEngine can be added to the volume (e.g. <HostMountFiles>/home/ubuntu/casmartorchestra.crt</HostMountFiles>) or any attached DeploymentArtifact of the type DockerVolumeArtifact_1-w1 (See example above).
 
+#### Commands
+
+This property may be used to specify miscelaneous commands which need to be executed with the container.
+
 #### ENV_
 
 These Properties (starting with the prefix ENV_) allows NodeType that inherit from the DockerContainer NodeType to specify different environment variables to be passed to the container when starting it (e.g. ```docker run -e SomeVar=val ..```). Additionally, a modeler can reference other properties to set the value of ENV_ properties. E.g. ```[get_property: Ubuntu-VM_14.04-w1 VMIP]:8883``` Would reference the property VMIP of the NodeTemplate Ubuntu-VM_14.04-w1 and concatenate it with the string ```:8883```. Note: This is experimental, currently only simple reference and concatenating it with a string at the end is possible.

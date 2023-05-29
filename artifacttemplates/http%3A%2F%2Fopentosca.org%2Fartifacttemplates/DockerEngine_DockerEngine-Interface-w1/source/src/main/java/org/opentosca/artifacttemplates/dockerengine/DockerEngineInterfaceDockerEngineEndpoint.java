@@ -264,6 +264,15 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
                 environmentVariables = Arrays.asList(request.getContainerEnv().split(";"));
             }
 
+            //parse commands
+            List<String> commands = new ArrayList<>();
+            if (request.getCommands() != null) {
+                commands = Arrays.asList(request.getCommands().split("\\s+"));
+                if (commands.contains("")) {
+                    commands = new ArrayList<>();
+                }
+            }
+
             LOG.info("Will start container with following environment variables:\n\t{}", environmentVariables);
 
             final List<Link> links = new ArrayList<>();
@@ -290,7 +299,7 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
             Volume volume = null;
             final String hostVolPath = "/volumeFor" + image.replace("/", "_").replace(":", "") + System.currentTimeMillis();
 
-            if (request.getContainerMountPath() != null && !request.getContainerMountPath().isEmpty()) {
+            if ((request.getContainerMountPath() != null && !request.getContainerMountPath().isEmpty())) {
                 volume = new Volume(request.getContainerMountPath());
 
                 final CreateContainerResponse volumeContainer = dockerClient.createContainerCmd("phusion/baseimage:latest")
@@ -344,31 +353,69 @@ public class DockerEngineInterfaceDockerEngineEndpoint {
 
             CreateContainerResponse container;
             if (volume != null) {
-                container = dockerClient.createContainerCmd(image)
-                        .withEnv(environmentVariables)
-                        .withTty(true)
-                        .withLinks(links)
-                        .withExposedPorts(exposedPorts)
-                        .withPortBindings(portBindings)
-                        .withBinds(new Bind(hostVolPath, volume))
-                        .withVolumes(volume)
-                        .withDevices(devices)
-                        .withExtraHosts("host.docker.internal:host-gateway")
-                        .withCmd("-v")
-                        .withPrivileged(privileged)
-                        .exec();
+                if (request.getCommands() == null || commands.isEmpty()) {
+                    LOG.info("Will start container with commands and volume!");
+                    container = dockerClient.createContainerCmd(image)
+                            .withEnv(environmentVariables)
+                            .withTty(true)
+                            .withLinks(links)
+                            .withExposedPorts(exposedPorts)
+                            .withPortBindings(portBindings)
+                            .withBinds(new Bind(hostVolPath, volume))
+                            .withVolumes(volume)
+                            .withDevices(devices)
+                            .withExtraHosts("host.docker.internal:host-gateway")
+                            .withCmd("-v")
+                            .withPrivileged(privileged)
+                            .exec();
+                } else {
+                    LOG.info("Will start container with volume!");
+                    commands.addAll(Arrays.asList("&&", "-v"));
+                    container = dockerClient.createContainerCmd(image)
+                            .withEnv(environmentVariables)
+                            .withTty(true)
+                            .withLinks(links)
+                            .withExposedPorts(exposedPorts)
+                            .withPortBindings(portBindings)
+                            .withBinds(new Bind(hostVolPath, volume))
+                            .withVolumes(volume)
+                            .withDevices(devices)
+                            .withExtraHosts("host.docker.internal:host-gateway")
+                            .withCmd(commands)
+                            .withPrivileged(privileged)
+                            .exec();
+                }
+
             } else {
                 // start container
-                container = dockerClient.createContainerCmd(image)
-                        .withExposedPorts(exposedPorts)
-                        .withPortBindings(portBindings)
-                        .withEnv(environmentVariables)
-                        .withTty(true)
-                        .withLinks(links)
-                        .withDevices(devices)
-                        .withExtraHosts("host.docker.internal:host-gateway")
-                        .withPrivileged(privileged)
-                        .exec();
+                if (request.getCommands() == null || commands.isEmpty()) {
+                    LOG.info("Will start container without anything!");
+                    container = dockerClient.createContainerCmd(image)
+                            .withExposedPorts(exposedPorts)
+                            .withPortBindings(portBindings)
+                            .withEnv(environmentVariables)
+                            .withTty(true)
+                            .withLinks(links)
+                            .withDevices(devices)
+                            .withExtraHosts("host.docker.internal:host-gateway")
+                            .withPrivileged(privileged)
+                            .exec();
+                } else {
+                    LOG.info("Will start container with commands!");
+                    container = dockerClient.createContainerCmd(image)
+                            .withExposedPorts(exposedPorts)
+                            .withPortBindings(portBindings)
+                            .withEnv(environmentVariables)
+                            .withTty(true)
+                            .withLinks(links)
+                            .withDevices(devices)
+                            .withExtraHosts("host.docker.internal:host-gateway")
+                            .withCmd(commands)
+                            .withPrivileged(privileged)
+                            .exec();
+                }
+
+
             }
 
             LOG.info("Created container {}", container.getId());
