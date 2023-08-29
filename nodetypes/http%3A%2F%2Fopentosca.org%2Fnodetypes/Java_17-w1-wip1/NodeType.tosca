@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ns0="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-Java_17-w1-wip1">
+    <NodeType name="Java_17-w1-wip1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes">
+        <DerivedFrom xmlns:ntyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/nodetypes" typeRef="ntyIgeneral:SoftwareComponent"/>
+        <RequirementDefinitions>
+            <RequirementDefinition xmlns:rtyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/requirementtypes" name="ReqOperatingSystem" requirementType="rtyIgeneral:OperatingSystem" lowerBound="1" upperBound="1"/>
+        </RequirementDefinitions>
+        <CapabilityDefinitions/>
+        <Interfaces>
+            <Interface name="http://opentosca.org/interfaces/lifecycle">
+                <Operation name="install"/>
+            </Interface>
+        </Interfaces>
+    </NodeType>
+</Definitions>
