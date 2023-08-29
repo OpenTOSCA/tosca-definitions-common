@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ns0="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypes" id="nodeTypes-monitoredVM_latest-w1-wip1">
+    <NodeType name="monitoredVM_latest-w1-wip1" abstract="no" final="no" targetNamespace="http://opentosca.org/nodetypes" ns0:bordercolor="#ee8e55">
+        <ns0:PropertiesDefinition elementname="monitoredVM_latest-w1-wip1" namespace="http://opentosca.org/nodetypes">
+            <ns0:properties>
+                <ns0:key>QProvEndpoint</ns0:key>
+                <ns0:type>xsd:string</ns0:type>
+            </ns0:properties>
+        </ns0:PropertiesDefinition>
+        <DerivedFrom xmlns:nodeTypes="http://opentosca.org/nodetypes" typeRef="nodeTypes:Ubuntu-VM_20.04-w1"/>
+        <RequirementDefinitions>
+            <RequirementDefinition xmlns:requirementTypes="http://opentosca.org/requirementtypes" name="ReqCanHostUbuntuVM" requirementType="requirementTypes:ReqCanHostUbuntuVM" lowerBound="1" upperBound="UNBOUNDED"/>
+        </RequirementDefinitions>
+        <CapabilityDefinitions>
+            <CapabilityDefinition xmlns:ctyIgeneral="http://docs.oasis-open.org/tosca/ToscaNormativeTypes/capabilitytypes" name="ProvideOperatingSystem" capabilityType="ctyIgeneral:OperatingSystem" lowerBound="1" upperBound="1"/>
+        </CapabilityDefinitions>
+        <Interfaces>
+            <Interface name="http://opentosca.org/interfaces/lifecycle">
+                <Operation name="configure">
+                    <InputParameters>
+                        <InputParameter name="QProvEndpoint" type="xsd:string" required="yes"/>
+                    </InputParameters>
+                </Operation>
+            </Interface>
+        </Interfaces>
+    </NodeType>
+</Definitions>
