@@ -1,10 +1,10 @@
 #!/bin/bash
 
-apt-get update -y
+sudo apt-get update -y
 
-apt-get install -y curl
+sudo apt-get install -y curl
 
-apt-get install -y cron
+sudo apt-get install -y jq
 
 name=$(hostname)
 
@@ -16,13 +16,17 @@ ram=$(free -m | awk '/Mem:/ { print $2 }')
 
 disk_size=$(df | awk '$NF=="/"{printf "%d", $2}')
 
-payload="{\"name\": $name, \"cpu_name\": $cpu_name, \"cpu_cores\": $cpu_cores, \"ram\": $ram, \"disk_size\": $disk_size}"
+payload="{\"name\": \"$name\", \"cpu\": \"$cpu_name\", \"cpuCores\": \"$cpu_cores\", \"ramSize\": \"$ram\", \"diskSize\": \"$disk_size\"}"
 
-curl -X POST -H "Content-Type: application/json" -d "$payload" "$QProvEndpoint"
+response=$(curl -sb -X POST -H "accept: application/hal+json" -H "Content-Type: application/json" -d "$payload" "$QProvEndpoint/virtual-machines")
+
+id=$(echo "$response" | jq -r '.id')
 
 mkdir ~/monitoring
 
 cat > ~/monitoring/monitoring.sh<< EOF
+while true
+do
 # Get CPU usage as a percentage
 cpu_usage=\$[100-\$(vmstat 1 2|tail -1|awk '{print \$15}')]
 
@@ -35,17 +39,19 @@ disk_usage=\$(df | awk '\$NF=="/"{printf "%d", \$5}')
 
 
 # Create a JSON payload
-payload="{\"name\": $name, \"cpu_usage\": \$cpu_usage, \"cpu_speed\": \$cpu_speed, \"mem_usage\": \$mem_usage, \"disk_usage\": \$disk_usage}, \"timestamp\": \$(date +%s)}
+payload="{\"cpuUsage\": \"\$cpu_usage\", \"clockSpeed\": \"\$cpu_speed\", \"ramUsage\": \"\$mem_usage\", \"diskUsage\": \"\$disk_usage\", \"recordingTime\": \"\$(date '+%Y-%m-%dT%H:%M:%S.%3NZ')\"}"
 
 # Send data to the endpoint using cURL
 echo \$payload
-curl -X POST -H "Content-Type: application/json" -d "\$payload" "$QProvEndpoint"
+curl -X PUT -H "accept: application/hal+json" -H "Content-Type: application/json" -d "\$payload" "$QProvEndpoint/virtual-machines/$id/characteristics"
+sleep 90
+done
 EOF
 
 chmod +x ~/monitoring/monitoring.sh
 
-sudo crontab -l | { cat; echo "* * * * * ~/monitoring/monitoring.sh >> ~/monitoring/crontab_log.txt"; } | sudo crontab -
+nohup bash ~/monitoring/monitoring.sh &
 
-service cron start
+sleep 1
 
 echo "Successfulls set up Monitoring Agent."
