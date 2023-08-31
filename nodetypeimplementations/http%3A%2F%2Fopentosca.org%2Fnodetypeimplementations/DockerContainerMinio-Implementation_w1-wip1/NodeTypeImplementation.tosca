@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Definitions xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ns0="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org" targetNamespace="http://opentosca.org/nodetypeimplementations" id="nodeTypeImplementations-DockerContainerMinio-Implementation_w1-wip1">
-    <NodeTypeImplementation xmlns:nodeTypes="http://opentosca.org/nodetypes" targetNamespace="http://opentosca.org/nodetypeimplementations" name="DockerContainerMinio-Implementation_w1-wip1" abstract="no" final="no" nodeType="nodeTypes:DockerContainerMinio_w1-wip1">
-        <DerivedFrom xmlns:nodeTypeImplementations="http://opentosca.org/nodetypeimplementations" nodeTypeImplementationRef="nodeTypeImplementations:DockerContainer-Implementation_w1"/>
-        <ImplementationArtifacts>
-            <ImplementationArtifact xmlns:otatyIgeneral="http://opentosca.org/artifacttypes" xmlns:artifactTemplates="http://opentosca.org/artifacttemplates" name="DockerContainer_ContainerManagementInterface" interfaceName="ContainerManagementInterface" operationName="" artifactType="otatyIgeneral:WAR-Java17" artifactRef="artifactTemplates:DockerContainer_ContainerManagementInterface-w1"/>
-        </ImplementationArtifacts>
-    </NodeTypeImplementation>
-</Definitions>
