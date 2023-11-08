@@ -4,12 +4,10 @@
 
     <xs:complexType name="EC2Request" abstract="true">
         <xs:sequence>
-            <xs:element form="qualified" minOccurs="0" name="HypervisorEndpoint" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="HypervisorTenantID" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="HypervisorUserName" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="HypervisorUserPassword" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="HypervisorApplicationID" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="HypervisorApplicationSecret" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="AWS_ACCESS_KEY_ID" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="AWS_SECRET_ACCESS_KEY" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="AWS_REGION" type="xs:string"/>
+            <xs:element form="qualified" minOccurs="0" name="AWS_SESSION_TOKEN" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

@@ -94,6 +94,12 @@
             <!-- can only be updated, if org.springframework.ws:spring-ws-core also uses jakarta.xml.soap instead of javax -->
             <version>1.5.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.12.583</version>
+        </dependency>
         <!-- END general IA dependencies -->
     </dependencies>
 

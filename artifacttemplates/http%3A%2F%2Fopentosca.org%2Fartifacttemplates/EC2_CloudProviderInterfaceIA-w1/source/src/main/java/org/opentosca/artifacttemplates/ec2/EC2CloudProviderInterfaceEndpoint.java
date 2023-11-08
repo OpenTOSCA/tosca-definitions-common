@@ -1,4 +1,8 @@
 package org.opentosca.artifacttemplates.ec2;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicSessionCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.opentosca.artifacttemplates.OpenToscaHeaders;
 import org.opentosca.artifacttemplates.SoapUtil;
 import org.opentosca.artifacttemplates.ec2.model.CreateVMRequest;
@@ -24,6 +28,11 @@ public class EC2CloudProviderInterfaceEndpoint {
 
         InvokeResponse response = new InvokeResponse();
         response.setMessageID(openToscaHeaders.messageId());
+
+        BasicSessionCredentials awsCreds = new BasicSessionCredentials(request.getAWSACCESSKEYID(), request.getAWSSECRETACCESSKEY(), request.getAWSSESSIONTOKEN());
+        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .build();
 
         // TODO: create VM
         String ip = "test";
