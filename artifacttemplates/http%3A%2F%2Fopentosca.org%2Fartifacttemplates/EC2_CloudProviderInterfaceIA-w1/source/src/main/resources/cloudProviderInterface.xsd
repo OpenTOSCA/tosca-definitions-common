@@ -35,6 +35,7 @@
                         <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
                         <xs:element form="qualified" minOccurs="0" name="VMPublicKey" type="xs:string"/>
                         <xs:element form="qualified" minOccurs="0" name="VMSecurityGroup" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMOpenPorts" type="xs:string"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>

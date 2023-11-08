@@ -113,7 +113,25 @@ public class EC2CloudProviderInterfaceEndpoint {
                 ec2Client.authorizeSecurityGroupIngress(authorizeSecurityGroupIngressRequest);
                 logger.info("Successfully enabled SSH access!");
 
-                // TODO: open further app ports
+                // open custom ports if defined at VM NodeType
+                if (request.getVMOpenPorts() != null){
+                    logger.info("Open ports defined at VM: {}", request.getVMOpenPorts());
+
+                    String[] portList = request.getVMOpenPorts().split(",");
+                    for (String port : portList) {
+                        logger.info("Opening port: {}", port);
+
+                        ipPermission = new IpPermission();
+                        ipPermission.withIpv4Ranges(Collections.singletonList(ipRange))
+                                .withIpProtocol("tcp")
+                                .withFromPort(Integer.valueOf(port))
+                                .withToPort(Integer.valueOf(port));
+                        authorizeSecurityGroupIngressRequest = new AuthorizeSecurityGroupIngressRequest();
+                        authorizeSecurityGroupIngressRequest.withGroupId(securityGroupId).withIpPermissions(ipPermission);
+                        ec2Client.authorizeSecurityGroupIngress(authorizeSecurityGroupIngressRequest);
+                    }
+                    logger.info("Opened all defined ports...");
+                }
             } else {
                 // search for matching security group
                 logger.info("Searching for security group with given Id: {}", request.getVMSecurityGroup());
