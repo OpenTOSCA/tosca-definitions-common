@@ -1,4 +1,5 @@
 package org.opentosca.artifacttemplates.ec2;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +11,7 @@ import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.AmazonEC2ClientBuilder;
+import com.amazonaws.services.ec2.model.AuthorizeSecurityGroupIngressRequest;
 import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest;
 import com.amazonaws.services.ec2.model.CreateSecurityGroupResult;
 import com.amazonaws.services.ec2.model.DescribeImagesRequest;
@@ -18,14 +20,19 @@ import com.amazonaws.services.ec2.model.DescribeInstanceStatusRequest;
 import com.amazonaws.services.ec2.model.DescribeInstanceStatusResult;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.ec2.model.DescribeSecurityGroupsRequest;
+import com.amazonaws.services.ec2.model.DescribeSecurityGroupsResult;
 import com.amazonaws.services.ec2.model.Filter;
 import com.amazonaws.services.ec2.model.Image;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.InstanceState;
 import com.amazonaws.services.ec2.model.InstanceType;
+import com.amazonaws.services.ec2.model.IpPermission;
+import com.amazonaws.services.ec2.model.IpRange;
 import com.amazonaws.services.ec2.model.KeyPairInfo;
 import com.amazonaws.services.ec2.model.RunInstancesRequest;
 import com.amazonaws.services.ec2.model.RunInstancesResult;
+import com.amazonaws.services.ec2.model.SecurityGroup;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.opentosca.artifacttemplates.OpenToscaHeaders;
@@ -82,12 +89,48 @@ public class EC2CloudProviderInterfaceEndpoint {
             InstanceType instanceType = InstanceType.fromValue(request.getVMType());
             logger.info("Successfully retrieved InstanceType: {}", instanceType);
 
-            // generate security group for the VM
-            logger.info("Generating new security group for the VM...");
-            CreateSecurityGroupRequest csgr = new CreateSecurityGroupRequest();
-            csgr.withGroupName("OpenTOSCA-" + System.currentTimeMillis()).withDescription("Auto generated security group for OpenTOSCA");
-            CreateSecurityGroupResult createSecurityGroupResult = ec2Client.createSecurityGroup(csgr);
-            logger.info("Generated new security group with ID: {}", createSecurityGroupResult.getGroupId());
+            // if VM security group is not set, generate new security group
+            String securityGroupId = null;
+            if (request.getVMSecurityGroup() == null) {
+                // generate security group for the VM
+                logger.info("Generating new security group for the VM...");
+                CreateSecurityGroupRequest csgr = new CreateSecurityGroupRequest();
+                csgr.withGroupName("OpenTOSCA-" + System.currentTimeMillis()).withDescription("Auto generated security group for OpenTOSCA");
+                CreateSecurityGroupResult createSecurityGroupResult = ec2Client.createSecurityGroup(csgr);
+                securityGroupId = createSecurityGroupResult.getGroupId();
+                logger.info("Generated new security group with ID: {}", securityGroupId);
+
+                // enable ssh access from any IP
+                logger.info("Enabling SSH access to the VM via port 22...");
+                IpPermission ipPermission = new IpPermission();
+                IpRange ipRange = new IpRange().withCidrIp("0.0.0.0/0");
+                ipPermission.withIpv4Ranges(Collections.singletonList(ipRange))
+                        .withIpProtocol("tcp")
+                        .withFromPort(22)
+                        .withToPort(22);
+                AuthorizeSecurityGroupIngressRequest authorizeSecurityGroupIngressRequest = new AuthorizeSecurityGroupIngressRequest();
+                authorizeSecurityGroupIngressRequest.withGroupId(securityGroupId).withIpPermissions(ipPermission);
+                ec2Client.authorizeSecurityGroupIngress(authorizeSecurityGroupIngressRequest);
+                logger.info("Successfully enabled SSH access!");
+
+                // TODO: open further app ports
+            } else {
+                // search for matching security group
+                logger.info("Searching for security group with given Id: {}", request.getVMSecurityGroup());
+                DescribeSecurityGroupsResult securityDescription = ec2Client.describeSecurityGroups(new DescribeSecurityGroupsRequest());
+                List<SecurityGroup> securityGroups = securityDescription.getSecurityGroups();
+                logger.info("Found {} security groups!", securityGroups.size());
+
+                // abort if security group with given name does not exist
+                if (securityGroups.stream().noneMatch(x -> x.getGroupId().equals(request.getVMSecurityGroup()))) {
+                    logger.error("Unable to find security group with name {} in given AWS region: {}", request.getVMSecurityGroup(), request.getAWSREGION());
+                    response.setError("Unable to find security group with the following ID in given AWS region: " + request.getVMSecurityGroup());
+                    SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+                    return;
+                }
+                logger.info("Found matching security group!");
+                securityGroupId = request.getVMSecurityGroup();
+            }
 
             // check if key pair with given name is available
             logger.info("Checking if key pair with name {} exists...", request.getVMKeyPairName());
@@ -108,7 +151,7 @@ public class EC2CloudProviderInterfaceEndpoint {
                     .withMinCount(1)
                     .withMaxCount(1)
                     .withKeyName(request.getVMKeyPairName())
-                    .withSecurityGroupIds(createSecurityGroupResult.getGroupId());
+                    .withSecurityGroupIds(securityGroupId);
 
             logger.info("Starting VM...");
             RunInstancesResult result = ec2Client.runInstances(runInstancesRequest);
