@@ -7,7 +7,6 @@
             <xs:element form="qualified" minOccurs="0" name="AWS_ACCESS_KEY_ID" type="xs:string"/>
             <xs:element form="qualified" minOccurs="0" name="AWS_SECRET_ACCESS_KEY" type="xs:string"/>
             <xs:element form="qualified" minOccurs="0" name="AWS_REGION" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="AWS_SESSION_TOKEN" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

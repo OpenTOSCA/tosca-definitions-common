@@ -1,0 +1,529 @@
+2023-11-08 15:54:36.730  INFO 1960 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 1960 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 15:54:36.733  INFO 1960 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 15:54:37.131  INFO 1960 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$11100fe0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 15:54:37.132  INFO 1960 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$dbf2206a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 15:54:37.181  INFO 1960 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 15:54:37.339  INFO 1960 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 15:54:37.345  INFO 1960 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 15:54:37.346  INFO 1960 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 15:54:37.499  INFO 1960 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 15:54:37.499  INFO 1960 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 736 ms
+2023-11-08 15:54:37.528  INFO 1960 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 15:54:37.803  INFO 1960 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 15:54:37.808  INFO 1960 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.328 seconds (JVM running for 2.061)
+2023-11-08 15:56:09.673  INFO 1960 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 15:56:09.673  INFO 1960 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 15:56:09.678  INFO 1960 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 15:56:09.695  INFO 1960 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 21 ms
+2023-11-08 15:56:12.982  INFO 1960 --- [http-nio-4000-exec-2] o.o.artifacttemplates.WsdlFilter         : Redirecting request to WSDL location!
+2023-11-08 15:56:18.994  INFO 1960 --- [http-nio-4000-exec-4] o.o.artifacttemplates.WsdlFilter         : Redirecting request to WSDL location!
+2023-11-08 15:57:34.851  INFO 1960 --- [http-nio-4000-exec-8] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 15:57:34.853 ERROR 1960 --- [http-nio-4000-exec-8] o.opentosca.artifacttemplates.SoapUtil   : Unable to retrieve message ID and reply to headers from received SOAP request!
+2023-11-08 15:58:10.135  INFO 1960 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 15:59:44.225  INFO 28432 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 28432 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 15:59:44.226  INFO 28432 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 15:59:44.622  INFO 28432 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$d110e04] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 15:59:44.623  INFO 28432 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$d7f31e8e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 15:59:44.649  INFO 28432 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 15:59:44.800  INFO 28432 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 15:59:44.806  INFO 28432 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 15:59:44.806  INFO 28432 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 15:59:44.948  INFO 28432 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 15:59:44.948  INFO 28432 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 688 ms
+2023-11-08 15:59:44.974  INFO 28432 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 15:59:45.228  INFO 28432 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 15:59:45.233  INFO 28432 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.289 seconds (JVM running for 1.937)
+2023-11-08 16:00:59.016  INFO 28432 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 16:00:59.016  INFO 28432 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 16:00:59.031  INFO 28432 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 16:00:59.063  INFO 28432 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 47 ms
+2023-11-08 16:00:59.443  INFO 28432 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:00:59.445 ERROR 28432 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Unable to retrieve message ID and reply to headers from received SOAP request!
+2023-11-08 16:01:38.400  INFO 28432 --- [http-nio-4000-exec-2] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:01:38.400 ERROR 28432 --- [http-nio-4000-exec-2] o.opentosca.artifacttemplates.SoapUtil   : Unable to retrieve message ID and reply to headers from received SOAP request!
+2023-11-08 16:01:55.429  INFO 28432 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:02:21.819  INFO 28432 --- [http-nio-4000-exec-4] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:02:51.412  INFO 28432 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:02:55.882  INFO 13448 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 13448 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 16:02:55.884  INFO 13448 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 16:02:56.279  INFO 13448 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$823a4248] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:02:56.280  INFO 13448 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$4d1c52d2] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:02:56.307  INFO 13448 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 16:02:56.459  INFO 13448 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 16:02:56.464  INFO 13448 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 16:02:56.464  INFO 13448 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 16:02:56.603  INFO 13448 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 16:02:56.603  INFO 13448 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 686 ms
+2023-11-08 16:02:56.632  INFO 13448 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:02:56.890  INFO 13448 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 16:02:56.895  INFO 13448 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.294 seconds (JVM running for 1.953)
+2023-11-08 16:03:03.095  INFO 13448 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 16:03:03.095  INFO 13448 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 16:03:03.098  INFO 13448 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 16:03:03.108  INFO 13448 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 13 ms
+2023-11-08 16:03:03.226  INFO 13448 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:04:00.945  INFO 13448 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:04:04.560  INFO 7396 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 7396 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 16:04:04.564  INFO 7396 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 16:04:04.963  INFO 7396 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$823a4248] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:04:04.964  INFO 7396 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$4d1c52d2] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:04:04.990  INFO 7396 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 16:04:05.140  INFO 7396 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 16:04:05.146  INFO 7396 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 16:04:05.148  INFO 7396 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 16:04:05.284  INFO 7396 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 16:04:05.284  INFO 7396 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 689 ms
+2023-11-08 16:04:05.312  INFO 7396 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:04:05.558  INFO 7396 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 16:04:05.564  INFO 7396 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.288 seconds (JVM running for 1.946)
+2023-11-08 16:05:30.376  INFO 7396 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 16:05:30.376  INFO 7396 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 16:05:30.381  INFO 7396 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 16:05:30.396  INFO 7396 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 19 ms
+2023-11-08 16:05:30.603  INFO 7396 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:05:30.603  INFO 7396 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:05:30.605  INFO 7396 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:06:01.442  INFO 7396 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:06:05.734  INFO 25964 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 25964 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 16:06:05.737  INFO 25964 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 16:06:06.124  INFO 25964 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$5cd99c5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:06:06.125  INFO 25964 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$d0afaa4f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:06:06.150  INFO 25964 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 16:06:06.295  INFO 25964 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 16:06:06.301  INFO 25964 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 16:06:06.302  INFO 25964 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 16:06:06.433  INFO 25964 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 16:06:06.433  INFO 25964 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 663 ms
+2023-11-08 16:06:06.462  INFO 25964 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:06:06.712  INFO 25964 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 16:06:06.717  INFO 25964 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.263 seconds (JVM running for 1.901)
+2023-11-08 16:06:25.539  INFO 25964 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 16:06:25.540  INFO 25964 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 16:06:25.543  INFO 25964 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 16:06:25.552  INFO 25964 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 12 ms
+2023-11-08 16:06:25.672  INFO 25964 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:06:25.672  INFO 25964 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:06:25.673  INFO 25964 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:06:38.926  INFO 25964 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:06:42.298  INFO 19656 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 19656 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 16:06:42.301  INFO 19656 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 16:06:42.708  INFO 19656 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$d110e04] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:06:42.708  INFO 19656 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$d7f31e8e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:06:42.733  INFO 19656 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 16:06:42.884  INFO 19656 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 16:06:42.890  INFO 19656 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 16:06:42.890  INFO 19656 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 16:06:43.021  INFO 19656 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 16:06:43.021  INFO 19656 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 684 ms
+2023-11-08 16:06:43.048  INFO 19656 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:06:43.310  INFO 19656 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 16:06:43.316  INFO 19656 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.305 seconds (JVM running for 1.951)
+2023-11-08 16:07:08.439  INFO 19656 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 16:07:08.440  INFO 19656 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 16:07:08.444  INFO 19656 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 16:07:08.457  INFO 19656 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 17 ms
+2023-11-08 16:07:08.649  INFO 19656 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:07:08.650  INFO 19656 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:07:08.651  INFO 19656 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:07:08.651  INFO 19656 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : messageId: TODO
+2023-11-08 16:07:27.603  INFO 19656 --- [http-nio-4000-exec-2] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:07:27.603  INFO 19656 --- [http-nio-4000-exec-2] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:07:27.604  INFO 19656 --- [http-nio-4000-exec-2] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:07:27.604  INFO 19656 --- [http-nio-4000-exec-2] o.opentosca.artifacttemplates.SoapUtil   : messageId: TODO
+2023-11-08 16:07:27.609  INFO 19656 --- [http-nio-4000-exec-2] o.opentosca.artifacttemplates.SoapUtil   : Got headers:
+OpenToscaHeaders {
+  messageId = 'TODO',
+  replyTo   = 'TODO',
+  deploymentArtifacts = {
+  }
+}
+2023-11-08 16:07:27.611  INFO 19656 --- [http-nio-4000-exec-2] .o.a.e.EC2CloudProviderInterfaceEndpoint : Extracted message ID from header: TODO
+2023-11-08 16:07:28.623  INFO 19656 --- [http-nio-4000-exec-2] .o.a.e.EC2CloudProviderInterfaceEndpoint : Created client to access EC2...
+2023-11-08 16:07:28.623  INFO 19656 --- [http-nio-4000-exec-2] .o.a.e.EC2CloudProviderInterfaceEndpoint : Searching for VM image with following ID: ?
+2023-11-08 16:26:27.559  INFO 19656 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:26:27.559  INFO 19656 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:26:27.559  INFO 19656 --- [http-nio-4000-exec-3] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:26:27.559  INFO 19656 --- [http-nio-4000-exec-3] o.opentosca.artifacttemplates.SoapUtil   : messageId: TODO
+2023-11-08 16:26:27.559  INFO 19656 --- [http-nio-4000-exec-3] o.opentosca.artifacttemplates.SoapUtil   : Got headers:
+OpenToscaHeaders {
+  messageId = 'TODO',
+  replyTo   = 'TODO',
+  deploymentArtifacts = {
+  }
+}
+2023-11-08 16:26:27.559  INFO 19656 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Extracted message ID from header: TODO
+2023-11-08 16:26:27.562  INFO 19656 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Created client to access EC2...
+2023-11-08 16:26:27.562  INFO 19656 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Searching for VM image with following ID: ?
+2023-11-08 16:31:37.542  INFO 19656 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:31:40.920  INFO 23488 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 23488 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 16:31:40.924  INFO 23488 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 16:31:41.313  INFO 23488 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$d110e04] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:31:41.314  INFO 23488 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$d7f31e8e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:31:41.340  INFO 23488 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 16:31:41.488  INFO 23488 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 16:31:41.494  INFO 23488 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 16:31:41.494  INFO 23488 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 16:31:41.631  INFO 23488 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 16:31:41.631  INFO 23488 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 676 ms
+2023-11-08 16:31:41.659  INFO 23488 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:31:41.914  INFO 23488 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 16:31:41.920  INFO 23488 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.279 seconds (JVM running for 1.937)
+2023-11-08 16:33:33.444  INFO 23488 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 16:33:33.444  INFO 23488 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 16:33:33.447  INFO 23488 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 16:33:33.459  INFO 23488 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 15 ms
+2023-11-08 16:33:33.584  INFO 23488 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:33:33.584  INFO 23488 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:33:33.585  INFO 23488 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:33:33.585  INFO 23488 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : messageId: TODO
+2023-11-08 16:33:33.586  INFO 23488 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Got headers:
+OpenToscaHeaders {
+  messageId = 'TODO',
+  replyTo   = 'TODO',
+  deploymentArtifacts = {
+  }
+}
+2023-11-08 16:33:33.587  INFO 23488 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Extracted message ID from header: TODO
+2023-11-08 16:33:33.936  INFO 23488 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Created client to access EC2...
+2023-11-08 16:33:33.936  INFO 23488 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Searching for VM image with following ID: ?
+2023-11-08 16:36:08.077  INFO 23488 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:36:11.641  INFO 2548 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 2548 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 16:36:11.646  INFO 2548 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 16:36:12.046  INFO 2548 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$823a4248] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:36:12.047  INFO 2548 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$4d1c52d2] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:36:12.076  INFO 2548 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 16:36:12.233  INFO 2548 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 16:36:12.239  INFO 2548 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 16:36:12.239  INFO 2548 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 16:36:12.387  INFO 2548 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 16:36:12.387  INFO 2548 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 709 ms
+2023-11-08 16:36:12.416  INFO 2548 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:36:12.678  INFO 2548 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 16:36:12.683  INFO 2548 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.321 seconds (JVM running for 1.973)
+2023-11-08 16:36:21.912  INFO 2548 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 16:36:21.912  INFO 2548 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 16:36:21.915  INFO 2548 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 16:36:21.925  INFO 2548 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 13 ms
+2023-11-08 16:36:22.045  INFO 2548 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:36:22.045  INFO 2548 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:36:22.046  INFO 2548 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:36:22.046  INFO 2548 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : messageId: TODO
+2023-11-08 16:36:22.047  INFO 2548 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Got headers:
+OpenToscaHeaders {
+  messageId = 'TODO',
+  replyTo   = 'TODO',
+  deploymentArtifacts = {
+  }
+}
+2023-11-08 16:36:22.048  INFO 2548 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Extracted message ID from header: TODO
+2023-11-08 16:36:22.442  INFO 2548 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Created client to access EC2...
+2023-11-08 16:36:22.443  INFO 2548 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Searching for VM image with following ID: ?
+2023-11-08 16:36:22.534 ERROR 2548 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Failed to send SOAP response to address: TODO
+
+java.net.MalformedURLException: no protocol: TODO
+	at java.base/java.net.URL.<init>(URL.java:764) ~[na:na]
+	at java.base/java.net.URL.<init>(URL.java:646) ~[na:na]
+	at java.base/java.net.URL.<init>(URL.java:582) ~[na:na]
+	at org.opentosca.artifacttemplates.SoapUtil.sendSoapResponse(SoapUtil.java:76) ~[classes/:na]
+	at org.opentosca.artifacttemplates.ec2.EC2CloudProviderInterfaceEndpoint.createVM(EC2CloudProviderInterfaceEndpoint.java:96) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578) ~[na:na]
+	at org.springframework.ws.server.endpoint.MethodEndpoint.invoke(MethodEndpoint.java:133) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter.invokeInternal(DefaultMethodEndpointAdapter.java:285) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.endpoint.adapter.AbstractMethodEndpointAdapter.invoke(AbstractMethodEndpointAdapter.java:54) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.MessageDispatcher.dispatch(MessageDispatcher.java:230) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.MessageDispatcher.receive(MessageDispatcher.java:174) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.support.WebServiceMessageReceiverObjectSupport.handleConnection(WebServiceMessageReceiverObjectSupport.java:88) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.http.WebServiceMessageReceiverHandlerAdapter.handle(WebServiceMessageReceiverHandlerAdapter.java:60) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.http.MessageDispatcherServlet.doService(MessageDispatcherServlet.java:288) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681) ~[tomcat-embed-core-9.0.56.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.56.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.opentosca.artifacttemplates.WsdlFilter.doFilter(WsdlFilter.java:47) ~[classes/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1732) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at java.base/java.lang.Thread.run(Thread.java:1623) ~[na:na]
+
+2023-11-08 16:36:22.534 ERROR 2548 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Unable to create VM: Request endpoint must have a valid hostname, but it did not: https://ec2.%3F.amazonaws.com
+2023-11-08 16:37:13.096  INFO 2548 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:37:16.703  INFO 14884 --- [main] o.o.a.OpenToscaIASpringApplication       : Starting OpenToscaIASpringApplication using Java 20.0.1 on DESKTOP-PGK11NK with PID 14884 (C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source\target\classes started by wederbn in C:\Users\wederbn\Desktop\Coding\OpenTOSCA\tosca-definitions-common\artifacttemplates\http%3A%2F%2Fopentosca.org%2Fartifacttemplates\EC2_CloudProviderInterfaceIA-w1\source)
+2023-11-08 16:37:16.704  INFO 14884 --- [main] o.o.a.OpenToscaIASpringApplication       : No active profile set, falling back to default profiles: default
+2023-11-08 16:37:17.101  INFO 14884 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'webServiceConfig' of type [org.opentosca.artifacttemplates.ec2.WebServiceConfig$$EnhancerBySpringCGLIB$$ca453663] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:37:17.101  INFO 14884 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$952746ed] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-11-08 16:37:17.130  INFO 14884 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2023-11-08 16:37:17.284  INFO 14884 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 4000 (http)
+2023-11-08 16:37:17.290  INFO 14884 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-11-08 16:37:17.290  INFO 14884 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2023-11-08 16:37:17.427  INFO 14884 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-11-08 16:37:17.428  INFO 14884 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 686 ms
+2023-11-08 16:37:17.456  INFO 14884 --- [main] o.o.artifacttemplates.WsdlFilter         : Initialized WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!
+2023-11-08 16:37:17.704  INFO 14884 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 4000 (http) with context path ''
+2023-11-08 16:37:17.709  INFO 14884 --- [main] o.o.a.OpenToscaIASpringApplication       : Started OpenToscaIASpringApplication in 1.281 seconds (JVM running for 1.938)
+2023-11-08 16:37:31.174  INFO 14884 --- [http-nio-4000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring MessageDispatcherServlet 'messageDispatcherServlet'
+2023-11-08 16:37:31.175  INFO 14884 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Initializing Servlet 'messageDispatcherServlet'
+2023-11-08 16:37:31.179  INFO 14884 --- [http-nio-4000-exec-1] o.s.ws.soap.saaj.SaajSoapMessageFactory  : Creating SAAJ 1.3 MessageFactory with SOAP 1.1 Protocol
+2023-11-08 16:37:31.195  INFO 14884 --- [http-nio-4000-exec-1] o.s.w.t.http.MessageDispatcherServlet    : Completed initialization in 20 ms
+2023-11-08 16:37:31.387  INFO 14884 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:37:31.387  INFO 14884 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:37:31.389  INFO 14884 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:37:31.390  INFO 14884 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : messageId: TODO
+2023-11-08 16:37:31.392  INFO 14884 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Got headers:
+OpenToscaHeaders {
+  messageId = 'TODO',
+  replyTo   = 'TODO',
+  deploymentArtifacts = {
+  }
+}
+2023-11-08 16:37:31.393  INFO 14884 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Extracted message ID from header: TODO
+2023-11-08 16:37:31.925  INFO 14884 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Created client to access EC2...
+2023-11-08 16:37:31.925  INFO 14884 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Searching for VM image with following ID: ?
+2023-11-08 16:37:31.963 ERROR 14884 --- [http-nio-4000-exec-1] .o.a.e.EC2CloudProviderInterfaceEndpoint : Unable to create VM: Request endpoint must have a valid hostname, but it did not: https://ec2.%3F.amazonaws.com
+2023-11-08 16:37:31.998 ERROR 14884 --- [http-nio-4000-exec-1] o.opentosca.artifacttemplates.SoapUtil   : Failed to send SOAP response to address: TODO
+
+java.net.MalformedURLException: no protocol: TODO
+	at java.base/java.net.URL.<init>(URL.java:764) ~[na:na]
+	at java.base/java.net.URL.<init>(URL.java:646) ~[na:na]
+	at java.base/java.net.URL.<init>(URL.java:582) ~[na:na]
+	at org.opentosca.artifacttemplates.SoapUtil.sendSoapResponse(SoapUtil.java:76) ~[classes/:na]
+	at org.opentosca.artifacttemplates.ec2.EC2CloudProviderInterfaceEndpoint.createVM(EC2CloudProviderInterfaceEndpoint.java:97) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578) ~[na:na]
+	at org.springframework.ws.server.endpoint.MethodEndpoint.invoke(MethodEndpoint.java:133) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter.invokeInternal(DefaultMethodEndpointAdapter.java:285) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.endpoint.adapter.AbstractMethodEndpointAdapter.invoke(AbstractMethodEndpointAdapter.java:54) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.MessageDispatcher.dispatch(MessageDispatcher.java:230) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.MessageDispatcher.receive(MessageDispatcher.java:174) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.support.WebServiceMessageReceiverObjectSupport.handleConnection(WebServiceMessageReceiverObjectSupport.java:88) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.http.WebServiceMessageReceiverHandlerAdapter.handle(WebServiceMessageReceiverHandlerAdapter.java:60) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.http.MessageDispatcherServlet.doService(MessageDispatcherServlet.java:288) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681) ~[tomcat-embed-core-9.0.56.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.56.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.opentosca.artifacttemplates.WsdlFilter.doFilter(WsdlFilter.java:47) ~[classes/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1732) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at java.base/java.lang.Thread.run(Thread.java:1623) ~[na:na]
+
+2023-11-08 16:38:23.490  INFO 14884 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:38:23.490  INFO 14884 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:38:23.490  INFO 14884 --- [http-nio-4000-exec-3] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:38:23.490  INFO 14884 --- [http-nio-4000-exec-3] o.opentosca.artifacttemplates.SoapUtil   : messageId: TODO
+2023-11-08 16:38:23.490  INFO 14884 --- [http-nio-4000-exec-3] o.opentosca.artifacttemplates.SoapUtil   : Got headers:
+OpenToscaHeaders {
+  messageId = 'TODO',
+  replyTo   = 'TODO',
+  deploymentArtifacts = {
+  }
+}
+2023-11-08 16:38:23.506  INFO 14884 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Extracted message ID from header: TODO
+2023-11-08 16:38:23.506  INFO 14884 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Created client to access EC2...
+2023-11-08 16:38:23.506  INFO 14884 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Searching for VM image with following ID: ?
+2023-11-08 16:38:25.052  INFO 14884 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Found 0 images with the given ID!
+2023-11-08 16:38:25.052 ERROR 14884 --- [http-nio-4000-exec-3] .o.a.e.EC2CloudProviderInterfaceEndpoint : Unable to find VM image with ID ? in given AWS region: us-east-1
+2023-11-08 16:38:25.061 ERROR 14884 --- [http-nio-4000-exec-3] o.opentosca.artifacttemplates.SoapUtil   : Failed to send SOAP response to address: TODO
+
+java.net.MalformedURLException: no protocol: TODO
+	at java.base/java.net.URL.<init>(URL.java:764) ~[na:na]
+	at java.base/java.net.URL.<init>(URL.java:646) ~[na:na]
+	at java.base/java.net.URL.<init>(URL.java:582) ~[na:na]
+	at org.opentosca.artifacttemplates.SoapUtil.sendSoapResponse(SoapUtil.java:76) ~[classes/:na]
+	at org.opentosca.artifacttemplates.ec2.EC2CloudProviderInterfaceEndpoint.createVM(EC2CloudProviderInterfaceEndpoint.java:66) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578) ~[na:na]
+	at org.springframework.ws.server.endpoint.MethodEndpoint.invoke(MethodEndpoint.java:133) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter.invokeInternal(DefaultMethodEndpointAdapter.java:285) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.endpoint.adapter.AbstractMethodEndpointAdapter.invoke(AbstractMethodEndpointAdapter.java:54) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.MessageDispatcher.dispatch(MessageDispatcher.java:230) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.MessageDispatcher.receive(MessageDispatcher.java:174) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.support.WebServiceMessageReceiverObjectSupport.handleConnection(WebServiceMessageReceiverObjectSupport.java:88) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.http.WebServiceMessageReceiverHandlerAdapter.handle(WebServiceMessageReceiverHandlerAdapter.java:60) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.http.MessageDispatcherServlet.doService(MessageDispatcherServlet.java:288) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681) ~[tomcat-embed-core-9.0.56.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.56.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.opentosca.artifacttemplates.WsdlFilter.doFilter(WsdlFilter.java:47) ~[classes/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1732) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at java.base/java.lang.Thread.run(Thread.java:1623) ~[na:na]
+
+2023-11-08 16:40:31.946  INFO 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Received create VM request!
+2023-11-08 16:40:31.946  INFO 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Parsing OpenTOSCA headers...
+2023-11-08 16:40:31.947  INFO 14884 --- [http-nio-4000-exec-5] o.opentosca.artifacttemplates.SoapUtil   : Retrieved replyTo and messageId headers!
+2023-11-08 16:40:31.947  INFO 14884 --- [http-nio-4000-exec-5] o.opentosca.artifacttemplates.SoapUtil   : messageId: TODO
+2023-11-08 16:40:31.947  INFO 14884 --- [http-nio-4000-exec-5] o.opentosca.artifacttemplates.SoapUtil   : Got headers:
+OpenToscaHeaders {
+  messageId = 'TODO',
+  replyTo   = 'TODO',
+  deploymentArtifacts = {
+  }
+}
+2023-11-08 16:40:31.947  INFO 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Extracted message ID from header: TODO
+2023-11-08 16:40:31.951  INFO 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Created client to access EC2...
+2023-11-08 16:40:31.951  INFO 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Searching for VM image with following ID: ami-0fc5d935ebf8bc3bc
+2023-11-08 16:40:32.543  INFO 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Found 1 images with the given ID!
+2023-11-08 16:40:32.543  INFO 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Creating request for VM startup...
+2023-11-08 16:40:32.564  INFO 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Starting VM...
+2023-11-08 16:40:33.102 ERROR 14884 --- [http-nio-4000-exec-5] .o.a.e.EC2CloudProviderInterfaceEndpoint : Unable to create VM: Value () for parameter groupId is invalid. The value cannot be empty (Service: AmazonEC2; Status Code: 400; Error Code: InvalidParameterValue; Request ID: 50967b37-75ac-4b46-8c15-fd154497b3f8; Proxy: null)
+2023-11-08 16:40:33.112 ERROR 14884 --- [http-nio-4000-exec-5] o.opentosca.artifacttemplates.SoapUtil   : Failed to send SOAP response to address: TODO
+
+java.net.MalformedURLException: no protocol: TODO
+	at java.base/java.net.URL.<init>(URL.java:764) ~[na:na]
+	at java.base/java.net.URL.<init>(URL.java:646) ~[na:na]
+	at java.base/java.net.URL.<init>(URL.java:582) ~[na:na]
+	at org.opentosca.artifacttemplates.SoapUtil.sendSoapResponse(SoapUtil.java:76) ~[classes/:na]
+	at org.opentosca.artifacttemplates.ec2.EC2CloudProviderInterfaceEndpoint.createVM(EC2CloudProviderInterfaceEndpoint.java:97) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578) ~[na:na]
+	at org.springframework.ws.server.endpoint.MethodEndpoint.invoke(MethodEndpoint.java:133) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter.invokeInternal(DefaultMethodEndpointAdapter.java:285) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.endpoint.adapter.AbstractMethodEndpointAdapter.invoke(AbstractMethodEndpointAdapter.java:54) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.MessageDispatcher.dispatch(MessageDispatcher.java:230) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.server.MessageDispatcher.receive(MessageDispatcher.java:174) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.support.WebServiceMessageReceiverObjectSupport.handleConnection(WebServiceMessageReceiverObjectSupport.java:88) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.http.WebServiceMessageReceiverHandlerAdapter.handle(WebServiceMessageReceiverHandlerAdapter.java:60) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.ws.transport.http.MessageDispatcherServlet.doService(MessageDispatcherServlet.java:288) ~[spring-ws-core-3.1.2.jar:na]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681) ~[tomcat-embed-core-9.0.56.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.14.jar:5.3.14]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.56.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.opentosca.artifacttemplates.WsdlFilter.doFilter(WsdlFilter.java:47) ~[classes/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.14.jar:5.3.14]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1732) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.56.jar:9.0.56]
+	at java.base/java.lang.Thread.run(Thread.java:1623) ~[na:na]
+
+2023-11-08 16:41:04.321  INFO 14884 --- [SpringApplicationShutdownHook] o.o.artifacttemplates.WsdlFilter         : Destroying WsdlFilter enabling accessing the wsdl through ?wsdl at the service endpoint!

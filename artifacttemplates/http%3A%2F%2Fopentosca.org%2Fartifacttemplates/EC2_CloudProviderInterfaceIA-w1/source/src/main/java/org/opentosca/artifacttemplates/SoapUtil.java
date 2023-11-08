@@ -91,18 +91,12 @@ public abstract class SoapUtil {
             LOG.error("Unable to retrieve message ID and reply to headers from received SOAP request!");
             throw new IllegalArgumentException("Required header fields are not set!");
         }
+        LOG.info("Retrieved replyTo and messageId headers!");
 
         String messageId = messageIdNode.getTextContent();
+        LOG.info("messageId: {}", messageId);
         String replyTo = replyToNode.getFirstChild().getTextContent();
-        // region *** additional header elements ***
 
-        /* Just for reference, the DEPLOYMENT_ARTIFACTS_STRING element contains something like this:
-         * {
-         *     "{http://opentosca.org/artifacttypes}CloudImage": {
-         *         "focal-server-cloudimg-amd64.img": "http://[ip]:1337/csars/.../files/focal-server-cloudimg-amd64.img"
-         *     }
-         * }
-         */
         Node deploymentArtifactsNode = getHeaderFieldByName(messageContext, DEPLOYMENT_ARTIFACTS_STRING);
         Map<QName, Map<String, String>> deploymentArtifactsMap = new HashMap<>();
 
