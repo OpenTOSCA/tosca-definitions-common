@@ -1,4 +1,5 @@
 package org.opentosca.artifacttemplates.ec2;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,11 +10,20 @@ import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.AmazonEC2ClientBuilder;
+import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest;
+import com.amazonaws.services.ec2.model.CreateSecurityGroupResult;
 import com.amazonaws.services.ec2.model.DescribeImagesRequest;
 import com.amazonaws.services.ec2.model.DescribeImagesResult;
+import com.amazonaws.services.ec2.model.DescribeInstanceStatusRequest;
+import com.amazonaws.services.ec2.model.DescribeInstanceStatusResult;
+import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
+import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.ec2.model.Filter;
 import com.amazonaws.services.ec2.model.Image;
+import com.amazonaws.services.ec2.model.Instance;
+import com.amazonaws.services.ec2.model.InstanceState;
 import com.amazonaws.services.ec2.model.InstanceType;
+import com.amazonaws.services.ec2.model.KeyPairInfo;
 import com.amazonaws.services.ec2.model.RunInstancesRequest;
 import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.s3.AmazonS3;
@@ -67,29 +77,78 @@ public class EC2CloudProviderInterfaceEndpoint {
                 return;
             }
 
+            // check availability of given instance type
+            logger.info("Retrieving InstanceType for given VMType: {}", request.getVMType());
+            InstanceType instanceType = InstanceType.fromValue(request.getVMType());
+            logger.info("Successfully retrieved InstanceType: {}", instanceType);
+
+            // generate security group for the VM
+            logger.info("Generating new security group for the VM...");
+            CreateSecurityGroupRequest csgr = new CreateSecurityGroupRequest();
+            csgr.withGroupName("OpenTOSCA-" + System.currentTimeMillis()).withDescription("Auto generated security group for OpenTOSCA");
+            CreateSecurityGroupResult createSecurityGroupResult = ec2Client.createSecurityGroup(csgr);
+            logger.info("Generated new security group with ID: {}", createSecurityGroupResult.getGroupId());
+
+            // check if key pair with given name is available
+            logger.info("Checking if key pair with name {} exists...", request.getVMKeyPairName());
+            List<KeyPairInfo> keyPairs = ec2Client.describeKeyPairs().getKeyPairs();
+            logger.info("Found {} key pairs!", keyPairs.size());
+            if (keyPairs.stream().noneMatch(x -> x.getKeyName().equals(request.getVMKeyPairName()))) {
+                logger.error("Unable to find key pair with name {} in given AWS region: {}", request.getVMKeyPairName(), request.getAWSREGION());
+                response.setError("Unable to find key pair with the following ID in given AWS region: " + request.getVMKeyPairName());
+                SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+                return;
+            }
+
             // create request for VM creation
             logger.info("Creating request for VM startup...");
             RunInstancesRequest runInstancesRequest = new RunInstancesRequest();
             runInstancesRequest.withImageId(request.getVMImageID())
-                    .withInstanceType(InstanceType.T1Micro) // TODO
+                    .withInstanceType(instanceType)
                     .withMinCount(1)
                     .withMaxCount(1)
                     .withKeyName(request.getVMKeyPairName())
-                    .withSecurityGroups("my-security-group"); // TODO
+                    .withSecurityGroupIds(createSecurityGroupResult.getGroupId());
 
             logger.info("Starting VM...");
             RunInstancesResult result = ec2Client.runInstances(runInstancesRequest);
+            Instance instance = result.getReservation().getInstances().get(0);
+            logger.info("VM started with ID: {}", instance.getInstanceId());
+            Thread.sleep(5000);
 
-            // TODO: create VM
-            String ip = "test";
-            String vmInstanceId = "ID";
+            // wait for the VM to start
+            String state = "undefined";
+            int iteration = 0;
+            while (!state.equals("running") && iteration <= 50) {
+                logger.info("Waiting for VM to start... Iteration: {}", iteration);
 
-            // Output Parameters
-            response.setVMInstanceID(vmInstanceId);
-            response.setVMIP(ip);
+                // get current state of the created VM
+                InstanceState instanceState = getCurrentInstance(ec2Client, instance.getInstanceId()).getState();
+                state = instanceState.getName();
+                logger.info("Current state: {}", instanceState.getName());
 
-            logger.info("Successfully started VM with public IP {}", ip);
+                Thread.sleep(15000);
+                iteration++;
+            }
 
+            // abort if VM did not enter running state
+            if (!state.equals("running")){
+                logger.error("VM did not enter running state before timeout. Current state: {}", state);
+                response.setError("VM did not enter running state before timeout. Current state: " + state);
+                SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+                return;
+            }
+            logger.info("VM successfully started...");
+
+            // get state of started VM
+            instance = getCurrentInstance(ec2Client, instance.getInstanceId());
+            logger.info("VM instance: {}", instance.toString());
+            String publicIp = instance.getPublicIpAddress();
+            logger.info("Public IP of VM: {}", publicIp);
+
+            // Send response with instance ID and public IP address
+            response.setVMInstanceID(instance.getInstanceId());
+            response.setVMIP(publicIp);
             SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
         } catch (Exception e) {
             logger.error("Unable to create VM: {}", e.getMessage());
@@ -108,5 +167,12 @@ public class EC2CloudProviderInterfaceEndpoint {
         // TODO: terminate VM
 
         SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+    }
+
+    private Instance getCurrentInstance(AmazonEC2 ec2Client, String instanceId){
+        DescribeInstancesRequest instanceStateRequest = new DescribeInstancesRequest();
+        instanceStateRequest.setInstanceIds(Collections.singleton(instanceId));
+        DescribeInstancesResult instanceStateResult = ec2Client.describeInstances(instanceStateRequest);
+        return instanceStateResult.getReservations().get(0).getInstances().get(0);
     }
 }
