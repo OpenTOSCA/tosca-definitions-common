@@ -100,9 +100,7 @@ public class OpenStackCloudProviderInterfaceEndpoint {
             }
         }
 
-        // we agreed in the IA knows the security group
         String securityGroup = "default";
-
         if (request.getVMSecurityGroup() != null && !request.getVMSecurityGroup().isEmpty()) {
             securityGroup = request.getVMSecurityGroup();
             if (!securityGroup.contains("default")) {
@@ -162,14 +160,14 @@ public class OpenStackCloudProviderInterfaceEndpoint {
 
         // Get Networks based on Type String
         List<? extends Network> availableNetworks = osClient.networking().network().list();
-        List<String> availableNetworksIds = availableNetworks.stream().map(IdEntity::getId).filter(id -> Arrays.asList(request.getHypervisorNetworks().split(",")).contains(id)).toList();
+        List<String> availableNetworksIds = availableNetworks.stream().map(IdEntity::getId).filter(id -> Arrays.asList(request.getVMNetworks().split(",")).contains(id)).toList();
 
         if (availableNetworksIds.isEmpty()) {
-            response.setError("Cannot find matching network for input " + request.getHypervisorNetworks());
-            logger.error("Cannot find matching network for input " + request.getHypervisorNetworks());
+            response.setError("Cannot find matching network for input " + request.getVMNetworks());
+            logger.error("Cannot find matching network for input " + request.getVMNetworks());
             SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
 
-            throw new RuntimeException("Cannot find matching network for input " + request.getHypervisorNetworks());
+            throw new RuntimeException("Cannot find matching network for input " + request.getVMNetworks());
         }
         logger.info("Using {} networks: {}", availableNetworksIds.size(), availableNetworksIds);
 

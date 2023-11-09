@@ -11,7 +11,6 @@
             <xs:element form="qualified" minOccurs="0" name="HypervisorApplicationID" type="xs:string"/>
             <xs:element form="qualified" minOccurs="0" name="HypervisorApplicationSecret" type="xs:string"/>
             <xs:element form="qualified" minOccurs="0" name="HypervisorRegion" type="xs:string"/>
-            <xs:element form="qualified" minOccurs="0" name="HypervisorNetworks" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -40,6 +39,7 @@
                         <xs:element form="qualified" minOccurs="0" name="VMPrivateKey" type="xs:string"/>
                         <xs:element form="qualified" minOccurs="0" name="VMPublicKey" type="xs:string"/>
                         <xs:element form="qualified" minOccurs="0" name="VMSecurityGroup" type="xs:string"/>
+                        <xs:element form="qualified" minOccurs="0" name="VMNetworks" type="xs:string"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
