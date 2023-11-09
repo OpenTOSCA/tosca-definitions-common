@@ -73,16 +73,36 @@ public class EC2CloudProviderInterfaceEndpoint {
         try {
             // get available images and filter with given image ID
             logger.info("Searching for VM image with following ID: {}", request.getVMImageID());
+
+            // images have to be split as they are provided in the following format by the OT Container: ubuntu-20.04
+            String[] imageIdParts = request.getVMImageID().split("-");
+            logger.info("Retrieved platform: {}", imageIdParts[0]);
+            logger.info("Retrieved version: {}", imageIdParts[1]);
+
+            // uppercase platform name for AWS image search
+            String platform = imageIdParts[0].substring(0, 1).toUpperCase() + imageIdParts[0].substring(1);
+
+            // assemble search string from platform + version
+            String imageDescription = platform + ", " + imageIdParts[1] + " LTS";
+            logger.info("Retrieved image description: {}", imageDescription);
+
             DescribeImagesRequest amiRequest = new DescribeImagesRequest().withFilters(new LinkedList<>());
-            amiRequest.getFilters().add(new Filter().withName("image-id").withValues(request.getVMImageID()));
+            amiRequest.getFilters().add(new Filter().withName("description").withValues("*" + imageDescription + "*"));
+            amiRequest.getFilters().add(new Filter().withName("architecture").withValues("x86_64"));
+            amiRequest.getFilters().add(new Filter().withName("root-device-type").withValues("ebs"));
+            amiRequest.setOwners(Collections.singleton("amazon")); // only use official AWS images
             List<Image> images = ec2Client.describeImages(amiRequest).getImages();
-            logger.info("Found {} images with the given ID!", images.size());
+            logger.info("Found {} images with the retrieved platform!", images.size());
             if (images.isEmpty()) {
                 logger.error("Unable to find VM image with ID {} in given AWS region: {}", request.getVMImageID(), request.getAWSREGION());
                 response.setError("Unable to find VM image with the following ID in given AWS region: " + request.getVMImageID());
                 SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
                 return;
             }
+
+            // select first available image
+            Image image = images.get(0);
+            logger.info("Selected first image with name: {}", image.getName());
 
             // check availability of given instance type
             logger.info("Retrieving InstanceType for given VMType: {}", request.getVMType());
@@ -164,7 +184,7 @@ public class EC2CloudProviderInterfaceEndpoint {
             // create request for VM creation
             logger.info("Creating request for VM startup...");
             RunInstancesRequest runInstancesRequest = new RunInstancesRequest();
-            runInstancesRequest.withImageId(request.getVMImageID())
+            runInstancesRequest.withImageId(image.getImageId())
                     .withInstanceType(instanceType)
                     .withMinCount(1)
                     .withMaxCount(1)
