@@ -33,6 +33,8 @@
                         <InputParameter name="VMPrivateKey" type="xsd:string" required="no"/>
                         <InputParameter name="VMPublicKey" type="xsd:string" required="no"/>
                         <InputParameter name="VMSecurityGroup" type="xsd:string" required="no"/>
+                        <InputParameter name="VMOpenPorts" type="xsd:string" required="no"/>
+                        <InputParameter name="VMNetworks" type="xsd:string" required="no"/>
                     </InputParameters>
                     <OutputParameters>
                         <OutputParameter name="VMInstanceID" type="xsd:string" required="yes"/>
