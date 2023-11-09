@@ -102,15 +102,16 @@
             application_credential method. Thus, we use the fixed version by Lukas for now.
         -->
         <dependency>
-            <groupId>com.github.lharzenetter.openstack4j</groupId>
+            <groupId>com.github.wederbn.openstack4j</groupId>
             <artifactId>openstack4j-core</artifactId>
-            <version>0437cd269d</version>
+            <version>57c6a37e07</version>
         </dependency>
+
         <!-- Because Apache has nice debugging logs, we use it explicitly -->
         <dependency>
-            <groupId>com.github.lharzenetter.openstack4j</groupId>
+            <groupId>com.github.wederbn.openstack4j</groupId>
             <artifactId>openstack4j-httpclient</artifactId>
-            <version>0437cd269d</version>
+            <version>57c6a37e07</version>
         </dependency>
 
         <!-- Test dependencies -->

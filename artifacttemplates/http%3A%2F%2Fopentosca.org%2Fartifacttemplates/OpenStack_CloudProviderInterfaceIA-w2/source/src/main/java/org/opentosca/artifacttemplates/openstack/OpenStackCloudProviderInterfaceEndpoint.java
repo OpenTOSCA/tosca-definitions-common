@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.xml.namespace.QName;
 
@@ -12,10 +13,7 @@ import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.api.types.Facing;
 import org.openstack4j.core.transport.Config;
-import org.openstack4j.model.common.ActionResponse;
-import org.openstack4j.model.common.Identifier;
-import org.openstack4j.model.common.Payload;
-import org.openstack4j.model.common.Payloads;
+import org.openstack4j.model.common.*;
 import org.openstack4j.model.compute.Address;
 import org.openstack4j.model.compute.Flavor;
 import org.openstack4j.model.compute.FloatingIP;
@@ -26,6 +24,7 @@ import org.openstack4j.model.compute.ServerCreate;
 import org.openstack4j.model.compute.builder.ServerCreateBuilder;
 import org.openstack4j.model.image.v2.ContainerFormat;
 import org.openstack4j.model.image.v2.DiskFormat;
+import org.openstack4j.model.network.Network;
 import org.openstack4j.openstack.OSFactory;
 import org.opentosca.artifacttemplates.OpenToscaHeaders;
 import org.opentosca.artifacttemplates.SoapUtil;
@@ -161,6 +160,19 @@ public class OpenStackCloudProviderInterfaceEndpoint {
             return;
         }
 
+        // Get Networks based on Type String
+        List<? extends Network> availableNetworks = osClient.networking().network().list();
+        List<String> availableNetworksIds = availableNetworks.stream().map(IdEntity::getId).filter(id -> Arrays.asList(request.getHypervisorNetworks().split(",")).contains(id)).toList();
+
+        if (availableNetworksIds.isEmpty()) {
+            response.setError("Cannot find matching network for input " + request.getHypervisorNetworks());
+            logger.error("Cannot find matching network for input " + request.getHypervisorNetworks());
+            SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+
+            throw new RuntimeException("Cannot find matching network for input " + request.getHypervisorNetworks());
+        }
+        logger.info("Using {} networks: {}", availableNetworksIds.size(), availableNetworksIds);
+
         // Get Flavor based on Type String
         List<? extends Flavor> flavours = osClient.compute().flavors().list();
         Flavor flavor = null;
@@ -216,6 +228,7 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                 .name("OpenTOSCA-" + System.currentTimeMillis())
                 .flavor(flavor)
                 .image(image)
+                .networks(availableNetworksIds)
                 .keypairName(request.getVMKeyPairName());
 
         for (String secGroup : securityGroup.split(",")) {
@@ -405,7 +418,8 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                         .withConfig(config)
                         .endpoint(endpoint)
                         .applicationCredentials(openStackRequest.getHypervisorApplicationID(), openStackRequest.getHypervisorApplicationSecret())
-                        .authenticate();
+                        .authenticate()
+                        .useRegion(openStackRequest.getHypervisorRegion());
             } catch (Exception e) {
                 logger.error("Error while authenticating at {}", endpoint, e);
             }
@@ -424,7 +438,8 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                         .endpoint(endpoint)
                         .credentials(openStackRequest.getHypervisorUserName(), openStackRequest.getHypervisorUserPassword(), Identifier.byName("Default"))
                         .scopeToProject(Identifier.byId(openStackRequest.getHypervisorTenantID()))
-                        .authenticate();
+                        .authenticate()
+                        .useRegion(openStackRequest.getHypervisorRegion());
             } catch (Exception e) {
                 logger.error("Error while authenticating at {}", endpoint, e);
             }
