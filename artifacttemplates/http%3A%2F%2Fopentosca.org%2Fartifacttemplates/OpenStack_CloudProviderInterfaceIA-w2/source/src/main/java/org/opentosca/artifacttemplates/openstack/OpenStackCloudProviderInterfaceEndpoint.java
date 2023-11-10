@@ -123,7 +123,6 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                 logger.info("Successfully authenticated at {}", request.getHypervisorEndpoint());
             }
 
-            logger.info("test");
             org.openstack4j.model.image.v2.Image uploadedImage = null;
             try {
                 if (supportedArtifactType != null && isoLocation != null && !isoLocation.isEmpty()) {
@@ -161,7 +160,6 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                 return;
             }
 
-            logger.info("test2");
             // Get Networks based on Type String
             List<? extends Network> availableNetworks = osClient.networking().network().list();
             logger.info("Found "+ availableNetworks.size() + " Networks");
