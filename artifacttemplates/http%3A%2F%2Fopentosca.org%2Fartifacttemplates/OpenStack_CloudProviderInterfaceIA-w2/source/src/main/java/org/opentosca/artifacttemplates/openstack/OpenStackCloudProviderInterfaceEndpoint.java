@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.xml.namespace.QName;
 
@@ -12,10 +13,7 @@ import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.api.types.Facing;
 import org.openstack4j.core.transport.Config;
-import org.openstack4j.model.common.ActionResponse;
-import org.openstack4j.model.common.Identifier;
-import org.openstack4j.model.common.Payload;
-import org.openstack4j.model.common.Payloads;
+import org.openstack4j.model.common.*;
 import org.openstack4j.model.compute.Address;
 import org.openstack4j.model.compute.Flavor;
 import org.openstack4j.model.compute.FloatingIP;
@@ -26,6 +24,7 @@ import org.openstack4j.model.compute.ServerCreate;
 import org.openstack4j.model.compute.builder.ServerCreateBuilder;
 import org.openstack4j.model.image.v2.ContainerFormat;
 import org.openstack4j.model.image.v2.DiskFormat;
+import org.openstack4j.model.network.Network;
 import org.openstack4j.openstack.OSFactory;
 import org.opentosca.artifacttemplates.OpenToscaHeaders;
 import org.opentosca.artifacttemplates.SoapUtil;
@@ -62,267 +61,290 @@ public class OpenStackCloudProviderInterfaceEndpoint {
 
     @PayloadRoot(namespace = OpenStackConstants.NAMESPACE_URI, localPart = "createVMRequest")
     public void createVM(@RequestPayload CreateVMRequest request, MessageContext messageContext) {
-        logger.info("Received create VM request!");
 
-        OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
+            logger.info("Received create VM request!");
 
-        InvokeResponse response = new InvokeResponse();
-        response.setMessageID(openToscaHeaders.messageId());
+            OpenToscaHeaders openToscaHeaders = SoapUtil.parseHeaders(messageContext);
 
-        OSFactory.enableHttpLoggingFilter(true);
+            InvokeResponse response = new InvokeResponse();
+            response.setMessageID(openToscaHeaders.messageId());
 
-        String isoLocation = null;
-        SupportedArtifactType supportedArtifactType = null;
+            OSFactory.enableHttpLoggingFilter(true);
 
-        if (openToscaHeaders.deploymentArtifacts().isEmpty()) {
-            logger.info("Did not receive any attached DeploymentArtifacts!");
-        } else {
-            Optional<SupportedArtifactType> optional = SUPPORTED_ARTIFACT_TYPE_TYPES.stream()
-                    .filter(artifactType ->
-                            openToscaHeaders.deploymentArtifacts().containsKey(artifactType.artifactType)
-                    ).findFirst();
+            String isoLocation = null;
+            SupportedArtifactType supportedArtifactType = null;
 
-            if (optional.isPresent()) {
-                supportedArtifactType = optional.get();
-                logger.info("Found supported Artifact Type {}", supportedArtifactType);
-                Map<String, String> deploymentArtifactLocations = openToscaHeaders.deploymentArtifacts()
-                        .get(supportedArtifactType.artifactType);
+        try {
+            if (openToscaHeaders.deploymentArtifacts().isEmpty()) {
+                logger.info("Did not receive any attached DeploymentArtifacts!");
+            } else {
+                Optional<SupportedArtifactType> optional = SUPPORTED_ARTIFACT_TYPE_TYPES.stream()
+                        .filter(artifactType ->
+                                openToscaHeaders.deploymentArtifacts().containsKey(artifactType.artifactType)
+                        ).findFirst();
 
-                for (Map.Entry<String, String> deploymentArtifactLocation : deploymentArtifactLocations.entrySet()) {
-                    if (deploymentArtifactLocation.getKey().endsWith(supportedArtifactType.fileType)) {
-                        isoLocation = deploymentArtifactLocation.getValue();
-                        logger.info("Found a {} file available at {}", supportedArtifactType.fileType.toUpperCase(), isoLocation);
-                        break;
-                    } else {
-                        logger.warn("Found non matching file {} for artifact type {}",
-                                deploymentArtifactLocation.getKey(), supportedArtifactType);
+                if (optional.isPresent()) {
+                    supportedArtifactType = optional.get();
+                    logger.info("Found supported Artifact Type {}", supportedArtifactType);
+                    Map<String, String> deploymentArtifactLocations = openToscaHeaders.deploymentArtifacts()
+                            .get(supportedArtifactType.artifactType);
+
+                    for (Map.Entry<String, String> deploymentArtifactLocation : deploymentArtifactLocations.entrySet()) {
+                        if (deploymentArtifactLocation.getKey().endsWith(supportedArtifactType.fileType)) {
+                            isoLocation = deploymentArtifactLocation.getValue();
+                            logger.info("Found a {} file available at {}", supportedArtifactType.fileType.toUpperCase(), isoLocation);
+                            break;
+                        } else {
+                            logger.warn("Found non matching file {} for artifact type {}",
+                                    deploymentArtifactLocation.getKey(), supportedArtifactType);
+                        }
                     }
                 }
             }
-        }
 
-        // we agreed in the IA knows the security group
-        String securityGroup = "default";
-
-        if (request.getVMSecurityGroup() != null && !request.getVMSecurityGroup().isEmpty()) {
-            securityGroup = request.getVMSecurityGroup();
-            if (!securityGroup.contains("default")) {
-                securityGroup = "default," + securityGroup;
+            String securityGroup = "default";
+            if (request.getVMSecurityGroup() != null && !request.getVMSecurityGroup().isEmpty()) {
+                securityGroup = request.getVMSecurityGroup();
+                if (!securityGroup.contains("default")) {
+                    securityGroup = "default," + securityGroup;
+                }
             }
-        }
-        logger.info("Received security groups {}", securityGroup);
+            logger.info("Received security groups {}", securityGroup);
 
-        // Create OpenStack client
-        OSClient<?> osClient = authenticate(request);
+            // Create OpenStack client
+            OSClient<?> osClient = authenticate(request);
 
-        if (osClient == null) {
-            response.setError("Could not connect to OpenStack Instance at " + request.getHypervisorEndpoint());
-            SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
-            logger.error("Could not create connection...");
-            return;
-        } else {
-            logger.info("Successfully authenticated at {}", request.getHypervisorEndpoint());
-        }
-
-        org.openstack4j.model.image.v2.Image uploadedImage = null;
-        try {
-            if (supportedArtifactType != null && isoLocation != null && !isoLocation.isEmpty()) {
-                logger.info("{} file is attached! Trying to create image with format '{}'",
-                        supportedArtifactType.fileType.toUpperCase(), supportedArtifactType.diskFormat.value());
-                Payload<URL> payload = Payloads.create(new URL(isoLocation));
-
-                String generatedImageId = "opentosca-" + request.getVMImageID()
-                        .replaceAll("\\s", "") + "-" + System.currentTimeMillis();
-                logger.info("Creating image with name '{}'", generatedImageId);
-
-                uploadedImage = osClient.imagesV2().create(Builders.imageV2()
-                        .name(generatedImageId)
-                        .containerFormat(ContainerFormat.BARE)
-                        .diskFormat(supportedArtifactType.diskFormat)
-                        .minDisk(3L)
-                        .visibility(org.openstack4j.model.image.v2.Image.ImageVisibility.PRIVATE)
-                        .build());
-
-                long startUpload = System.currentTimeMillis();
-                logger.info("Starting to upload file...");
-                ActionResponse upload = osClient.imagesV2().upload(
-                        uploadedImage.getId(),
-                        payload,
-                        uploadedImage);
-                long duration = (System.currentTimeMillis() - startUpload) / 1000;
-                logger.info("Uploading success: {}", upload.isSuccess());
-                logger.info("Uploading lasted {}min {}s", (int) duration / 60, duration % 60);
+            if (osClient == null) {
+                response.setError("Could not connect to OpenStack Instance at " + request.getHypervisorEndpoint());
+                SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+                logger.error("Could not create connection...");
+                return;
+            } else {
+                logger.info("Successfully authenticated at {}", request.getHypervisorEndpoint());
             }
-        } catch (Exception e) {
-            logger.error("An error happened while creating an image from the attached file!", e);
-            response.setError("Could not upload image");
 
-            SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
-            return;
-        }
-
-        // Get Flavor based on Type String
-        List<? extends Flavor> flavours = osClient.compute().flavors().list();
-        Flavor flavor = null;
-        for (Flavor f : flavours) {
-            if (f.getId().equals(request.getVMType()) || f.getName().equals(request.getVMType())) {
-                flavor = f;
-                break;
-            }
-        }
-        if (flavor == null) {
-            response.setError("Cannot find flavor for input " + request.getVMType());
-            logger.error("Cannot find flavor for input {}", request.getVMType());
-            SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
-
-            throw new RuntimeException("Cannot find flavor for input " + request.getVMType());
-        }
-        logger.info("Found flavour {}", flavor.getName());
-
-        String[] imageIdParts = request.getVMImageID().split("-");
-        // Get Flavor based on Type String
-        List<? extends Image> images = osClient.compute().images().list();
-        Image image;
-
-        Optional<? extends Image> optionalImage;
-
-        if (uploadedImage == null) {
-            optionalImage = images.stream()
-                    .filter(img -> {
-                        final String imageName = img.getName().toLowerCase();
-                        return imageName.equals(request.getVMImageID().toLowerCase()) || imageName.startsWith(request.getVMImageID())
-                                || Arrays.stream(imageIdParts).allMatch(part -> imageName.contains(part.toLowerCase()));
-                    })
-                    .findFirst();
-        } else {
-            org.openstack4j.model.image.v2.Image finalImage = uploadedImage;
-            optionalImage = images.stream()
-                    .filter(img -> img.getId().equals(finalImage.getId()) || img.getName().equals(finalImage.getName()))
-                    .findFirst();
-        }
-
-        if (optionalImage.isPresent()) {
-            image = optionalImage.get();
-            logger.info("Found image to use \"{}\"", image.getName());
-        } else {
-            response.setError("Cannot find image for input " + request.getVMImageID());
-            SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
-
-            throw new RuntimeException("Cannot find image for input " + request.getVMImageID());
-        }
-
-        // Build the server
-        ServerCreateBuilder serverCreateBuilder = Builders.server()
-                .name("OpenTOSCA-" + System.currentTimeMillis())
-                .flavor(flavor)
-                .image(image)
-                .keypairName(request.getVMKeyPairName());
-
-        for (String secGroup : securityGroup.split(",")) {
-            String trim = secGroup.trim();
-            if (!trim.isEmpty()) {
-                serverCreateBuilder.addSecurityGroup(trim);
-                logger.info("Added security group {}", trim);
-            }
-        }
-
-        ServerCreate sc = serverCreateBuilder.build();
-
-        // Start Server
-        Server server = osClient.compute()
-                .servers()
-                .boot(sc);
-        logger.info("Started server with ID {}", server.getId());
-
-        // Retrying for some minutes for OpenStack to set up the server
-        int i = 0, max = 60;
-        do {
-            logger.info("Waiting 5s for server to come up... {}/{}", ++i, max);
+            org.openstack4j.model.image.v2.Image uploadedImage = null;
             try {
-                Thread.sleep(5000); // wait for 5 sec
-            } catch (InterruptedException e) {
-                // we just go on in this case.
+                if (supportedArtifactType != null && isoLocation != null && !isoLocation.isEmpty()) {
+                    logger.info("{} file is attached! Trying to create image with format '{}'",
+                            supportedArtifactType.fileType.toUpperCase(), supportedArtifactType.diskFormat.value());
+                    Payload<URL> payload = Payloads.create(new URL(isoLocation));
+
+                    String generatedImageId = "opentosca-" + request.getVMImageID()
+                            .replaceAll("\\s", "") + "-" + System.currentTimeMillis();
+                    logger.info("Creating image with name '{}'", generatedImageId);
+
+                    uploadedImage = osClient.imagesV2().create(Builders.imageV2()
+                            .name(generatedImageId)
+                            .containerFormat(ContainerFormat.BARE)
+                            .diskFormat(supportedArtifactType.diskFormat)
+                            .minDisk(3L)
+                            .visibility(org.openstack4j.model.image.v2.Image.ImageVisibility.PRIVATE)
+                            .build());
+
+                    long startUpload = System.currentTimeMillis();
+                    logger.info("Starting to upload file...");
+                    ActionResponse upload = osClient.imagesV2().upload(
+                            uploadedImage.getId(),
+                            payload,
+                            uploadedImage);
+                    long duration = (System.currentTimeMillis() - startUpload) / 1000;
+                    logger.info("Uploading success: {}", upload.isSuccess());
+                    logger.info("Uploading lasted {}min {}s", (int) duration / 60, duration % 60);
+                }
+            } catch (Exception e) {
+                logger.error("An error happened while creating an image from the attached file!", e);
+                response.setError("Could not upload image");
+
+                SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+                return;
             }
 
-            // Get server's information
-            server = osClient.compute()
-                    .servers()
-                    .get(server.getId());
+            // Get Networks based on Type String
+            List<? extends Network> availableNetworks = osClient.networking().network().list();
+            logger.info("Found "+ availableNetworks.size() + " Networks");
+            logger.info("Searching for Network: " + request.getVMNetworks());
+            List<String> availableNetworksIds = availableNetworks.stream().map(IdEntity::getId).filter(id -> Arrays.asList(request.getVMNetworks().split(",")).contains(id)).toList();
 
-            if (server.getStatus().equals(Status.ERROR)) {
-                // An error occurred
-                logger.error("Failed to start server...");
-                throw new RuntimeException("Failed to start server.");
-            } else if (server.getStatus().equals(Status.ACTIVE)) {
-                // Ok, it's done, we can go on
-                logger.info("Server is active!");
-                break;
+            if (availableNetworksIds.isEmpty()) {
+                response.setError("Cannot find matching network for input " + request.getVMNetworks());
+                logger.error("Cannot find matching network for input " + request.getVMNetworks());
+                SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+
+                throw new RuntimeException("Cannot find matching network for input " + request.getVMNetworks());
             }
-        } while (i <= max);
+            logger.info("Using {} networks: {}", availableNetworksIds.size(), availableNetworksIds);
 
-        // Get server's fixed IP from the list of addresses
-        String serversInternalIP = null;
-        for (List<? extends Address> addressesOfNetwork : server.getAddresses().getAddresses().values()) {
-            for (Address address : addressesOfNetwork) {
-                if (address.getType().equals("fixed")) {
-                    serversInternalIP = address.getAddr();
-                    logger.info("Found fixed IP-Address: {}", serversInternalIP);
+            // Get Flavor based on Type String
+            List<? extends Flavor> flavours = osClient.compute().flavors().list();
+            Flavor flavor = null;
+            for (Flavor f : flavours) {
+                if (f.getId().equals(request.getVMType()) || f.getName().equals(request.getVMType())) {
+                    flavor = f;
                     break;
                 }
             }
-        }
+            if (flavor == null) {
+                response.setError("Cannot find flavor for input " + request.getVMType());
+                logger.error("Cannot find flavor for input {}", request.getVMType());
+                SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
 
-        // Try to find a Floating IP which is not assigned to any instance yet.
-        String floatingIp = null;
-        for (FloatingIP fip : osClient.compute().floatingIps().list()) {
-            if (fip.getInstanceId() == null) {
-                floatingIp = fip.getFloatingIpAddress();
-                logger.info("Found a FloatingIP with is not assigned: {}", floatingIp);
-                break;
+                throw new RuntimeException("Cannot find flavor for input " + request.getVMType());
             }
-        }
+            logger.info("Found flavour {}", flavor.getName());
 
-        // If there is no free FloatingIP, we try to assign one from the first
-        // pools which allows us to allocate one.
-        if (floatingIp == null) {
-            List<String> poolNames = osClient.compute().floatingIps().getPoolNames();
-            for (String poolName : poolNames) {
-                try {
-                    // Try to allocate IP from this pool
-                    floatingIp = osClient.compute().floatingIps().allocateIP(poolName).getFloatingIpAddress();
-                    // If it worked, we stop here
-                    if (floatingIp != null) {
-                        logger.info(
-                                "Allocated new FloatingIP {} from pool {} because there was no FloatingIP available which was not assigned yet.",
-                                floatingIp, poolName
-                        );
-                        break;
-                    }
-                } catch (Exception e) {
-                    logger.warn("Unable to allocate FloatingIP from pool {}. Error was '{}'. Trying next pool.", poolName, e.getMessage());
-                    logger.debug("Unable to allocate FloatingIP", e);
+            String[] imageIdParts = request.getVMImageID().split("-");
+            // Get Flavor based on Type String
+            List<? extends Image> images = osClient.compute().images().list();
+            Image image;
+
+            Optional<? extends Image> optionalImage;
+
+            if (uploadedImage == null) {
+                optionalImage = images.stream()
+                        .filter(img -> {
+                            final String imageName = img.getName().toLowerCase();
+                            return imageName.equals(request.getVMImageID().toLowerCase()) || imageName.startsWith(request.getVMImageID())
+                                    || Arrays.stream(imageIdParts).allMatch(part -> imageName.contains(part.toLowerCase()));
+                        })
+                        .findFirst();
+            } else {
+                org.openstack4j.model.image.v2.Image finalImage = uploadedImage;
+                optionalImage = images.stream()
+                        .filter(img -> img.getId().equals(finalImage.getId()) || img.getName().equals(finalImage.getName()))
+                        .findFirst();
+            }
+
+            if (optionalImage.isPresent()) {
+                image = optionalImage.get();
+                logger.info("Found image to use \"{}\"", image.getName());
+            } else {
+                response.setError("Cannot find image for input " + request.getVMImageID());
+                SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+
+                throw new RuntimeException("Cannot find image for input " + request.getVMImageID());
+            }
+
+            // Build the server
+            ServerCreateBuilder serverCreateBuilder = Builders.server()
+                    .name("OpenTOSCA-" + System.currentTimeMillis())
+                    .flavor(flavor)
+                    .image(image)
+                    .networks(availableNetworksIds)
+                    .keypairName(request.getVMKeyPairName());
+
+            for (String secGroup : securityGroup.split(",")) {
+                String trim = secGroup.trim();
+                if (!trim.isEmpty()) {
+                    serverCreateBuilder.addSecurityGroup(trim);
+                    logger.info("Added security group {}", trim);
                 }
             }
+
+            ServerCreate sc = serverCreateBuilder.build();
+
+            // Start Server
+            Server server = osClient.compute()
+                    .servers()
+                    .boot(sc);
+            logger.info("Started server with ID {}", server.getId());
+
+            // Retrying for some minutes for OpenStack to set up the server
+            int i = 0, max = 60;
+            do {
+                logger.info("Waiting 5s for server to come up... {}/{}", ++i, max);
+                try {
+                    Thread.sleep(5000); // wait for 5 sec
+                } catch (InterruptedException e) {
+                    // we just go on in this case.
+                }
+
+                // Get server's information
+                server = osClient.compute()
+                        .servers()
+                        .get(server.getId());
+
+                if (server.getStatus().equals(Status.ERROR)) {
+                    // An error occurred
+                    logger.error("Failed to start server...");
+                    throw new RuntimeException("Failed to start server.");
+                } else if (server.getStatus().equals(Status.ACTIVE)) {
+                    // Ok, it's done, we can go on
+                    logger.info("Server is active!");
+                    break;
+                }
+            } while (i <= max);
+
+            // Get server's fixed IP from the list of addresses
+            String serversInternalIP = null;
+            for (List<? extends Address> addressesOfNetwork : server.getAddresses().getAddresses().values()) {
+                for (Address address : addressesOfNetwork) {
+                    if (address.getType().equals("fixed")) {
+                        serversInternalIP = address.getAddr();
+                        logger.info("Found fixed IP-Address: {}", serversInternalIP);
+                        break;
+                    }
+                }
+            }
+
+            // Try to find a Floating IP which is not assigned to any instance yet.
+            String floatingIp = null;
+            for (FloatingIP fip : osClient.compute().floatingIps().list()) {
+                if (fip.getInstanceId() == null) {
+                    floatingIp = fip.getFloatingIpAddress();
+                    logger.info("Found a FloatingIP with is not assigned: {}", floatingIp);
+                    break;
+                }
+            }
+
+            // If there is no free FloatingIP, we try to assign one from the first
+            // pools which allows us to allocate one.
+            if (floatingIp == null) {
+                List<String> poolNames = osClient.compute().floatingIps().getPoolNames();
+                for (String poolName : poolNames) {
+                    try {
+                        // Try to allocate IP from this pool
+                        floatingIp = osClient.compute().floatingIps().allocateIP(poolName).getFloatingIpAddress();
+                        // If it worked, we stop here
+                        if (floatingIp != null) {
+                            logger.info(
+                                    "Allocated new FloatingIP {} from pool {} because there was no FloatingIP available which was not assigned yet.",
+                                    floatingIp, poolName
+                            );
+                            break;
+                        }
+                    } catch (Exception e) {
+                        logger.warn("Unable to allocate FloatingIP from pool {}. Error was '{}'. Trying next pool.", poolName, e.getMessage());
+                        logger.debug("Unable to allocate FloatingIP", e);
+                    }
+                }
+            }
+
+            // Have we been able to find a FloatingIP?
+            if (floatingIp == null) {
+                logger.error("Unable to find and allocate a FloatingIP. Machine will be started without floating IP and, therefore, might not be accessible from the outside.");
+                // If not, we are setting the server's internal IP as floating IP,
+                // so it is returned to the user, even if it might not be accessible.
+                floatingIp = serversInternalIP;
+            } else {
+                // Assign Floating IP
+                osClient.compute().floatingIps().addFloatingIP(server, floatingIp);
+            }
+
+            // Output Parameters
+            response.setVMInstanceID(server.getId());
+            response.setVMIP(floatingIp);
+
+            logger.info("Successfully started VM with internal IP {} and public IP {}", serversInternalIP, floatingIp);
+
+            SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+        } catch (Exception e){
+            response.setError("Exception occurred: " + e.getMessage());
+            e.printStackTrace();
+            SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
+
+            throw new RuntimeException("Exception occurred: " + e.getMessage());
         }
-
-        // Have we been able to find a FloatingIP?
-        if (floatingIp == null) {
-            logger.error("Unable to find and allocate a FloatingIP. Machine will be started without floating IP and, therefore, might not be accessible from the outside.");
-            // If not, we are setting the server's internal IP as floating IP,
-            // so it is returned to the user, even if it might not be accessible.
-            floatingIp = serversInternalIP;
-        } else {
-            // Assign Floating IP
-            osClient.compute().floatingIps().addFloatingIP(server, floatingIp);
-        }
-
-        // Output Parameters
-        response.setVMInstanceID(server.getId());
-        response.setVMIP(floatingIp);
-
-        logger.info("Successfully started VM with internal IP {} and public IP {}", serversInternalIP, floatingIp);
-
-        SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
     }
 
     @PayloadRoot(namespace = OpenStackConstants.NAMESPACE_URI, localPart = "terminateVMRequest")
@@ -405,7 +427,8 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                         .withConfig(config)
                         .endpoint(endpoint)
                         .applicationCredentials(openStackRequest.getHypervisorApplicationID(), openStackRequest.getHypervisorApplicationSecret())
-                        .authenticate();
+                        .authenticate()
+                        .useRegion(openStackRequest.getHypervisorRegion());
             } catch (Exception e) {
                 logger.error("Error while authenticating at {}", endpoint, e);
             }
@@ -424,7 +447,8 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                         .endpoint(endpoint)
                         .credentials(openStackRequest.getHypervisorUserName(), openStackRequest.getHypervisorUserPassword(), Identifier.byName("Default"))
                         .scopeToProject(Identifier.byId(openStackRequest.getHypervisorTenantID()))
-                        .authenticate();
+                        .authenticate()
+                        .useRegion(openStackRequest.getHypervisorRegion());
             } catch (Exception e) {
                 logger.error("Error while authenticating at {}", endpoint, e);
             }
