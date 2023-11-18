@@ -167,9 +167,13 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                 logger.info("Created new security group with name: {}", securityGroup);
 
                 // open ports within security group
-                String[] ports = request.getVMOpenPorts().split(",");
-                logger.info("Opening {} ports...", ports.length);
-                for (String port :ports){
+                List<String> ports = Arrays.asList(request.getVMOpenPorts().split(","));
+                if (ports.contains("22")){
+                    // add SSH port if not defined
+                    ports.add("22");
+                }
+                logger.info("Opening {} ports...", ports.size());
+                for (String port : ports){
                     logger.info("Opening port: {}", port);
                     osClient.compute().securityGroups()
                             .createRule(Builders.secGroupRule()
