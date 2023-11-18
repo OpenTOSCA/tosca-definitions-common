@@ -1,6 +1,7 @@
 package org.opentosca.artifacttemplates.openstack;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -167,7 +168,7 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                 logger.info("Created new security group with name: {}", securityGroup);
 
                 // open ports within security group
-                List<String> ports = Arrays.asList(request.getVMOpenPorts().split(","));
+                List<String> ports = new ArrayList<>(List.of(request.getVMOpenPorts().split(",")));
                 if (!ports.contains("22")){
                     // add SSH port if not defined
                     ports.add("22");
