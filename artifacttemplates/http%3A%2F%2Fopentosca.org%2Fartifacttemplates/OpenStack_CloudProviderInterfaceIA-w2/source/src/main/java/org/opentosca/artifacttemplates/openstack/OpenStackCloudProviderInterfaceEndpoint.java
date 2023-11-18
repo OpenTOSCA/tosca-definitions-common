@@ -17,7 +17,9 @@ import org.openstack4j.model.common.*;
 import org.openstack4j.model.compute.Address;
 import org.openstack4j.model.compute.Flavor;
 import org.openstack4j.model.compute.FloatingIP;
+import org.openstack4j.model.compute.IPProtocol;
 import org.openstack4j.model.compute.Image;
+import org.openstack4j.model.compute.SecGroupExtension;
 import org.openstack4j.model.compute.Server;
 import org.openstack4j.model.compute.Server.Status;
 import org.openstack4j.model.compute.ServerCreate;
@@ -102,15 +104,6 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                 }
             }
 
-            String securityGroup = "default";
-            if (request.getVMSecurityGroup() != null && !request.getVMSecurityGroup().isEmpty()) {
-                securityGroup = request.getVMSecurityGroup();
-                if (!securityGroup.contains("default")) {
-                    securityGroup = "default," + securityGroup;
-                }
-            }
-            logger.info("Received security groups {}", securityGroup);
-
             // Create OpenStack client
             OSClient<?> osClient = authenticate(request);
 
@@ -159,6 +152,34 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                 SoapUtil.sendSoapResponse(response, InvokeResponse.class, openToscaHeaders.replyTo());
                 return;
             }
+
+            // add defined security group or create new security group with defined open ports
+            String securityGroup;
+            if (request.getVMSecurityGroup() != null && !request.getVMSecurityGroup().isEmpty()) {
+                logger.info("Adding configured security group: {}", request.getVMSecurityGroup());
+                securityGroup = request.getVMSecurityGroup();
+            } else{
+                logger.info("Creating new security group to open ports: {}", request.getVMOpenPorts());
+
+                // create security group
+                SecGroupExtension group = osClient.compute().securityGroups().create("OpenTOSCA-" + System.currentTimeMillis(), "OpenTOSCA security group");
+                securityGroup = group.getName();
+                logger.info("Created new security group with name: {}", securityGroup);
+
+                // open ports within security group
+                String[] ports = request.getVMOpenPorts().split(",");
+                logger.info("Opening {} ports...", ports.length);
+                for (String port :ports){
+                    logger.info("Opening port: {}", port);
+                    osClient.compute().securityGroups()
+                            .createRule(Builders.secGroupRule()
+                                    .parentGroupId(group.getId())
+                                    .protocol(IPProtocol.TCP)
+                                    .cidr("0.0.0.0/0")
+                                    .range(Integer.parseInt(port), Integer.parseInt(port)).build());
+                }
+            }
+            logger.info("Resulting security group: {}", securityGroup);
 
             // Get Networks based on Type String
             List<? extends Network> availableNetworks = osClient.networking().network().list();
@@ -231,15 +252,8 @@ public class OpenStackCloudProviderInterfaceEndpoint {
                     .flavor(flavor)
                     .image(image)
                     .networks(availableNetworksIds)
+                    .addSecurityGroup(securityGroup)
                     .keypairName(request.getVMKeyPairName());
-
-            for (String secGroup : securityGroup.split(",")) {
-                String trim = secGroup.trim();
-                if (!trim.isEmpty()) {
-                    serverCreateBuilder.addSecurityGroup(trim);
-                    logger.info("Added security group {}", trim);
-                }
-            }
 
             ServerCreate sc = serverCreateBuilder.build();
 
