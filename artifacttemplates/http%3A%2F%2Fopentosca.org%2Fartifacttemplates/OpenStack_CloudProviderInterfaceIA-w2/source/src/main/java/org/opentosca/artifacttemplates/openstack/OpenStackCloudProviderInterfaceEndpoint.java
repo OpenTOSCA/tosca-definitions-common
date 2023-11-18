@@ -168,7 +168,7 @@ public class OpenStackCloudProviderInterfaceEndpoint {
 
                 // open ports within security group
                 List<String> ports = Arrays.asList(request.getVMOpenPorts().split(","));
-                if (ports.contains("22")){
+                if (!ports.contains("22")){
                     // add SSH port if not defined
                     ports.add("22");
                 }
